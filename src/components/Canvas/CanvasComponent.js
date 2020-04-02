@@ -11,8 +11,6 @@ import PropTypes from 'prop-types';
 
 import Canvas from '../../drawing/canvas';
 
-import createRef from 'create-react-ref/lib/createRef';
-
 /**
  * Constructs a drawable canvas (e.g. HTML Canvas or WebGL) and provides it as
  * a reference.
@@ -27,7 +25,7 @@ class CanvasComponent extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.canvas = createRef();
+    this.canvas = React.createRef();
   }
 
   componentDidMount() {

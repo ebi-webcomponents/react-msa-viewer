@@ -12,7 +12,6 @@
  */
 
 import React, { Component } from 'react';
-import createRef from 'create-react-ref/lib/createRef';
 import PropTypes from 'prop-types';
 
 import {
@@ -56,7 +55,7 @@ export const PropsToRedux = (WrappedComponent) => {
     constructor(props) {
       super(props);
       const storeProps = pick(props, attributesToStore) || {};
-      this.el = createRef();
+      this.el = React.createRef();
       this.msaStore = props.msaStore;
       if (storeProps.sequences !== undefined) {
         this.msaStore = createMSAStore(storeProps);

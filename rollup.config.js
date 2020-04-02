@@ -1,10 +1,11 @@
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
+import strip from '@rollup/plugin-strip';
+import commonjs from '@rollup/plugin-commonjs';
 import visualizer from 'rollup-plugin-visualizer';
+
 import { version } from "./package.json";
-import strip from 'rollup-plugin-strip';
 
 export default {
   input: 'src/lib.js',
@@ -45,7 +46,8 @@ export default {
     }),
     commonjs({
       namedExports: {
-        'react-is': ['isValidElementType'],
+        'react-is': ['isValidElementType', 'isContextConsumer'],
+        'react-is': ['isValidElementType', 'isContextConsumer'],
       },
     }),
     /**

@@ -8,7 +8,8 @@
 
 import msaConnect from './store/connect'
 import createMSAStore from './store/createMSAStore';
-import MSAProvider from './store/provider';
+// import MSAProvider from './store/provider';
+import { Provider as MSAProvider } from 'react-redux'
 import withPositionStore from './store/withPositionStore';
 import { actions as positionStoreActions } from './store/positionReducers';
 

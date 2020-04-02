@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import {
   some,
-} from 'lodash';
+} from 'lodash_es';
 
 import shallowEqual from '../../utils/shallowEqual';
 

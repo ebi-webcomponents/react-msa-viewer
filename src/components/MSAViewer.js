@@ -7,7 +7,6 @@
 */
 
 import React, { Component } from 'react';
-import createRef from 'create-react-ref/lib/createRef';
 
 import PropTypes from 'prop-types';
 
@@ -25,7 +24,8 @@ import {
   MSAPropTypes,
 } from '../PropTypes';
 
-import MSAProvider from '../store/provider';
+// import MSAProvider from '../store/provider';
+import { Provider as MSAProvider } from 'react-redux'
 import propsToRedux from '../store/propsToRedux';
 
 import {
@@ -55,7 +55,7 @@ class MSAViewerComponent extends Component {
 
     constructor(props) {
       super(props);
-      this.el = createRef();
+      this.el = React.createRef();
       this._setupStores();
       this.createDomHandler = memoize(this.createDomHandler.bind(this));
       this.forwardProps = shallowSelect(

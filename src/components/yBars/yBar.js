@@ -7,7 +7,6 @@
 */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import createRef from 'create-react-ref/lib/createRef';
 
 import withPositionStore from '../../store/withPositionStore';
 
@@ -20,7 +19,7 @@ class YBarComponent extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.el = createRef();
+    this.el = React.createRef();
   }
 
   render() {

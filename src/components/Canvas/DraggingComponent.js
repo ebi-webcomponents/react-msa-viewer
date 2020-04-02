@@ -7,7 +7,6 @@
 */
 
 import React, { PureComponent } from 'react';
-import createRef from 'create-react-ref/lib/createRef';
 
 import {
   omit
@@ -56,8 +55,8 @@ class DraggingComponent extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.canvasBuffers = [createRef(), createRef()];
-    this.container = createRef();
+    this.canvasBuffers = [React.createRef(), React.createRef()];
+    this.container = React.createRef();
 
     // bind events (can't use static properties due to inheritance)
     autobind(this,

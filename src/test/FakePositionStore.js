@@ -10,7 +10,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import createMSAStore from '../store/createMSAStore';
-import MSAProvider from '../store/provider';
+// import MSAProvider from '../store/provider';
+import { Provider as MSAProvider } from 'react-redux'
 
 import {
   pick,
