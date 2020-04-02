@@ -21,7 +21,7 @@ import { storeKey } from './storeOptions';
  * See also: https://react-redux.js.org/docs/api
  */
 function msaConnect(mapStateToProps, mapDispatchToProps, mergeProps, options = {}) {
-  options.storeKey = storeKey;
+  // options.storeKey = storeKey;
   return connect(mapStateToProps, mapDispatchToProps, mergeProps, options);
 }
 
