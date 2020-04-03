@@ -18,6 +18,9 @@ Report of the corrent state of this Fork
     * `npm run docs`
   * ✅It also uses storybook to have a dashboard of its capabilities.
     * `npm run storybook`
+
+### State of the Storybook - `03/04/2020`
+
     * Examples working on storybook:
       * ✅ Basic
       * ❌ Customization: Only colour schemas are reflecting changes

@@ -33,7 +33,7 @@
     "release-it": "npm run build:lib && npm run docs",
     "docs": "./docs/build",
     "watch": "rollup -w -c",
-    "serve": "http-server -p8887 dist"
+    "serve": "http-server -p8887"
   },
   "peerDependencies": {
     "react": ">= 15 < 17",
