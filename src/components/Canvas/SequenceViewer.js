@@ -93,7 +93,7 @@ class SequenceViewerComponent extends DraggingComponent {
           ...pick(this.props, [
             "sequences", "colorScheme", "textFont", "textColor",
             "tileHeight", "tileWidth", "border", "borderWidth", "borderColor",
-          ])
+          ]),
         });
       },
     });

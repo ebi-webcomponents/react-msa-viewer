@@ -57,22 +57,7 @@ storiesOf('Layouting', module)
       paddingTop: 20 + overviewBarHeight,
     }
     return (
-      <MSAViewer sequences={sequences}>
-        <SequenceOverview
-        />
-        <div style={{display: "flex"}} >
-          <div>
-            <OverviewBar
-              height={overviewBarHeight}
-            />
-            <PositionBar/>
-            <SequenceViewer/>
-          </div>
-          <Labels
-            style={labelsStyle}
-          />
-        </div>
-      </MSAViewer>
+      <MSAViewer sequences={sequences} layout="inverse" />
     )
   })
   .add('Inverse II', function(){
@@ -109,7 +94,7 @@ storiesOf('Layouting', module)
           </div>
         </div>
         <br/>
-        <SequenceOverview/>
+        {/* <SequenceOverview/> */}
       </MSAViewer>
     )
   })
@@ -122,15 +107,15 @@ storiesOf('Layouting', module)
     )
   })
   .add('Funky', function(){
-    const options = {
-      sequences,
-    };
-    const store = createMSAStore(options);
+    // const options = {
+    //   sequences,
+    // };
+    // const store = createMSAStore(options);
     const labelsStyle = {
-      paddingTop: store.getState().tileHeight,
+      paddingTop: 26,
     }
     return (
-      <MSAViewer store={store}>
+      <MSAViewer sequences={sequences}>
         <SequenceOverview/>
         <div style={{display: "flex"}} >
           <Labels

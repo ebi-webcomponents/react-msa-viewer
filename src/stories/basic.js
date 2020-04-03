@@ -62,10 +62,12 @@ storiesOf('Basic', module)
       tileWidth: number("tileWidth", 20),
       colorScheme: "clustal",
     };
+    const sequence = "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED";
     times(100, () => {
+      const mutation_pos = Math.round(Math.random()*sequence.length);
       options.sequences.push({
-          name: "seq",
-          sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+          name: `seq_${mutation_pos}`,
+          sequence: sequence.substring(0,mutation_pos) + '-' + sequence.substring(mutation_pos+1)
       });
     });
     return (

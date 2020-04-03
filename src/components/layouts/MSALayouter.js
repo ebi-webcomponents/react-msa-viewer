@@ -19,8 +19,8 @@ import {
 
 import BasicLayout from './basic';
 import InverseLayout from './inverse';
-import FullLayout from './inverse';
-import CompactLayout from './inverse';
+import FullLayout from './full';
+import CompactLayout from './compact';
 import FunkyLayout from './funky';
 
 const layouts = {
