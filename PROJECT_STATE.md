@@ -8,9 +8,8 @@ Report of the corrent state of this Fork
   * ✅The project uses Rollup to do a build. Only this build related `npm` scripts are working:
     * `npm run build:basic`
     * `npm run watch`
-  * ❌Terser  hasn't been configured yet, hence this scripts are not wotking:
-    * `npm run build:lib-esm`
-    * `npm run build:lib-umd`
+  * ✅Terser works as an output plugin:
+    * `npm run build` creates: `index.umd.js`, `index.umd.js.map`, `index.umd.min.js` and `index.esm.min.js`
   * ✅Tests are working: 
     * `npm test` 
     * `npm run test:watch` 
