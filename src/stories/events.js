@@ -1,19 +1,15 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import {
-  actions,
-  MSAViewer,
-  SequenceViewer,
-} from '../lib';
+import React, { Component } from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { actions, MSAViewer, SequenceViewer } from "../lib";
 
 const sequences = [
   {
@@ -27,28 +23,28 @@ const sequences = [
   {
     name: "seq.3",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  },
+  }
 ];
 
 // storybook-action-logger doesn't support auto event expansion,
 // but most consoles do
-const storyAction = (name) => {
+const storyAction = name => {
   const actionCallback = action(name);
-  return (e) => {
+  return e => {
     console.log(name, e);
     actionCallback(e);
-  }
-}
+  };
+};
 
 function Tooltip(props) {
-  const {direction, style, children, ...otherProps} = props;
+  const { direction, style, children, ...otherProps } = props;
   const containerStyle = {
-    display: "inline-block",
+    display: "inline-block"
   };
   const tooltipStyle = {
     position: "relative",
-    width: "160px",
-  }
+    width: "160px"
+  };
   const textStyle = {
     color: "#fff",
     fontSize: "14px",
@@ -56,7 +52,7 @@ function Tooltip(props) {
     textAlign: "center",
     backgroundColor: "#000",
     borderRadius: "3px",
-    padding: "7px",
+    padding: "7px"
   };
   const triangleStyle = {
     position: "absolute",
@@ -64,8 +60,8 @@ function Tooltip(props) {
     fontSize: 0,
     lineHeight: 0,
     visibility: "visible",
-    opacity: 1,
-  }
+    opacity: 1
+  };
 
   switch (direction) {
     case "up":
@@ -110,11 +106,9 @@ function Tooltip(props) {
     default:
   }
   return (
-    <div style={{...containerStyle, ...style}} {...otherProps}>
+    <div style={{ ...containerStyle, ...style }} {...otherProps}>
       <div style={tooltipStyle}>
-        <div style={textStyle}>
-          {children}
-        </div>
+        <div style={textStyle}>{children}</div>
         <div style={triangleStyle} />
       </div>
     </div>
@@ -122,124 +116,202 @@ function Tooltip(props) {
 }
 Tooltip.defaultProps = {
   style: {},
-  direction: "down",
+  direction: "down"
 };
 
-storiesOf('Events', module)
-  .add('onResidue', () => (
-    <MSAViewer sequences={sequences} >
+storiesOf("Events", module)
+  .add("onResidue", () => (
+    <MSAViewer sequences={sequences}>
       Check the console or the "Action Logger" tab for the resulting events.
       <SequenceViewer
-        onResidueMouseEnter={storyAction('onResidueMouseEnter')}
-        onResidueMouseLeave={storyAction('onResidueMouseLeave')}
-        onResidueClick={storyAction('onResidueClick')}
-        onResidueDoubleClick={storyAction('onResidueDoubleClick')}
+        onResidueMouseEnter={storyAction("onResidueMouseEnter")}
+        onResidueMouseLeave={storyAction("onResidueMouseLeave")}
+        onResidueClick={storyAction("onResidueClick")}
+        onResidueDoubleClick={storyAction("onResidueDoubleClick")}
       />
     </MSAViewer>
   ))
-  .add('onClick', () => {
+  .add("onClick", () => {
     class ExtraInformation extends Component {
-      state = {
-      }
-      onResidueClick = (e) => {
-        this.setState({lastEvent: e});
-      }
+      state = {};
+      onResidueClick = e => {
+        this.setState({ lastEvent: e });
+      };
       render() {
         return (
           <div>
             Click on a residue:
-            <MSAViewer sequences={sequences} >
-              <SequenceViewer
-                onResidueClick={this.onResidueClick}
-              />
+            <MSAViewer sequences={sequences}>
+              <SequenceViewer onResidueClick={this.onResidueClick} />
             </MSAViewer>
-            { this.state.lastEvent &&
+            {this.state.lastEvent && (
               <div>
                 Selection: {this.state.lastEvent.residue}
                 (from {this.state.lastEvent.sequence.name})
               </div>
-            }
+            )}
           </div>
         );
       }
-    };
+    }
     return <ExtraInformation />;
   })
-  .add('dispatch', () => {
+  .add("dispatch", () => {
     class MSADispatch extends Component {
-      onSpecificClick = (e) => {
-        this.el.updatePosition({xPos: 100, yPos: 100});
-      }
-      onGenericClick = (e) => {
-        const action = actions.movePosition({xMovement: 50});
+      onSpecificClick = e => {
+        this.el.updatePosition({ xPos: 100, yPos: 100 });
+      };
+      onGenericClick = e => {
+        const action = actions.movePosition({ xMovement: 50 });
         this.el.dispatch(action);
-      }
+      };
       render() {
-        return <div>
-          <MSAViewer ref={(ref) => this.el = ref} sequences={sequences} />
-          <button onClick={this.onSpecificClick}>Specific method</button>
-          <button onClick={this.onGenericClick}>Generic dispatch</button>
-        </div>;
+        return (
+          <div>
+            <MSAViewer ref={ref => (this.el = ref)} sequences={sequences} />
+            <button onClick={this.onSpecificClick}>Specific method</button>
+            <button onClick={this.onGenericClick}>Generic dispatch</button>
+          </div>
+        );
       }
-    };
+    }
     return <MSADispatch />;
   })
-  .add('Tooltips (WIP)', () => {
-
-    class SimpleTooltip extends Component {
-      state = {
+  .add("Required for Nightingale", () => {
+    class MSADispatch extends Component {
+      state = { tileWidth: 40, width: 700 };
+      goToSpecificResidue = aaPos => {
+        const action = actions.updatePositionByResidue({ aaPos });
+        this.el.dispatch(action);
+      };
+      modifyTileWidth = increment => () => {
+        this.setState({ tileWidth: this.state.tileWidth + increment });
+      };
+      modifyWidth = increment => () => {
+        this.setState({ width: this.state.width + increment });
+      };
+      goToRegion = () => {
+        const region = {
+          start: 10,
+          end: 20
+        };
+        this.setState(
+          { tileWidth: this.state.width / (region.end + 1 - region.start) },
+          () => this.goToSpecificResidue(region.start)
+        );
+      };
+      highlightRegion = () => {
+        const action = actions.highlightRegion({
+          sequences: {
+            from: 1,
+            to: 2
+          },
+          residues: {
+            from: 2,
+            to:13
+          }
+        });
+        this.el.dispatch(action);
       }
-      onResidueMouseEnter = (e) => {
+      removeHighlightRegion = () => {
+        const action = actions.removeHighlightRegion();
+        this.el.dispatch(action);
+      }
+      toBeImplemented = () => console.log("Missing method");
+      render() {
+        return (
+          <div>
+            <MSAViewer
+              ref={ref => (this.el = ref)}
+              sequences={sequences}
+              tileWidth={this.state.tileWidth}
+              width={this.state.width}
+              layout="compact"
+            />
+            <button onClick={() => this.goToSpecificResidue(10.5)}>
+              GoTo Residue 10.5
+            </button>
+            <div>
+              <b>Tile width</b>
+              <button onClick={this.modifyTileWidth(+5)}>+</button>
+              <button onClick={this.modifyTileWidth(-5)}>-</button>
+            </div>
+            <div>
+              <b>Width</b>
+              <button onClick={this.modifyWidth(+20)}>+</button>
+              <button onClick={this.modifyWidth(-20)}>-</button>
+            </div>
+            <button onClick={this.goToRegion}>
+              GoTo Residue Region [10-20]{" "}
+            </button>
+            <div>
+            <button onClick={this.highlightRegion}>
+              Highlight Region [13-18]{" "}
+            </button>
+            <button onClick={this.removeHighlightRegion}>
+              Remove Highlight
+            </button>
+            </div>
+          </div>
+        );
+      }
+    }
+    return <MSADispatch />;
+  })
+  .add("Tooltips (WIP)", () => {
+    class SimpleTooltip extends Component {
+      state = {};
+      onResidueMouseEnter = e => {
         let direction, tooltipPosition;
         if (e.position < 10) {
           direction = "left";
           tooltipPosition = {
             top: (e.i - 0.3) * 20 + "px",
-            left: (e.position + 1) * 20 + "px",
+            left: (e.position + 1) * 20 + "px"
           };
         } else {
           direction = "right";
           tooltipPosition = {
             top: (e.i - 0.3) * 20 + "px",
-            left: (e.position) * 20 - 165 + "px",
+            left: e.position * 20 - 165 + "px"
           };
         }
         this.setState({
           lastEvent: e,
           tooltipPosition,
-          direction,
+          direction
         });
-      }
-      onResidueMouseLeave = (e) => {
-        this.setState({lastEvent: undefined});
-      }
+      };
+      onResidueMouseLeave = e => {
+        this.setState({ lastEvent: undefined });
+      };
       render() {
         return (
           <div>
-            <MSAViewer sequences={sequences} >
-              <div style={{position: "relative"}}>
+            <MSAViewer sequences={sequences}>
+              <div style={{ position: "relative" }}>
                 <SequenceViewer
                   onResidueMouseEnter={this.onResidueMouseEnter}
                   onResidueMouseLeave={this.onResidueMouseLeave}
                 />
-                { this.state.lastEvent &&
-                    <div style={{
+                {this.state.lastEvent && (
+                  <div
+                    style={{
                       position: "absolute",
                       opacity: 0.8,
-                      ...this.state.tooltipPosition,
-                      }}>
-                      <Tooltip direction={this.state.direction}>
-                        {this.state.lastEvent.residue}
-                      </Tooltip>
+                      ...this.state.tooltipPosition
+                    }}
+                  >
+                    <Tooltip direction={this.state.direction}>
+                      {this.state.lastEvent.residue}
+                    </Tooltip>
                   </div>
-                }
+                )}
               </div>
             </MSAViewer>
           </div>
         );
       }
-    };
+    }
     return <SimpleTooltip />;
-  })
-
-;
+  });

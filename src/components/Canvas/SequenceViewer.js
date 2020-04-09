@@ -1,38 +1,32 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  clamp,
-  floor,
-  isEqual,
-  pick,
-} from 'lodash-es';
+import { clamp, floor, isEqual, pick } from "lodash-es";
 
-import DraggingComponent from './DraggingComponent';
-import TilingGrid from './CanvasTilingGrid';
-import CanvasCache from './CanvasCache';
+import DraggingComponent from "./DraggingComponent";
+import TilingGrid from "./CanvasTilingGrid";
+import CanvasCache from "./CanvasCache";
 
-import { movePosition } from '../../store/positionReducers';
-import msaConnect from '../../store/connect';
-import withPositionStore from '../../store/withPositionStore';
+import { movePosition } from "../../store/positionReducers";
+import msaConnect from "../../store/connect";
+import withPositionStore from "../../store/withPositionStore";
 
-import Mouse from '../../utils/mouse';
-import { roundMod } from '../../utils/math';
+import Mouse from "../../utils/mouse";
+import { roundMod } from "../../utils/math";
 
-import debug from '../../debug';
+import debug from "../../debug";
 
 /**
  * Component to draw the main sequence alignment.
  */
 class SequenceViewerComponent extends DraggingComponent {
-
   constructor(props) {
     super(props);
     // cache fully drawn tiles
@@ -52,54 +46,72 @@ class SequenceViewerComponent extends DraggingComponent {
       this.redrawnTiles = 0;
     }
     this.drawTiles(positions);
+    this.drawHighligtedRegion();
     if (debug) {
       const elapsed = Date.now() - this.redrawStarted;
       if (elapsed > 5) {
-        console.log(`Took ${elapsed} msecs to redraw for ${positions.startXTile} ${positions.startYTile} (redrawnTiles: ${this.redrawnTiles})`);
+        console.log(
+          `Took ${elapsed} msecs to redraw for ${positions.startXTile} ${positions.startYTile} (redrawnTiles: ${this.redrawnTiles})`
+        );
       }
     }
   }
 
   // figures out from where to start drawing
   getTilePositions() {
-    const startXTile = Math.max(0, this.props.position.currentViewSequencePosition - this.props.cacheElements);
-    const startYTile = Math.max(0, this.props.position.currentViewSequence - this.props.cacheElements);
-    const endYTile = Math.min(this.props.sequences.length,
-      startYTile + this.props.nrYTiles + 2 * this.props.cacheElements,
+    const startXTile = Math.max(
+      0,
+      this.props.position.currentViewSequencePosition - this.props.cacheElements
     );
-    const endXTile = Math.min(this.props.sequences.maxLength,
-      startXTile + this.props.nrXTiles + 2 * this.props.cacheElements,
+    const startYTile = Math.max(
+      0,
+      this.props.position.currentViewSequence - this.props.cacheElements
     );
-    return {startXTile, startYTile, endXTile, endYTile};
+    const endYTile = Math.min(
+      this.props.sequences.length,
+      startYTile + this.props.nrYTiles + 2 * this.props.cacheElements
+    );
+    const endXTile = Math.min(
+      this.props.sequences.maxLength,
+      startXTile + this.props.nrXTiles + 2 * this.props.cacheElements
+    );
+    return { startXTile, startYTile, endXTile, endYTile };
   }
 
-  renderTile = ({row, column}) => {
+  renderTile = ({ row, column }) => {
     const key = row + "-" + column;
     return this.tileCache.createTile({
       key: key,
       tileWidth: this.props.tileWidth * this.props.xGridSize,
       tileHeight: this.props.tileHeight * this.props.yGridSize,
-      create: ({canvas}) => {
+      create: ({ canvas }) => {
         if (debug) {
           this.redrawnTiles++;
         }
         this.tilingGridManager.draw({
           ctx: canvas,
-          startYTile:row,
-          startXTile:column,
+          startYTile: row,
+          startXTile: column,
           residueTileCache: this.residueTileCache,
-          endYTile:row + this.props.yGridSize,
-          endXTile:column + this.props.xGridSize,
+          endYTile: row + this.props.yGridSize,
+          endXTile: column + this.props.xGridSize,
           ...pick(this.props, [
-            "sequences", "colorScheme", "textFont", "textColor",
-            "tileHeight", "tileWidth", "border", "borderWidth", "borderColor",
-          ]),
+            "sequences",
+            "colorScheme",
+            "textFont",
+            "textColor",
+            "tileHeight",
+            "tileWidth",
+            "border",
+            "borderWidth",
+            "borderColor"
+          ])
         });
-      },
+      }
     });
-  }
+  };
 
-  drawTiles({startXTile, startYTile, endXTile, endYTile}) {
+  drawTiles({ startXTile, startYTile, endXTile, endYTile }) {
     const xGridSize = this.props.xGridSize;
     const yGridSize = this.props.yGridSize;
     const startY = roundMod(startYTile, yGridSize);
@@ -107,42 +119,109 @@ class SequenceViewerComponent extends DraggingComponent {
 
     for (let i = startY; i < endYTile; i = i + yGridSize) {
       for (let j = startX; j < endXTile; j = j + xGridSize) {
-        const canvas = this.renderTile({row: i, column: j, canvas: this.ctx});
+        const canvas = this.renderTile({ row: i, column: j, canvas: this.ctx });
         const width = xGridSize * this.props.tileWidth;
         const height = yGridSize * this.props.tileHeight;
-        const yPos = (i - this.props.position.currentViewSequence) * this.props.tileHeight + this.props.position.yPosOffset;
-        const xPos = (j - this.props.position.currentViewSequencePosition) * this.props.tileWidth + this.props.position.xPosOffset;
-        this.ctx.drawImage(canvas, 0, 0, width, height,
-          xPos, yPos, width, height);
+        const yPos =
+          (i - this.props.position.currentViewSequence) *
+            this.props.tileHeight +
+          this.props.position.yPosOffset;
+        const xPos =
+          (j - this.props.position.currentViewSequencePosition) *
+            this.props.tileWidth +
+          this.props.position.xPosOffset;
+        this.ctx.drawImage(
+          canvas,
+          0,
+          0,
+          width,
+          height,
+          xPos,
+          yPos,
+          width,
+          height
+        );
       }
     }
+  }
+  drawHighligtedRegion() {
+    const r = this.props.highlight;
+
+    if (!this.ctx || !r) return;
+    const regionWidth =
+      this.props.tileWidth * (1 + r.residues.to - r.residues.from);
+    const regionHeight =
+      this.props.tileHeight * (1 + r.sequences.to - r.sequences.from);
+    const yPosFrom =
+      (r.sequences.from - this.props.position.currentViewSequence) *
+        this.props.tileHeight +
+      this.props.position.yPosOffset;
+    const xPosFrom =
+      (r.residues.from - 1 - this.props.position.currentViewSequencePosition) *
+        this.props.tileWidth +
+      this.props.position.xPosOffset;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = regionWidth;
+    canvas.height = regionHeight;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(0, 0, regionWidth, regionHeight);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = "2";
+    ctx.rect(0, 0, regionWidth, regionHeight);
+
+    ctx.stroke();
+    this.ctx.drawImage(
+      canvas,
+      0,
+      0,
+      regionWidth,
+      regionHeight,
+      xPosFrom,
+      yPosFrom,
+      regionWidth,
+      regionHeight
+    );
   }
 
   onPositionUpdate = (oldPos, newPos) => {
     const relativeMovement = {
       xMovement: oldPos[0] - newPos[0],
-      yMovement: oldPos[1] - newPos[1],
+      yMovement: oldPos[1] - newPos[1]
     };
     this.props.positionDispatch(movePosition(relativeMovement));
-  }
+  };
 
   positionToSequence(pos) {
     const sequences = this.props.sequences.raw;
-    const seqNr = clamp(floor((this.props.position.yPos + pos.yPos) / this.props.tileHeight), 0, sequences.length - 1);
+    const seqNr = clamp(
+      floor((this.props.position.yPos + pos.yPos) / this.props.tileHeight),
+      0,
+      sequences.length - 1
+    );
     const sequence = sequences[seqNr];
 
-    const position = clamp(floor((this.props.position.xPos + pos.xPos) / this.props.tileWidth), 0, sequence.sequence.length - 1);
+    const position = clamp(
+      floor((this.props.position.xPos + pos.xPos) / this.props.tileWidth),
+      0,
+      sequence.sequence.length - 1
+    );
     return {
       i: seqNr,
       sequence,
       position,
-      residue: sequence.sequence[position],
-    }
+      residue: sequence.sequence[position]
+    };
   }
 
   updateScrollPosition = () => {
     this.draw();
-  }
+  };
 
   /**
    * Returns the position of the mouse position relative to the sequences
@@ -151,7 +230,7 @@ class SequenceViewerComponent extends DraggingComponent {
     const [x, y] = Mouse.rel(e);
     return this.positionToSequence({
       xPos: x,
-      yPos: y,
+      yPos: y
     });
   }
 
@@ -164,43 +243,45 @@ class SequenceViewerComponent extends DraggingComponent {
     }
   }
 
-  onMouseMove = (e) => {
+  onMouseMove = e => {
     if (typeof this.isInDragPhase === "undefined") {
-      if (this.props.onResidueMouseEnter !== undefined ||
-          this.props.onResidueMouseLeave !== undefined) {
+      if (
+        this.props.onResidueMouseEnter !== undefined ||
+        this.props.onResidueMouseLeave !== undefined
+      ) {
         const eventData = this.currentPointerPosition(e);
         const lastValue = this.currentMouseSequencePosition;
         if (!isEqual(lastValue, eventData)) {
           if (lastValue !== undefined) {
-            this.sendEvent('onResidueMouseLeave', lastValue);
+            this.sendEvent("onResidueMouseLeave", lastValue);
           }
           this.currentMouseSequencePosition = eventData;
-          this.sendEvent('onResidueMouseEnter', eventData);
+          this.sendEvent("onResidueMouseEnter", eventData);
         }
       }
     }
     super.onMouseMove(e);
-  }
+  };
 
-  onMouseLeave = (e) => {
-    this.sendEvent('onResidueMouseLeave', this.currentMouseSequencePosition);
+  onMouseLeave = e => {
+    this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
     super.onMouseLeave(e);
-  }
+  };
 
-  onClick = (e) => {
+  onClick = e => {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
-      this.sendEvent('onResidueClick', eventData);
+      this.sendEvent("onResidueClick", eventData);
     }
     super.onClick(e);
-  }
+  };
 
-  onDoubleClick = (e) => {
+  onDoubleClick = e => {
     const eventData = this.currentPointerPosition(e);
-    this.sendEvent('onResidueDoubleClick', eventData);
+    this.sendEvent("onResidueDoubleClick", eventData);
     super.onDoubleClick(e);
-  }
+  };
 
   componentWillUnmount() {
     this.tileCache.invalidate();
@@ -209,16 +290,21 @@ class SequenceViewerComponent extends DraggingComponent {
 
   updateTileSpecs() {
     const tileAttributes = [
-      'tileWidth', 'tileHeight', 'colorScheme', 'textFont',
-      'borderColor'
+      "tileWidth",
+      "tileHeight",
+      "colorScheme",
+      "textFont",
+      "borderColor"
     ];
-    this.tileCache.updateTileSpecs(pick(this.props, [
-      ...tileAttributes,
-      'xGridSize', 'yGridSize', 'sequences',
-    ]));
-    this.residueTileCache.updateTileSpecs(
-      pick(this.props,tileAttributes)
+    this.tileCache.updateTileSpecs(
+      pick(this.props, [
+        ...tileAttributes,
+        "xGridSize",
+        "yGridSize",
+        "sequences"
+      ])
     );
+    this.residueTileCache.updateTileSpecs(pick(this.props, tileAttributes));
   }
 
   render() {
@@ -240,7 +326,7 @@ SequenceViewerComponent.defaultProps = {
   overflowX: "auto",
   overflowY: "auto",
   scrollBarPositionX: "bottom",
-  scrollBarPositionY: "right",
+  scrollBarPositionY: "right"
 };
 
 SequenceViewerComponent.propTypes = {
@@ -332,12 +418,14 @@ SequenceViewerComponent.propTypes = {
   /**
    * Y Position of the scroll bar ("left" or "right")
    */
-  scrollBarPositionY: PropTypes.oneOf(["left", "right"]),
+  scrollBarPositionY: PropTypes.oneOf(["left", "right"])
 };
 
 // hoist the list of accepted properties to the parent
 // eslint-disable-next-line react/forbid-foreign-prop-types
-SequenceViewerComponent.propKeys = Object.keys(SequenceViewerComponent.propTypes);
+SequenceViewerComponent.propKeys = Object.keys(
+  SequenceViewerComponent.propTypes
+);
 
 const mapStateToProps = state => {
   // Fallback to a smaller size if the given area is too large
@@ -359,17 +447,18 @@ const mapStateToProps = state => {
     nrXTiles: state.sequenceStats.nrXTiles,
     nrYTiles: state.sequenceStats.nrYTiles,
     fullWidth: state.sequenceStats.fullWidth,
-    fullHeight: state.sequenceStats.fullHeight,
-  }
-}
+    fullHeight: state.sequenceStats.fullHeight
+  };
+};
 
-const SV = withPositionStore(SequenceViewerComponent, {withX: true, withY: true});
+const SV = withPositionStore(SequenceViewerComponent, {
+  withX: true,
+  withY: true
+});
 
-export default msaConnect(
-  mapStateToProps,
-)(SV);
+export default msaConnect(mapStateToProps)(SV);
 
 export {
   SequenceViewerComponent as SequenceViewer,
-  SV as SequenceViewerWithPosition,
-}
+  SV as SequenceViewerWithPosition
+};

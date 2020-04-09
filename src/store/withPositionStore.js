@@ -48,6 +48,7 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
     constructor(props) {
       super(props);
       this.el = React.createRef();
+      this.state = {highlight:null}
     }
 
     componentDidMount() {
@@ -83,6 +84,7 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
         newPosition.xPos = state.position.xPos;
         newPosition.yPos = state.position.yPos;
       }
+      this.setState({highlight:state.highlight});
 
       // not called on the first render
       if (this.el.current && this.shouldRerender(newPosition)) {
@@ -176,6 +178,7 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
         ref:this.el,
         position: this.position,
         positionDispatch: this.dispatch,
+        highlight: this.state.highlight,
         ...this.props,
       });
     }
