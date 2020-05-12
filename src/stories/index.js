@@ -7,6 +7,7 @@
 */
 
 require('./basic');
+require('./performanceTest')
 require('./customization')
 require('./layouts');
 require('./events');

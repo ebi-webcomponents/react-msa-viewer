@@ -43,6 +43,7 @@ const sequences = [
   },
 ];
 
+
 storiesOf('Basic', module)
   .add('Standard rendering', function(){
     const options = {
@@ -66,7 +67,7 @@ storiesOf('Basic', module)
     times(100, () => {
       const mutation_pos = Math.round(Math.random()*sequence.length);
       options.sequences.push({
-          name: `seq_${mutation_pos}`,
+          name: `seq_${options.sequences.length}`,
           sequence: sequence.substring(0,mutation_pos) + '-' + sequence.substring(mutation_pos+1)
       });
     });

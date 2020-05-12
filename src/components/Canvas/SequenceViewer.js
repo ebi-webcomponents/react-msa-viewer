@@ -194,6 +194,7 @@ class SequenceViewerComponent extends DraggingComponent {
       xMovement: oldPos[0] - newPos[0],
       yMovement: oldPos[1] - newPos[1]
     };
+    this.sendEvent("onPositionUpdate", newPos);
     this.props.positionDispatch(movePosition(relativeMovement));
   };
 

@@ -116,7 +116,6 @@ export function positionReducer(
   let state = oldState;
   let position = oldState.position;
   let highlight= oldState.highlight;
-  console.log(oldState);
   switch (action.type) {
     case updateMainStore.key:
       // merge updates of the main store with this store for now

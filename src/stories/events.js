@@ -181,10 +181,10 @@ storiesOf("Events", module)
     class MSADispatch extends Component {
       state = { tileWidth: 40, width: 700 };
       goToSpecificResidue = aaPos => {
-        const action = actions.updatePositionByResidue({ aaPos });
-        this.el.dispatch(action);
+        this.el.updatePositionByResidue({ aaPos });
       };
       modifyTileWidth = increment => () => {
+        // this.el.updateProp({key: 'tileWidth', value: this.state.tileWidth + increment})
         this.setState({ tileWidth: this.state.tileWidth + increment });
       };
       modifyWidth = increment => () => {
@@ -201,7 +201,7 @@ storiesOf("Events", module)
         );
       };
       highlightRegion = () => {
-        const action = actions.highlightRegion({
+        this.el.highlightRegion({
           sequences: {
             from: 1,
             to: 2
@@ -211,13 +211,13 @@ storiesOf("Events", module)
             to:13
           }
         });
-        this.el.dispatch(action);
       }
       removeHighlightRegion = () => {
         const action = actions.removeHighlightRegion();
         this.el.dispatch(action);
       }
       toBeImplemented = () => console.log("Missing method");
+      
       render() {
         return (
           <div>
@@ -227,6 +227,7 @@ storiesOf("Events", module)
               tileWidth={this.state.tileWidth}
               width={this.state.width}
               layout="compact"
+              onPositionUpdate={console.log}
             />
             <button onClick={() => this.goToSpecificResidue(10.5)}>
               GoTo Residue 10.5
@@ -246,12 +247,14 @@ storiesOf("Events", module)
             </button>
             <div>
             <button onClick={this.highlightRegion}>
-              Highlight Region [13-18]{" "}
+              Highlight Region [2-13]{" "}
             </button>
             <button onClick={this.removeHighlightRegion}>
               Remove Highlight
             </button>
             </div>
+            <p>Current position: [x1,x2]</p>
+
           </div>
         );
       }
