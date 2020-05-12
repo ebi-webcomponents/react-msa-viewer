@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { storiesOf } from '@storybook/react';
 import { MSAViewer } from '../lib';
 import { times } from 'lodash-es';
@@ -18,7 +18,7 @@ const nSeqs = [100,1000,10000];
 for (let seqLength of seqLengths){
   for (let nSeq of nSeqs){
     storiesOf('Performance Test', module)
-      .add(`${nSeq} sequencias of ${seqLength} residues`, function(){
+      .add(`${nSeq} sequences of ${seqLength} residues`, function(){
         const options = {
           sequences: [],
           height: number("height", 500),
@@ -27,6 +27,7 @@ for (let seqLength of seqLengths){
           tileWidth: number("tileWidth", 20),
           colorScheme: "clustal",
         };
+        let time = Date.now();
         const sequence = generateSequence(seqLength);
         times(nSeq, () => {
           const mutation_pos = Math.round(Math.random()*sequence.length);
@@ -35,9 +36,27 @@ for (let seqLength of seqLengths){
               sequence: sequence.substring(0,mutation_pos) + '-' + sequence.substring(mutation_pos+1)
           });
         });
-        return (
-          <MSAViewer {...options} />
-        )
+        time = Date.now() - time;
+        const resetView = Date.now();
+        
+        class ViewerWithPerformance extends Component {
+          state = {resetView:null};
+          componentDidMount(){
+            this.setState({resetView:Date.now()-resetView})
+          }
+          render() {
+            return (
+              <>
+              <h5>Performance time in ms</h5>
+              <code>
+                generateSequnces => {time} ||
+                resetView => {this.state.resetView}
+              </code>
+              <MSAViewer {...options} />
+            </>            );
+          }
+        }
+        return <ViewerWithPerformance />
       });
     }
   }
