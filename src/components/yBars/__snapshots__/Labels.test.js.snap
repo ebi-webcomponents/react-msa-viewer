@@ -2356,6 +2356,7 @@ exports[`renders properly with a moved viewport (provider version) 1`] = `
 
 exports[`renders properly with a moved viewport (provider version) 2`] = `
 Object {
+  "highlight": undefined,
   "position": Object {
     "currentViewSequence": 6,
     "currentViewSequencePosition": 0,
@@ -2862,6 +2863,7 @@ exports[`renders properly with a moved viewport 2`] = `
   cacheElements={1}
   componentCache={[Function]}
   height={100}
+  highlight={null}
   nrYTiles={7}
   position={
     Object {

@@ -35,6 +35,7 @@ describe('Basic positionStore tests', () => {
   it('should should have a valid initial state', () => {
     const store = createPositionStore(positionReducer);
     expect(store.getState()).toEqual({
+      "highlight": null,
       position: { xPos: 0, yPos: 0 }
     });
   });
@@ -43,6 +44,7 @@ describe('Basic positionStore tests', () => {
     const store = createPositionStore(positionReducer);
     store.dispatch(actions.updateMainStore(fakeMainStore.toObject()));
     expect(store.getState()).toEqual({
+      "highlight": null,
       position: { xPos: 0, yPos: 0 },
       ...fakeMainStore.toObject(),
       xPosOffset: -0,
@@ -66,6 +68,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -20,
+     "highlight": null,
      "position" : {
         "xPos" : 20,
         "yPos" : 60,
@@ -81,6 +84,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -20,
+     "highlight": null,
      "position" : {
         "xPos" : 20,
         "yPos" : 0,
@@ -96,6 +100,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -0,
+     "highlight": null,
      "position" : {
         "xPos" : 0,
         "yPos" : 60,
@@ -112,6 +117,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -20,
+     "highlight": null,
      "position" : {
         "xPos" : 20,
         "yPos" : 60,
@@ -127,6 +133,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -30,
+     "highlight": null,
      "position" : {
         "xPos" : 30,
         "yPos" : 40,
@@ -142,6 +149,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -30,
+     "highlight": null,
      "position" : {
         "xPos" : 30,
         "yPos" : 0,
@@ -157,6 +165,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -0,
+     "highlight": null,
      "position" : {
         "xPos" : 0,
         "yPos" : 40,
@@ -173,6 +182,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 1,
      "xPosOffset" : -30,
+     "highlight": null,
      "position" : {
         "xPos" : 80,
         "yPos" : 60,
@@ -199,6 +209,7 @@ describe('PositionStore tests with an existing mainStore', () => {
       ...fakeMainStore.toObject(),
      "currentViewSequencePosition" : 0,
      "xPosOffset" : -4,
+     "highlight": null,
      "position" : {
         "xPos" : 4,
         "yPos" : 5,

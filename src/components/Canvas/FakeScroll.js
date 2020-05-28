@@ -27,9 +27,12 @@ class FakeScroll extends PureComponent {
 
   onScroll = (e) => {
     requestAnimation(this, () => {
+      const {showX, showY}= this.shouldShow();
       const movement = {
-        xMovement: this.el.current.scrollLeft - this.props.position.xPos,
-        yMovement: this.el.current.scrollTop - this.props.position.yPos,
+        xMovement:
+          this.el.current.scrollLeft - (showX ? this.props.position.xPos : 0),
+        yMovement:
+          this.el.current.scrollTop - (showY ? this.props.position.yPos : 0)
       };
       this.props.positionDispatch(movePosition(movement));
     });
@@ -43,7 +46,7 @@ class FakeScroll extends PureComponent {
 
   checkOverflow(overflow, {withX = false, withY = false}) {
     let show = false;
-    switch(this.props.overflow) {
+    switch(overflow) {
       case "auto":
         if (withX) {
           show |= this.props.fullWidth > this.props.width;

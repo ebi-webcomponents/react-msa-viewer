@@ -110,15 +110,17 @@ class DraggingComponent extends PureComponent {
     this.swapContexts();
     this.container.current.addEventListener('mouseenter', this.onMouseEnter);
     this.container.current.addEventListener('mouseleave', this.onMouseLeave);
-    this.container.current.addEventListener('mousedown', this.onMouseDown);
-    this.container.current.addEventListener('mouseup', this.onMouseUp);
-    this.container.current.addEventListener('mousemove', this.onMouseMove);
     this.container.current.addEventListener('touchstart', this.onTouchStart);
     this.container.current.addEventListener('touchmove', this.onTouchMove);
     this.container.current.addEventListener('touchend', this.onTouchEnd);
     this.container.current.addEventListener('touchcancel', this.onTouchCancel);
     this.container.current.addEventListener('click', this.onClick);
     this.container.current.addEventListener('dblclick', this.onDoubleClick);
+    if (!this.props.sequenceDisableDragging) {
+      this.container.current.addEventListener("mousedown", this.onMouseDown);
+      this.container.current.addEventListener("mouseup", this.onMouseUp);
+      this.container.current.addEventListener("mousemove", this.onMouseMove);
+    }
     // TODO: should we react do window resizes dynamically?
     //window.addEventListener('resize', this.onResize)
   }
@@ -301,15 +303,17 @@ class DraggingComponent extends PureComponent {
     //window.removeEventListener('resize', this.onResize);
     this.container.current.removeEventListener('mouseenter', this.onMouseEnter);
     this.container.current.removeEventListener('mouseleave', this.onMouseLeave);
-    this.container.current.removeEventListener('mouseup', this.onMouseUp);
-    this.container.current.removeEventListener('mousedown', this.onMouseDown);
-    this.container.current.removeEventListener('mousemove', this.onMouseMove);
     this.container.current.removeEventListener('click', this.onClick);
     this.container.current.removeEventListener('dblclick', this.onDoubleClick);
     this.container.current.removeEventListener('touchstart', this.onTouchStart);
     this.container.current.removeEventListener('touchend', this.onTouchEnd);
     this.container.current.removeEventListener('touchcancel', this.onTouchCancel);
     this.container.current.removeEventListener('touchmove', this.onTouchMove);
+    if (!this.props.sequenceDisableDragging){
+      this.container.current.removeEventListener('mouseup', this.onMouseUp);
+      this.container.current.removeEventListener('mousedown', this.onMouseDown);
+      this.container.current.removeEventListener('mousemove', this.onMouseMove);
+    }
     this.stopDragPhase();
   }
 
@@ -375,8 +379,7 @@ class DraggingComponent extends PureComponent {
           width={this.props.width}
           height={this.props.height}
           fullWidth={this.props.fullWidth}
-          fullHeight={this.props.fullHeight}
-        />
+          fullHeight={this.props.fullHeight}        />
       </div>
     );
   }

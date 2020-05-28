@@ -227,10 +227,10 @@ MSAViewerComponent.propTypes = {
 
   /**
    * Predefined layout scheme to use (only used when no child elements are provided).
-   * Available layouts: `basic`, `inverse`, `full`, `compact`, `funky`
+   * Available layouts: `basic`, `inverse`, `full`, `compact`, `funky`, `nightingale`
    */
   layout: PropTypes.oneOf(['basic', 'default', 'inverse', 'full', 'compact',
-    'funky']),
+    'funky', 'nightingale']),
 
   /**
    * Whether to draw a border.

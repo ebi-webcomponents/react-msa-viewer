@@ -172,19 +172,20 @@ it('renders differently after changed properties', () => {
 
   let wrapper = mountWithContext(component);
   expect(wrapper).toMatchSnapshot();
-  expect(spy.mock.calls.length).toBe(1);
+  let n=1;
+  expect(spy.mock.calls.length).toBe(++n);
 
   wrapper.setProps({
     borderColor: "green",
   });
   expect(wrapper).toMatchSnapshot();
-  expect(spy.mock.calls.length).toBe(2);
+  expect(spy.mock.calls.length).toBe(++n);
 
   // shouldn't rerender if not triggered
   wrapper.setProps({
     borderColor: "green",
   });
-  expect(spy.mock.calls.length).toBe(2);
+  expect(spy.mock.calls.length).toBe(n);
 
   // but should rerender if sequences have changed
   wrapper.setProps({
@@ -200,7 +201,7 @@ it('renders differently after changed properties', () => {
     }]
   });
   expect(wrapper).toMatchSnapshot();
-  expect(spy.mock.calls.length).toBe(3);
+  expect(spy.mock.calls.length).toBe(++n);
   spy.mockRestore();
 });
 

@@ -19,7 +19,7 @@
   "version": "1.0.1",
   "private": false,
   "main": "dist/index.umd.min.js",
-  "module": "dist/index.esm.min.js",
+  "module": "src/lib.js",
   "scripts": {
     "build": "NODE_ENV=production rollup -c",
     "netlify": "npm run build-storybook && npm run build && mv dist storybook-static",

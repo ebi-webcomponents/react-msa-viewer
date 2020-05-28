@@ -22,6 +22,7 @@ import InverseLayout from './inverse';
 import FullLayout from './full';
 import CompactLayout from './compact';
 import FunkyLayout from './funky';
+import NightingaleLayout from './nightingale';
 
 const layouts = {
   "basic": BasicLayout,
@@ -29,6 +30,7 @@ const layouts = {
   "full": FullLayout,
   "compact": CompactLayout,
   "funky": FunkyLayout,
+  "nightingale": NightingaleLayout,
   "default": BasicLayout,
 };
 
@@ -62,6 +64,7 @@ class MSALayouter extends PureComponent {
       "sequenceOverflowy": "overflowY",
       "sequenceScrollBarPositionX": "scrollBarPositionX",
       "sequenceScrollBarPositionY": "scrollBarPositionY",
+      "sequenceDisableDragging": same,
     },
     // List of props forwarded to the Labels component
     labelsProps: {
@@ -96,7 +99,7 @@ class MSALayouter extends PureComponent {
     const {layout, ...otherProps} = this.props;
     if (layout in layouts) {
       const Layout = layouts[layout];
-      const {forwardProps, otherProps: propsOnDiv} =
+      const {forward: forwardProps, otherProps: propsOnDiv} =
         forwardPropsMapper(otherProps, this.constructor.propsToForward);
       return <div el={this.ref} {...propsOnDiv} >
           <Layout {...forwardProps} forwardedPropsKeys={this.forwardedPropsKeys} />

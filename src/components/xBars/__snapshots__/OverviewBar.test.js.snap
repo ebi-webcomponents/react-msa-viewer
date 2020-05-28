@@ -4785,6 +4785,7 @@ exports[`renders properly with a moved viewport 3`] = `
 <XBarComponent
   cacheElements={5}
   componentCache={[Function]}
+  highlight={null}
   maxLength={100}
   nrXTiles={5}
   position={

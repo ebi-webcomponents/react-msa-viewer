@@ -1117,7 +1117,7 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
   colorScheme="clustal"
-  height={100}
+  height={600}
   sequences={
     Array [
       Object {
@@ -1152,7 +1152,7 @@ exports[`renders without crashing 1`] = `
   }
   tileHeight={20}
   tileWidth={20}
-  width={500}
+  width={800}
 >
   <MSAViewerComponent
     msaStore={
@@ -1220,9 +1220,9 @@ exports[`renders without crashing 1`] = `
             dispatch={[Function]}
             fullHeight={140}
             fullWidth={1200}
-            height={100}
-            nrXTiles={26}
-            nrYTiles={6}
+            height={140}
+            nrXTiles={41}
+            nrYTiles={31}
             sequences={
               Object {
                 "length": 7,
@@ -1261,7 +1261,7 @@ exports[`renders without crashing 1`] = `
             }
             tileHeight={20}
             tileWidth={20}
-            width={500}
+            width={800}
           >
             <SequenceViewerComponent
               border={false}
@@ -1309,9 +1309,10 @@ exports[`renders without crashing 1`] = `
               dispatch={[Function]}
               fullHeight={140}
               fullWidth={1200}
-              height={100}
-              nrXTiles={26}
-              nrYTiles={6}
+              height={140}
+              highlight={null}
+              nrXTiles={41}
+              nrYTiles={31}
               overflow="hidden"
               overflowX="auto"
               overflowY="auto"
@@ -1369,24 +1370,25 @@ exports[`renders without crashing 1`] = `
               textFont="18px Arial"
               tileHeight={20}
               tileWidth={20}
-              width={500}
+              width={800}
               xGridSize={10}
               yGridSize={10}
             >
               <div
-                height={100}
+                height={140}
+                highlight={null}
                 style={
                   Object {
                     "cursor": "grab",
-                    "height": 100,
+                    "height": 140,
                     "position": "relative",
-                    "width": 500,
+                    "width": 800,
                   }
                 }
-                width={500}
+                width={800}
               >
                 <canvas
-                  height={100}
+                  height={140}
                   style={
                     Object {
                       "left": 0,
@@ -1394,12 +1396,12 @@ exports[`renders without crashing 1`] = `
                       "top": 0,
                     }
                   }
-                  width={500}
+                  width={800}
                 >
                   Your browser does not seem to support HTML5 canvas.
                 </canvas>
                 <canvas
-                  height={100}
+                  height={140}
                   style={
                     Object {
                       "left": 0,
@@ -1407,25 +1409,26 @@ exports[`renders without crashing 1`] = `
                       "top": 0,
                     }
                   }
-                  width={500}
+                  width={800}
                 >
                   Your browser does not seem to support HTML5 canvas.
                 </canvas>
                 <withPosition(FakeScroll)
                   fullHeight={140}
                   fullWidth={1200}
-                  height={100}
+                  height={140}
                   overflow="hidden"
                   overflowX="auto"
                   overflowY="auto"
                   positionX="bottom"
                   positionY="right"
-                  width={500}
+                  width={800}
                 >
                   <FakeScroll
                     fullHeight={140}
                     fullWidth={1200}
-                    height={100}
+                    height={140}
+                    highlight={null}
                     overflow="hidden"
                     overflowX="auto"
                     overflowY="auto"
@@ -1443,7 +1446,7 @@ exports[`renders without crashing 1`] = `
                     positionX="bottom"
                     positionY="right"
                     scrollBarWidth={5}
-                    width={500}
+                    width={800}
                   >
                     <div />
                   </FakeScroll>
@@ -1997,6 +2000,7 @@ exports[`should fire an event on mouseclick 1`] = `
               fullHeight={140}
               fullWidth={1200}
               height={140}
+              highlight={null}
               nrXTiles={21}
               nrYTiles={11}
               onResidueClick={[MockFunction]}
@@ -2063,6 +2067,7 @@ exports[`should fire an event on mouseclick 1`] = `
             >
               <div
                 height={140}
+                highlight={null}
                 style={
                   Object {
                     "cursor": "grab",
@@ -2114,6 +2119,7 @@ exports[`should fire an event on mouseclick 1`] = `
                     fullHeight={140}
                     fullWidth={1200}
                     height={140}
+                    highlight={null}
                     overflow="hidden"
                     overflowX="auto"
                     overflowY="auto"

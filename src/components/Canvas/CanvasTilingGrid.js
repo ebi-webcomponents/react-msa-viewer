@@ -55,6 +55,9 @@ class CanvasTilingGridComponent extends CanvasComponent {
     canvas.globalAlpha = 0.7;
     canvas.fillStyle = colorScheme;
     canvas.fillRect(0, 0, this.props.tileWidth, this.props.tileHeight);
+    const minW=4;
+    const fullOpacityW=10;
+    if (this.props.tileWidth<minW) return;
 
     if (this.props.border) {
       canvas.globalAlpha = 1;
@@ -62,8 +65,10 @@ class CanvasTilingGridComponent extends CanvasComponent {
       canvas.strokeStyle = this.props.borderStyle;
       canvas.strokeRect(0, 0, this.props.tileWidth, this.props.tileHeight);
     }
-
-    canvas.globalAlpha = 1.0;
+    const m = 1.0 / (fullOpacityW-minW);
+    const b = -m * minW;
+    canvas.globalAlpha = Math.min(1, m*this.props.tileWidth+b)
+    // 1.0;
     canvas.fillStyle = this.props.textColor;
     canvas.font = this.props.textFont + "px mono";
     canvas.textBaseline = 'middle';

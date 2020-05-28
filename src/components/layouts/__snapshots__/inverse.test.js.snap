@@ -3,7 +3,7 @@
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
   colorScheme="clustal"
-  height={100}
+  height={600}
   layout="inverse"
   sequences={
     Array [
@@ -39,7 +39,7 @@ exports[`renders without crashing 1`] = `
   }
   tileHeight={20}
   tileWidth={20}
-  width={500}
+  width={800}
 >
   <MSAViewerComponent
     layout="inverse"
@@ -79,6 +79,14 @@ exports[`renders without crashing 1`] = `
                   "overviewBarProps",
                 ]
               }
+              labelsProps={Object {}}
+              overviewBarProps={Object {}}
+              positionBarProps={Object {}}
+              sequenceViewerProps={
+                Object {
+                  "onResidueClick": [Function],
+                }
+              }
             >
               <MSAInverseLayout
                 dispatch={[Function]}
@@ -89,6 +97,14 @@ exports[`renders without crashing 1`] = `
                     "positionBarProps",
                     "overviewBarProps",
                   ]
+                }
+                labelsProps={Object {}}
+                overviewBarProps={Object {}}
+                positionBarProps={Object {}}
+                sequenceViewerProps={
+                  Object {
+                    "onResidueClick": [Function],
+                  }
                 }
                 tileHeight={20}
               >
@@ -110,7 +126,7 @@ exports[`renders without crashing 1`] = `
                         height={50}
                         maxLength={60}
                         method="conservation"
-                        nrXTiles={26}
+                        nrXTiles={41}
                         sequences={
                           Array [
                             Object {
@@ -144,13 +160,13 @@ exports[`renders without crashing 1`] = `
                           ]
                         }
                         tileWidth={20}
-                        width={500}
+                        width={800}
                       >
                         <withPosition(XBarComponent)
                           cacheElements={10}
                           componentCache={[Function]}
                           maxLength={60}
-                          nrXTiles={26}
+                          nrXTiles={41}
                           sequences={
                             Array [
                               Object {
@@ -185,13 +201,14 @@ exports[`renders without crashing 1`] = `
                           }
                           tileComponent={[Function]}
                           tileWidth={20}
-                          width={500}
+                          width={800}
                         >
                           <XBarComponent
                             cacheElements={10}
                             componentCache={[Function]}
+                            highlight={null}
                             maxLength={60}
-                            nrXTiles={26}
+                            nrXTiles={41}
                             position={
                               Object {
                                 "currentViewSequence": 0,
@@ -239,9 +256,10 @@ exports[`renders without crashing 1`] = `
                             }
                             tileComponent={[Function]}
                             tileWidth={20}
-                            width={500}
+                            width={800}
                           >
                             <div
+                              highlight={null}
                               style={
                                 Object {
                                   "height": undefined,
@@ -254,14 +272,14 @@ exports[`renders without crashing 1`] = `
                                     "overflow": "hidden",
                                     "position": "relative",
                                     "whiteSpace": "nowrap",
-                                    "width": 500,
+                                    "width": 800,
                                   }
                                 }
                               >
                                 <ListComponent
                                   componentCache={[Function]}
-                                  endTile={46}
-                                  maxWidth={900}
+                                  endTile={60}
+                                  maxWidth={1200}
                                   sequences={
                                     Array [
                                       Object {
@@ -1035,6 +1053,230 @@ exports[`renders without crashing 1`] = `
                                         }
                                       />
                                     </Bar>
+                                    <Bar
+                                      index={46}
+                                      key="46"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 34,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={47}
+                                      key="47"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 34,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={48}
+                                      key="48"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={49}
+                                      key="49"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={50}
+                                      key="50"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={51}
+                                      key="51"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={52}
+                                      key="52"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={53}
+                                      key="53"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 50,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={54}
+                                      key="54"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={55}
+                                      key="55"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 50,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={56}
+                                      key="56"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 50,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={57}
+                                      key="57"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={58}
+                                      key="58"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
+                                    <Bar
+                                      index={59}
+                                      key="59"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "backgroundColor": "#999999",
+                                            "display": "inline-block",
+                                            "height": 35,
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      />
+                                    </Bar>
                                   </div>
                                 </ListComponent>
                               </div>
@@ -1051,7 +1293,7 @@ exports[`renders without crashing 1`] = `
                         markerSteps={2}
                         markerStyle={Object {}}
                         maxLength={60}
-                        nrXTiles={26}
+                        nrXTiles={41}
                         sequences={
                           Array [
                             Object {
@@ -1091,14 +1333,14 @@ exports[`renders without crashing 1`] = `
                           }
                         }
                         tileWidth={20}
-                        width={500}
+                        width={800}
                       >
                         <withPosition(XBarComponent)
                           cacheElements={10}
                           componentCache={[Function]}
                           height={15}
                           maxLength={60}
-                          nrXTiles={26}
+                          nrXTiles={41}
                           sequences={
                             Array [
                               Object {
@@ -1138,14 +1380,15 @@ exports[`renders without crashing 1`] = `
                           }
                           tileComponent={[Function]}
                           tileWidth={20}
-                          width={500}
+                          width={800}
                         >
                           <XBarComponent
                             cacheElements={10}
                             componentCache={[Function]}
                             height={15}
+                            highlight={null}
                             maxLength={60}
-                            nrXTiles={26}
+                            nrXTiles={41}
                             position={
                               Object {
                                 "currentViewSequence": 0,
@@ -1198,10 +1441,11 @@ exports[`renders without crashing 1`] = `
                             }
                             tileComponent={[Function]}
                             tileWidth={20}
-                            width={500}
+                            width={800}
                           >
                             <div
                               height={15}
+                              highlight={null}
                               style={
                                 Object {
                                   "font": "12px Arial",
@@ -1214,14 +1458,14 @@ exports[`renders without crashing 1`] = `
                                     "overflow": "hidden",
                                     "position": "relative",
                                     "whiteSpace": "nowrap",
-                                    "width": 500,
+                                    "width": 800,
                                   }
                                 }
                               >
                                 <ListComponent
                                   componentCache={[Function]}
-                                  endTile={46}
-                                  maxWidth={900}
+                                  endTile={60}
+                                  maxWidth={1200}
                                   sequences={
                                     Array [
                                       Object {
@@ -1995,6 +2239,230 @@ exports[`renders without crashing 1`] = `
                                         .
                                       </div>
                                     </Marker>
+                                    <Marker
+                                      index={46}
+                                      key="46"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        47
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={47}
+                                      key="47"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={48}
+                                      key="48"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        49
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={49}
+                                      key="49"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={50}
+                                      key="50"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        51
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={51}
+                                      key="51"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={52}
+                                      key="52"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        53
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={53}
+                                      key="53"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={54}
+                                      key="54"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        55
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={55}
+                                      key="55"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={56}
+                                      key="56"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        57
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={57}
+                                      key="57"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={58}
+                                      key="58"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        59
+                                      </div>
+                                    </Marker>
+                                    <Marker
+                                      index={59}
+                                      key="59"
+                                    >
+                                      <div
+                                        style={
+                                          Object {
+                                            "display": "inline-block",
+                                            "textAlign": "center",
+                                            "width": 20,
+                                          }
+                                        }
+                                      >
+                                        .
+                                      </div>
+                                    </Marker>
                                   </div>
                                 </ListComponent>
                               </div>
@@ -2003,7 +2471,9 @@ exports[`renders without crashing 1`] = `
                         </withPosition(XBarComponent)>
                       </HTMLPositionBarComponent>
                     </Connect(HTMLPositionBarComponent)>
-                    <Connect(withPosition(SequenceViewerComponent))>
+                    <Connect(withPosition(SequenceViewerComponent))
+                      onResidueClick={[Function]}
+                    >
                       <withPosition(SequenceViewerComponent)
                         colorScheme={
                           ColorScheme {
@@ -2046,9 +2516,10 @@ exports[`renders without crashing 1`] = `
                         dispatch={[Function]}
                         fullHeight={140}
                         fullWidth={1200}
-                        height={100}
-                        nrXTiles={26}
-                        nrYTiles={6}
+                        height={140}
+                        nrXTiles={41}
+                        nrYTiles={31}
+                        onResidueClick={[Function]}
                         sequences={
                           Object {
                             "length": 7,
@@ -2087,7 +2558,7 @@ exports[`renders without crashing 1`] = `
                         }
                         tileHeight={20}
                         tileWidth={20}
-                        width={500}
+                        width={800}
                       >
                         <SequenceViewerComponent
                           border={false}
@@ -2135,9 +2606,11 @@ exports[`renders without crashing 1`] = `
                           dispatch={[Function]}
                           fullHeight={140}
                           fullWidth={1200}
-                          height={100}
-                          nrXTiles={26}
-                          nrYTiles={6}
+                          height={140}
+                          highlight={null}
+                          nrXTiles={41}
+                          nrYTiles={31}
+                          onResidueClick={[Function]}
                           overflow="hidden"
                           overflowX="auto"
                           overflowY="auto"
@@ -2195,24 +2668,25 @@ exports[`renders without crashing 1`] = `
                           textFont="18px Arial"
                           tileHeight={20}
                           tileWidth={20}
-                          width={500}
+                          width={800}
                           xGridSize={10}
                           yGridSize={10}
                         >
                           <div
-                            height={100}
+                            height={140}
+                            highlight={null}
                             style={
                               Object {
                                 "cursor": "grab",
-                                "height": 100,
+                                "height": 140,
                                 "position": "relative",
-                                "width": 500,
+                                "width": 800,
                               }
                             }
-                            width={500}
+                            width={800}
                           >
                             <canvas
-                              height={100}
+                              height={140}
                               style={
                                 Object {
                                   "left": 0,
@@ -2220,12 +2694,12 @@ exports[`renders without crashing 1`] = `
                                   "top": 0,
                                 }
                               }
-                              width={500}
+                              width={800}
                             >
                               Your browser does not seem to support HTML5 canvas.
                             </canvas>
                             <canvas
-                              height={100}
+                              height={140}
                               style={
                                 Object {
                                   "left": 0,
@@ -2233,25 +2707,26 @@ exports[`renders without crashing 1`] = `
                                   "top": 0,
                                 }
                               }
-                              width={500}
+                              width={800}
                             >
                               Your browser does not seem to support HTML5 canvas.
                             </canvas>
                             <withPosition(FakeScroll)
                               fullHeight={140}
                               fullWidth={1200}
-                              height={100}
+                              height={140}
                               overflow="hidden"
                               overflowX="auto"
                               overflowY="auto"
                               positionX="bottom"
                               positionY="right"
-                              width={500}
+                              width={800}
                             >
                               <FakeScroll
                                 fullHeight={140}
                                 fullWidth={1200}
-                                height={100}
+                                height={140}
+                                highlight={null}
                                 overflow="hidden"
                                 overflowX="auto"
                                 overflowY="auto"
@@ -2269,7 +2744,7 @@ exports[`renders without crashing 1`] = `
                                 positionX="bottom"
                                 positionY="right"
                                 scrollBarWidth={5}
-                                width={500}
+                                width={800}
                               >
                                 <div />
                               </FakeScroll>
@@ -2289,9 +2764,9 @@ exports[`renders without crashing 1`] = `
                     <HTMLLabelsComponent
                       cacheElements={10}
                       dispatch={[Function]}
-                      height={100}
+                      height={600}
                       labelStyle={Object {}}
-                      nrYTiles={6}
+                      nrYTiles={31}
                       sequences={
                         Array [
                           Object {
@@ -2334,8 +2809,8 @@ exports[`renders without crashing 1`] = `
                       <withPosition(YBarComponent)
                         cacheElements={10}
                         componentCache={[Function]}
-                        height={100}
-                        nrYTiles={6}
+                        height={600}
+                        nrYTiles={31}
                         sequences={
                           Array [
                             Object {
@@ -2379,8 +2854,9 @@ exports[`renders without crashing 1`] = `
                         <YBarComponent
                           cacheElements={10}
                           componentCache={[Function]}
-                          height={100}
-                          nrYTiles={6}
+                          height={600}
+                          highlight={null}
+                          nrYTiles={31}
                           position={
                             Object {
                               "currentViewSequence": 0,
@@ -2435,6 +2911,7 @@ exports[`renders without crashing 1`] = `
                           tileHeight={20}
                         >
                           <div
+                            highlight={null}
                             style={
                               Object {
                                 "paddingTop": 70,
@@ -2444,7 +2921,7 @@ exports[`renders without crashing 1`] = `
                             <div
                               style={
                                 Object {
-                                  "height": 100,
+                                  "height": 600,
                                   "overflow": "hidden",
                                   "position": "relative",
                                   "whiteSpace": "nowrap",

@@ -23,8 +23,8 @@ export default {
         'prop-types': 'PropTypes',
       }
     },
-    { file: "dist/index.umd.min.js", format: "cjs", plugins: [terser()] },
-    { file: "dist/index.esm.min.js", format: "esm", plugins: [terser()] },
+    { sourcemap: true,file: "dist/index.umd.min.js", format: "cjs", plugins: [terser()] },
+    { sourcemap: true,file: "dist/index.esm.min.js", format: "esm", plugins: [terser()] },
   ],
   external: [
     'react',
