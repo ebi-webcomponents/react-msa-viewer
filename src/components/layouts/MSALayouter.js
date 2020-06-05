@@ -99,7 +99,7 @@ class MSALayouter extends PureComponent {
     const {layout, ...otherProps} = this.props;
     if (layout in layouts) {
       const Layout = layouts[layout];
-      const {forward: forwardProps, otherProps: propsOnDiv} =
+      const {forward: forwardProps, other: propsOnDiv} =
         forwardPropsMapper(otherProps, this.constructor.propsToForward);
       return <div el={this.ref} {...propsOnDiv} >
           <Layout {...forwardProps} forwardedPropsKeys={this.forwardedPropsKeys} />
