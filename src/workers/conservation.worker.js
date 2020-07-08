@@ -20,9 +20,7 @@ const calculateConservation = (sequences) => {
       cons[ch] /= sequences.length;
     })
   });
-  setTimeout(()=>{
-    self.postMessage({progress: 1, conservation});
-  }, 5000)
+  self.postMessage({progress: 1, conservation});
 }
 onmessage = function(e) {
   if (self.previous !== e.data){
