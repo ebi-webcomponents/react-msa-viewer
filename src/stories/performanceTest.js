@@ -30,7 +30,7 @@ for (let seqLength of seqLengths){
         let time = Date.now();
         const sequence = generateSequence(seqLength);
         times(nSeq, () => {
-          const mutation_pos = Math.round(Math.random()*sequence.length);
+          const mutation_pos = Math.round(Math.random()*(sequence.length-1));
           options.sequences.push({
               name: `seq_${options.sequences.length}`,
               sequence: sequence.substring(0,mutation_pos) + '-' + sequence.substring(mutation_pos+1)
