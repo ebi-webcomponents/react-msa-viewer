@@ -42,9 +42,11 @@ export function createAction(type, ...argNames) {
 export const updateProps = createAction('PROPS_UPDATE');
 export const updateProp = createAction('PROP_UPDATE', 'key', 'value');
 export const updateSequences = createAction('SEQUENCES_UPDATE');
+export const updateConservation = createAction('CONSERVSTION_UPDATE');
 export const actions = {
   updateProp,
   updateProps,
   updateSequences,
+  updateConservation,
 };
 export default actions;

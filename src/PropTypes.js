@@ -24,7 +24,7 @@ export const AllowedColorschemes = [
   "buried_index", "clustal", "clustal2", "cinema",
   "helix_propensity", "hydro",
   "lesk", "mae", "nucleotide", "purine_pyrimidine",
-  "strand_propensity", "taylor", "turn_propensity", "zappo",
+  "strand_propensity", "taylor", "turn_propensity", "zappo", "conservation"
 ];
 
 export const ColorSchemePropType = PropTypes.oneOfType([

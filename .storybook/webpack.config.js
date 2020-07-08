@@ -4,6 +4,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.worker\.js$/,
+        use: { loader: "worker-loader" }
+      },
+      {
         test: /\.jsx?$/,
         include: path.resolve('./src/stories'),
         loaders: [

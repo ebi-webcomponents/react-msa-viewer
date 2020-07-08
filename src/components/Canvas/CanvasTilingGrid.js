@@ -36,7 +36,7 @@ class CanvasTilingGridComponent extends CanvasComponent {
     if (column >= sequence.length) return undefined;
     const text = sequence[column];
     if (text !== undefined) {
-      const colorScheme = this.props.colorScheme.getColor(text);
+      const colorScheme = this.props.colorScheme.getColor(text, column);
       const key = `${text}-${colorScheme}`;
       const canvasTile = this.props.residueTileCache.createTile({
         key, tileWidth, tileHeight,

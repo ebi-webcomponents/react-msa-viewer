@@ -24,6 +24,7 @@ function checkColorScheme(state) {
     } else {
       state.colorScheme = new ColorScheme(state.colorScheme);
   }
+  state.colorScheme.updateConservation(state.conservation);
 }
 
 /**
@@ -51,6 +52,14 @@ const props = (state = {}, {type, payload}) => {
       if (key === "colorScheme") {
         checkColorScheme(state);
       }
+      return state;
+    case actions.updateConservation.key:
+      const {progress, conservation} = payload;
+      state.conservation = {
+        progress,
+        map: conservation,
+      };
+      state.colorScheme.updateConservation(state.conservation);
       return state;
     default:
       if (state.colorScheme !== undefined) {

@@ -44,7 +44,7 @@ const staticSchemes = {
 };
 
 const dynSchemes = {
-  pid: pid
+  conservation: pid
 };
 
 const Colors = function(opt){

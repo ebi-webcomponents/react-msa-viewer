@@ -18,8 +18,12 @@ class ColorScheme {
     this.scheme = schemesMgr.getScheme(colorScheme);
   }
 
-  getColor(element) {
-    return this.scheme.getColor(element);
+  updateConservation(conservation){
+    schemesMgr.conservation = conservation;
+  }
+
+  getColor(element, position) {
+    return this.scheme.getColor(element, position, schemesMgr.conservation);
   }
 
 }

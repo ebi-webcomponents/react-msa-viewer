@@ -50,7 +50,8 @@ storiesOf("Customization", module)
       "strand_propensity",
       "taylor",
       "turn_propensity",
-      "zappo"
+      "zappo",
+      "conservation"
     ];
     const options = {
       colorScheme: select("Colorscheme", createObject(colorschemes), "zappo"),
