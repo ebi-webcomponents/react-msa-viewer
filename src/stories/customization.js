@@ -177,4 +177,24 @@ storiesOf("Customization", module)
       ),
     };
     return <MSAViewer {...options} />;
+  })
+  .add("Custom highlights", function () {
+    const options = {
+      sequences,
+      highlight: [
+        {
+          residues: { from: 1, to: 20 },
+          sequences: { from: 0, to: 0 },
+          fillColor: "blue",
+          borderColor: "violet",
+        },
+        {
+          residues: { from: 3, to: 10 },
+          sequences: { from: 2, to: 2 },
+          fillColor: "black",
+          borderColor: "black",
+        },
+      ],
+    };
+    return <MSAViewer {...options} />;
   });

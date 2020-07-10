@@ -8,7 +8,7 @@
 
 import PropTypes from "prop-types";
 
-import { clamp, floor, isEqual, pick } from "lodash-es";
+import { clamp, floor, isEqual, pick, differenceWith } from "lodash-es";
 
 import DraggingComponent from "./DraggingComponent";
 import TilingGrid from "./CanvasTilingGrid";
@@ -146,10 +146,12 @@ class SequenceViewerComponent extends DraggingComponent {
   }
 
   drawHighligtedRegions() {
-    if (!this.props.highlight) return;
-    this.props.highlight.forEach(highlight => {
-      this.drawHighligtedRegion(highlight);
-    });
+    console.log(this.props.highlight);
+    if (this.props.highlight) {
+      this.props.highlight.forEach((highlight) => {
+        this.drawHighligtedRegion(highlight);
+      });
+    }
   }
 
   drawHighligtedRegion(highlight) {
@@ -230,6 +232,20 @@ class SequenceViewerComponent extends DraggingComponent {
     };
   }
 
+  sequencePositionToHighlightWithId(sequencePosition) {
+    if (!this.props.highlight) {
+      return;
+    }
+    return this.props.highlight.filter(
+      (highlight) =>
+        highlight.id &&
+        sequencePosition.position >= highlight.residues.from - 1 &&
+        sequencePosition.position <= highlight.residues.to - 1 &&
+        sequencePosition.i >= highlight.sequences.from &&
+        sequencePosition.i <= highlight.sequences.to
+    );
+  }
+
   updateScrollPosition = () => {
     this.draw();
   };
@@ -258,16 +274,39 @@ class SequenceViewerComponent extends DraggingComponent {
     if (typeof this.isInDragPhase === "undefined") {
       if (
         this.props.onResidueMouseEnter !== undefined ||
-        this.props.onResidueMouseLeave !== undefined
+        this.props.onResidueMouseLeave !== undefined ||
+        this.props.onHighlightMouseEnter !== undefined ||
+        this.props.onHighlightMouseLeave !== undefined
       ) {
         const eventData = this.currentPointerPosition(e);
         const lastValue = this.currentMouseSequencePosition;
+        const lastMouseHighlight = this.currentMouseHighlight;
         if (!isEqual(lastValue, eventData)) {
           if (lastValue !== undefined) {
             this.sendEvent("onResidueMouseLeave", lastValue);
           }
           this.currentMouseSequencePosition = eventData;
           this.sendEvent("onResidueMouseEnter", eventData);
+          const mouseHighlight = this.sequencePositionToHighlightWithId(
+            eventData
+          );
+          const highlightMouseLeave = differenceWith(
+            lastMouseHighlight,
+            mouseHighlight,
+            isEqual
+          );
+          const highlightMouseEnter = differenceWith(
+            mouseHighlight,
+            lastMouseHighlight,
+            isEqual
+          );
+          this.currentMouseHighlight = mouseHighlight;
+          highlightMouseLeave.forEach((highlight) => {
+            this.sendEvent("onHighlightMouseLeave", highlight.id);
+          });
+          highlightMouseEnter.forEach((highlight) => {
+            this.sendEvent("onHighlightMouseEnter", highlight.id);
+          });
         }
       }
     }
@@ -277,6 +316,12 @@ class SequenceViewerComponent extends DraggingComponent {
   onMouseLeave = (e) => {
     this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
+    if (this.currentMouseHighlight) {
+      this.currentMouseHighlight.forEach((highlight) => {
+        this.sendEvent("onHighlightMouseLeave", highlight.id);
+      });
+      this.currentMouseHighlight = undefined;
+    }
     super.onMouseLeave(e);
   };
 
@@ -285,16 +330,8 @@ class SequenceViewerComponent extends DraggingComponent {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
       if (!this.props.highlight) return;
-      this.props.highlight.forEach(highlight => {
-        if (
-          highlight.id &&
-          eventData.position >= highlight.residues.from - 1 &&
-          eventData.position <= highlight.residues.to - 1 &&
-          eventData.i >= highlight.sequences.from &&
-          eventData.i <= highlight.sequences.to
-        ) {
-          this.sendEvent("onHighlightClick", highlight.id);
-        }
+      this.sequencePositionToHighlightWithId(eventData).forEach((highlight) => {
+        this.sendEvent("onHighlightClick", highlight.id);
       });
     }
     super.onClick(e);
@@ -377,6 +414,16 @@ SequenceViewerComponent.propTypes = {
    * Callback fired when the mouse pointer clicked a highlight.
    */
   onHighlightClick: PropTypes.func,
+
+  /**
+   * Callback fired when the mouse pointer is entering a highlight.
+   */
+  onHighlightMouseEnter: PropTypes.func,
+
+  /**
+   * Callback fired when the mouse pointer is leaving a highlight.
+   */
+  onHighlightMouseLeave: PropTypes.func,
 
   /**
    * Callback fired when the mouse pointer clicked a residue.

@@ -26,6 +26,19 @@ const sequences = [
   },
 ];
 
+const highlight = [
+  {
+    residues: { from: 1, to: 20 },
+    sequences: { from: 0, to: 0 },
+    id: "id-1",
+  },
+  {
+    residues: { from: 3, to: 10 },
+    sequences: { from: 2, to: 2 },
+    id: "id-2",
+  },
+];
+
 // storybook-action-logger doesn't support auto event expansion,
 // but most consoles do
 const storyAction = (name) => {
@@ -156,6 +169,17 @@ storiesOf("Events", module)
     }
     return <ExtraInformation />;
   })
+  .add("onHighlight", () => (
+    <MSAViewer sequences={sequences}>
+      Check the console or the "Action Logger" tab for the resulting events.
+      <SequenceViewer
+        onHighlightClick={storyAction("onHilightClick")}
+        onHighlightMouseEnter={storyAction("onHighlightMouseEnter")}
+        onHighlightMouseLeave={storyAction("onHighlightMouseLeave")}
+        highlight={highlight}
+      />
+    </MSAViewer>
+  ))
   .add("onHighlightClick", () => {
     class ExtraInformation extends Component {
       state = {};
@@ -169,18 +193,7 @@ storiesOf("Events", module)
             <MSAViewer sequences={sequences}>
               <SequenceViewer
                 onHighlightClick={this.onHighlightClick}
-                highlight={[
-                  {
-                    residues: { from: 1, to: 20 },
-                    sequences: { from: 0, to: 0 },
-                    id: "id-1",
-                  },
-                  {
-                    residues: { from: 3, to: 10 },
-                    sequences: { from: 2, to: 2 },
-                    id: "id-2",
-                  },
-                ]}
+                highlight={highlight}
               />
             </MSAViewer>
             {this.state.lastEvent && (
