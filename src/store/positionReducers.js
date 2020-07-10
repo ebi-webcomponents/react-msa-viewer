@@ -109,13 +109,13 @@ const relativePositionReducer = (
 export function positionReducer(
   oldState = {
     position: { xPos: 0, yPos: 0 },
-    highlight: null,
+    highlight: null
   },
   action
 ) {
   let state = oldState;
   let position = oldState.position;
-  let highlight= oldState.highlight;
+  let highlight = oldState.highlight;
   switch (action.type) {
     case updateMainStore.key:
       // merge updates of the main store with this store for now
@@ -156,7 +156,7 @@ export function positionReducer(
   return {
     ...state,
     ...addedState,
-    highlight
+    highlight: highlight
   };
 }
 

@@ -131,7 +131,7 @@ storiesOf("Events", module)
       />
     </MSAViewer>
   ))
-  .add("onClick", () => {
+  .add("onResidueClick", () => {
     class ExtraInformation extends Component {
       state = {};
       onResidueClick = e => {
@@ -149,6 +149,42 @@ storiesOf("Events", module)
                 Selection: {this.state.lastEvent.residue}
                 (from {this.state.lastEvent.sequence.name})
               </div>
+            )}
+          </div>
+        );
+      }
+    }
+    return <ExtraInformation />;
+  })
+  .add("onHighlightClick", () => {
+    class ExtraInformation extends Component {
+      state = {};
+      onHighlightClick = e => {
+        this.setState({ lastEvent: e });
+      };
+      render() {
+        return (
+          <div>
+            Click on a residue:
+            <MSAViewer sequences={sequences}>
+              <SequenceViewer
+                onHighlightClick={this.onHighlightClick}
+                highlight={[
+                  {
+                    residues: { from: 1, to: 20 },
+                    sequences: { from: 0, to: 0 },
+                    id: "id-1"
+                  },
+                  {
+                    residues: { from: 3, to: 10 },
+                    sequences: { from: 2, to: 2 },
+                    id: "id-2"
+                  }
+                ]}
+              />
+            </MSAViewer>
+            {this.state.lastEvent && (
+              <div>Last highlight clicked: {this.state.lastEvent}</div>
             )}
           </div>
         );
@@ -201,23 +237,25 @@ storiesOf("Events", module)
         );
       };
       highlightRegion = () => {
-        this.el.highlightRegion({
-          sequences: {
-            from: 1,
-            to: 2
-          },
-          residues: {
-            from: 2,
-            to:13
+        this.el.highlightRegion([
+          {
+            sequences: {
+              from: 1,
+              to: 2
+            },
+            residues: {
+              from: 2,
+              to: 13
+            }
           }
-        });
-      }
+        ]);
+      };
       removeHighlightRegion = () => {
         const action = actions.removeHighlightRegion();
         this.el.dispatch(action);
-      }
+      };
       toBeImplemented = () => console.log("Missing method");
-      
+
       render() {
         return (
           <div>
@@ -246,15 +284,14 @@ storiesOf("Events", module)
               GoTo Residue Region [10-20]{" "}
             </button>
             <div>
-            <button onClick={this.highlightRegion}>
-              Highlight Region [2-13]{" "}
-            </button>
-            <button onClick={this.removeHighlightRegion}>
-              Remove Highlight
-            </button>
+              <button onClick={this.highlightRegion}>
+                Highlight Region [2-13]{" "}
+              </button>
+              <button onClick={this.removeHighlightRegion}>
+                Remove Highlight
+              </button>
             </div>
             <p>Current position: [x1,x2]</p>
-
           </div>
         );
       }

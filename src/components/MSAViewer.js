@@ -1,47 +1,43 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {
-  forOwn,
-  memoize,
-  omit,
-} from 'lodash-es'
+import { forOwn, memoize, omit } from "lodash-es";
 
 import {
   msaDefaultProps,
   SequencePropType,
   ColorSchemePropType,
   PositionPropType,
-  MSAPropTypes,
-} from '../PropTypes';
+  MSAPropTypes
+} from "../PropTypes";
 
 // import MSAProvider from '../store/provider';
-import { Provider as MSAProvider } from 'react-redux'
-import propsToRedux from '../store/propsToRedux';
+import { Provider as MSAProvider } from "react-redux";
+import propsToRedux from "../store/propsToRedux";
 
 import {
   actions,
   positionReducer,
-  createPositionStore,
-} from '../store/positionReducers';
+  createPositionStore
+} from "../store/positionReducers";
 
-import MSALayouter from './layouts/MSALayouter';
+import MSALayouter from "./layouts/MSALayouter";
 
-import shallowSelect from '../utils/shallowSelect';
+import shallowSelect from "../utils/shallowSelect";
 
 // list of events with a default implementation
 // mapping: eventName -> DOM event name
 const defaultEvents = {
-  "onResidueClick": "residueClick",
+  onResidueClick: "residueClick"
 };
 
 /**
@@ -52,17 +48,16 @@ const defaultEvents = {
  * components.
  */
 class MSAViewerComponent extends Component {
-
-    constructor(props) {
-      super(props);
-      this.el = React.createRef();
-      this._setupStores();
-      this.createDomHandler = memoize(this.createDomHandler.bind(this));
-      this.forwardProps = shallowSelect(
-        p => omit(p, ['msaStore']),
-        this.forwardProps.bind(this),
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.el = React.createRef();
+    this._setupStores();
+    this.createDomHandler = memoize(this.createDomHandler.bind(this));
+    this.forwardProps = shallowSelect(
+      p => omit(p, ["msaStore"]),
+      this.forwardProps.bind(this)
+    );
+  }
 
   _setupStores() {
     this.positionStore = createPositionStore(positionReducer);
@@ -84,7 +79,7 @@ class MSAViewerComponent extends Component {
   // TODO: we could inject this in the main redux store for better compatibility
   getChildContext() {
     return {
-      positionMSAStore: this.positionStore,
+      positionMSAStore: this.positionStore
     };
   }
 
@@ -92,17 +87,17 @@ class MSAViewerComponent extends Component {
    * Creates a listener which triggers `domEventName`
    */
   createDomHandler(domEventName) {
-    return (e) => {
+    return e => {
       const event = new CustomEvent(domEventName, {
         detail: e,
-        bubbles: true,
+        bubbles: true
       });
       this.el.current.dispatchEvent(event);
     };
   }
 
   forwardProps(props) {
-    const options = {...props};
+    const options = { ...props };
     /**
      * Inject default event handler if no handler for the respective
      * event has been provided.
@@ -116,7 +111,7 @@ class MSAViewerComponent extends Component {
   }
 
   render() {
-    const {children, msaStore, ...otherProps} = this.props;
+    const { children, msaStore, ...otherProps } = this.props;
     if (children) {
       return (
         <MSAProvider store={msaStore}>
@@ -138,7 +133,7 @@ class MSAViewerComponent extends Component {
 }
 
 MSAViewerComponent.childContextTypes = {
-  positionMSAStore: PropTypes.object,
+  positionMSAStore: PropTypes.object
 };
 
 MSAViewerComponent.propTypes = {
@@ -201,8 +196,8 @@ MSAViewerComponent.propTypes = {
    *`lesk`, `mae`, `nucleotide`, `purine_pyrimidine`, `strand_propensity`, `taylor`,
    * `turn_propensity`, and `zappo`.
    *
-  * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
-  */
+   * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
+   */
   colorScheme: ColorSchemePropType,
 
   /**
@@ -221,6 +216,11 @@ MSAViewerComponent.propTypes = {
   onResidueClick: PropTypes.func,
 
   /**
+   * Callback fired when the mouse pointer clicked a highlight.
+   */
+  onHighlightClick: PropTypes.func,
+
+  /**
    * Callback fired when the mouse pointer clicked a residue.
    */
   onResidueDoubleClick: PropTypes.func,
@@ -229,8 +229,15 @@ MSAViewerComponent.propTypes = {
    * Predefined layout scheme to use (only used when no child elements are provided).
    * Available layouts: `basic`, `inverse`, `full`, `compact`, `funky`, `nightingale`
    */
-  layout: PropTypes.oneOf(['basic', 'default', 'inverse', 'full', 'compact',
-    'funky', 'nightingale']),
+  layout: PropTypes.oneOf([
+    "basic",
+    "default",
+    "inverse",
+    "full",
+    "compact",
+    "funky",
+    "nightingale"
+  ]),
 
   /**
    * Whether to draw a border.
@@ -328,7 +335,7 @@ MSAViewerComponent.propTypes = {
    *  - `information-content`: Information entropy after Shannon of a column (scaled)
    *  - `conservation`: Conservation of a column (scaled)
    */
-  barMethod: PropTypes.oneOf(['information-content', 'conservation']),
+  barMethod: PropTypes.oneOf(["information-content", "conservation"]),
 
   /**
    * Fill color of the OverviewBar, e.g. `#999999`
@@ -349,7 +356,7 @@ MSAViewerComponent.propTypes = {
    * A custom msaStore (created with `createMSAStore`).
    * Useful for custom interaction with other components
    */
-  msaStore: PropTypes.object,
+  msaStore: PropTypes.object
 };
 
 const MSAViewer = propsToRedux(MSAViewerComponent);
@@ -365,9 +372,11 @@ MSAViewer.defaultProps = msaDefaultProps;
  * However, we need to exclude the properties that `propsToRedux` passes to redux.
  * Luckily, react-docgen doesn't stops looking at the source tree once it found the first `<class>.propTypes` pattern.
  */
-MSAViewer.propTypes = {...MSAViewerComponent.propTypes};
+MSAViewer.propTypes = { ...MSAViewerComponent.propTypes };
 MSAViewerComponent.propTypes = omit(MSAViewerComponent.propTypes, [
-  ...Object.keys(MSAPropTypes), 'sequences', 'position',
+  ...Object.keys(MSAPropTypes),
+  "sequences",
+  "position"
 ]);
 
 export default MSAViewer;

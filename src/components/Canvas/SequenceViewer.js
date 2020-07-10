@@ -46,7 +46,7 @@ class SequenceViewerComponent extends DraggingComponent {
       this.redrawnTiles = 0;
     }
     this.drawTiles(positions);
-    this.drawHighligtedRegion();
+    this.drawHighligtedRegions();
     if (debug) {
       const elapsed = Date.now() - this.redrawStarted;
       if (elapsed > 5) {
@@ -144,20 +144,30 @@ class SequenceViewerComponent extends DraggingComponent {
       }
     }
   }
-  drawHighligtedRegion() {
-    const r = this.props.highlight;
 
-    if (!this.ctx || !r) return;
+  drawHighligtedRegions() {
+    if (!this.props.highlight) return;
+    this.props.highlight.forEach(highlight => {
+      this.drawHighligtedRegion(highlight);
+    });
+  }
+
+  drawHighligtedRegion(highlight) {
+    if (!this.ctx || !highlight) return;
     const regionWidth =
-      this.props.tileWidth * (1 + r.residues.to - r.residues.from);
+      this.props.tileWidth *
+      (1 + highlight.residues.to - highlight.residues.from);
     const regionHeight =
-      this.props.tileHeight * (1 + r.sequences.to - r.sequences.from);
+      this.props.tileHeight *
+      (1 + highlight.sequences.to - highlight.sequences.from);
     const yPosFrom =
-      (r.sequences.from - this.props.position.currentViewSequence) *
+      (highlight.sequences.from - this.props.position.currentViewSequence) *
         this.props.tileHeight +
       this.props.position.yPosOffset;
     const xPosFrom =
-      (r.residues.from - 1 - this.props.position.currentViewSequencePosition) *
+      (highlight.residues.from -
+        1 -
+        this.props.position.currentViewSequencePosition) *
         this.props.tileWidth +
       this.props.position.xPosOffset;
 
@@ -168,10 +178,10 @@ class SequenceViewerComponent extends DraggingComponent {
     const ctx = canvas.getContext("2d");
 
     ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = highlight.fillColor || "yellow";
     ctx.fillRect(0, 0, regionWidth, regionHeight);
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = highlight.borderColor || "red";
     ctx.lineWidth = "2";
     ctx.rect(0, 0, regionWidth, regionHeight);
 
@@ -274,6 +284,18 @@ class SequenceViewerComponent extends DraggingComponent {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
+      if (!this.props.highlight) return;
+      this.props.highlight.forEach(highlight => {
+        if (
+          highlight.id &&
+          eventData.position >= highlight.residues.from - 1 &&
+          eventData.position <= highlight.residues.to - 1 &&
+          eventData.i >= highlight.sequences.from &&
+          eventData.i <= highlight.sequences.to
+        ) {
+          this.sendEvent("onHighlightClick", highlight.id);
+        }
+      });
     }
     super.onClick(e);
   };
@@ -350,6 +372,11 @@ SequenceViewerComponent.propTypes = {
    * Callback fired when the mouse pointer clicked a residue.
    */
   onResidueClick: PropTypes.func,
+
+  /**
+   * Callback fired when the mouse pointer clicked a highlight.
+   */
+  onHighlightClick: PropTypes.func,
 
   /**
    * Callback fired when the mouse pointer clicked a residue.

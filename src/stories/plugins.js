@@ -1,19 +1,19 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, {Component} from 'react';
-import { storiesOf } from '@storybook/react';
+import React, { Component } from "react";
+import { storiesOf } from "@storybook/react";
 import {
   msaConnect,
   MSAViewer,
   withPositionStore,
-  SequenceViewer,
-} from '../lib';
+  SequenceViewer
+} from "../lib";
 
 const sequences = [
   {
@@ -27,49 +27,47 @@ const sequences = [
   {
     name: "seq.3",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  },
+  }
 ];
 
-storiesOf('Plugins', module)
-  .add('My first plugin', function(){
-
-    class MyFirstMSAPluginComponent extends Component {
-      // called on every position update (e.g. mouse movement or scrolling)
-      shouldRerender(newPosition) {
-        return true;
-      }
-      render() {
-        return (
-          <div>
-            x: {this.props.position.xPos},
-            y: {this.props.position.yPos}
-          </div>
-        );
-      }
+storiesOf("Plugins", module).add("My first plugin", function() {
+  class MyFirstMSAPluginComponent extends Component {
+    // called on every position update (e.g. mouse movement or scrolling)
+    shouldRerender(newPosition) {
+      return true;
     }
-
-    // inject position awareness (this is done to avoid react tree computations)
-    // "performance is the root of all evil"
-    const MyFirstMSAPluginConnected = withPositionStore(MyFirstMSAPluginComponent);
-
-    // select attributes from the main redux store
-    const mapStateToProps = state => {
-      return {
-        height: state.props.height,
-        sequences: state.sequences,
-      }
+    render() {
+      return (
+        <div>
+          x: {this.props.position.xPos}, y: {this.props.position.yPos}
+        </div>
+      );
     }
+  }
 
-    // subscribe to the main redux store
-    const MyFirstMSAPlugin = msaConnect(
-      mapStateToProps,
-    )(MyFirstMSAPluginConnected);
+  // inject position awareness (this is done to avoid react tree computations)
+  // "performance is the root of all evil"
+  const MyFirstMSAPluginConnected = withPositionStore(
+    MyFirstMSAPluginComponent
+  );
 
-    return (
-      <MSAViewer sequences={sequences} height={60}>
-        <SequenceViewer />
-        <MyFirstMSAPlugin />
-      </MSAViewer>
-    );
-  })
- ;
+  // select attributes from the main redux store
+  const mapStateToProps = state => {
+    return {
+      height: state.props.height,
+      sequences: state.sequences
+    };
+  };
+
+  // subscribe to the main redux store
+  const MyFirstMSAPlugin = msaConnect(mapStateToProps)(
+    MyFirstMSAPluginConnected
+  );
+
+  return (
+    <MSAViewer sequences={sequences} height={60}>
+      <SequenceViewer />
+      <MyFirstMSAPlugin />
+    </MSAViewer>
+  );
+});
