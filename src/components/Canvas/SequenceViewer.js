@@ -46,7 +46,7 @@ class SequenceViewerComponent extends DraggingComponent {
       this.redrawnTiles = 0;
     }
     this.drawTiles(positions);
-    this.drawHighligtedRegions();
+    this.drawHighlightedRegions();
     if (debug) {
       const elapsed = Date.now() - this.redrawStarted;
       if (elapsed > 5) {
@@ -145,7 +145,7 @@ class SequenceViewerComponent extends DraggingComponent {
     }
   }
 
-  drawHighligtedRegions() {
+  drawHighlightedRegions() {
     console.log(this.props.highlight);
     if (this.props.highlight) {
       this.props.highlight.forEach((highlight) => {
