@@ -122,18 +122,18 @@ describe("sends movement actions on mousemove events", () => {
     });
     // should send updates here, but we need to wait for requestAnimationFrame
     jest.runAllTimers();
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     sv.onMouseUp({});
     // shouldn't send updates here
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     // no redraws on mouse{Enter,Leave}
     sv.onMouseEnter({});
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     sv.onMouseEnter({});
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
   });
 });
 
@@ -185,7 +185,7 @@ it("renders differently after changed properties", () => {
 
   let wrapper = mountWithContext(component);
   expect(wrapper).toMatchSnapshot();
-  let n = 1;
+  let n = 0;
   expect(spy.mock.calls.length).toBe(++n);
 
   wrapper.setProps({
