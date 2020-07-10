@@ -14,23 +14,23 @@ import { actions, MSAViewer, SequenceViewer } from "../lib";
 const sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
   },
   {
     name: "seq.2",
-    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
   },
   {
     name: "seq.3",
-    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  }
+    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+  },
 ];
 
 // storybook-action-logger doesn't support auto event expansion,
 // but most consoles do
-const storyAction = name => {
+const storyAction = (name) => {
   const actionCallback = action(name);
-  return e => {
+  return (e) => {
     console.log(name, e);
     actionCallback(e);
   };
@@ -39,11 +39,11 @@ const storyAction = name => {
 function Tooltip(props) {
   const { direction, style, children, ...otherProps } = props;
   const containerStyle = {
-    display: "inline-block"
+    display: "inline-block",
   };
   const tooltipStyle = {
     position: "relative",
-    width: "160px"
+    width: "160px",
   };
   const textStyle = {
     color: "#fff",
@@ -52,7 +52,7 @@ function Tooltip(props) {
     textAlign: "center",
     backgroundColor: "#000",
     borderRadius: "3px",
-    padding: "7px"
+    padding: "7px",
   };
   const triangleStyle = {
     position: "absolute",
@@ -60,7 +60,7 @@ function Tooltip(props) {
     fontSize: 0,
     lineHeight: 0,
     visibility: "visible",
-    opacity: 1
+    opacity: 1,
   };
 
   switch (direction) {
@@ -116,7 +116,7 @@ function Tooltip(props) {
 }
 Tooltip.defaultProps = {
   style: {},
-  direction: "down"
+  direction: "down",
 };
 
 storiesOf("Events", module)
@@ -134,7 +134,7 @@ storiesOf("Events", module)
   .add("onResidueClick", () => {
     class ExtraInformation extends Component {
       state = {};
-      onResidueClick = e => {
+      onResidueClick = (e) => {
         this.setState({ lastEvent: e });
       };
       render() {
@@ -159,7 +159,7 @@ storiesOf("Events", module)
   .add("onHighlightClick", () => {
     class ExtraInformation extends Component {
       state = {};
-      onHighlightClick = e => {
+      onHighlightClick = (e) => {
         this.setState({ lastEvent: e });
       };
       render() {
@@ -173,13 +173,13 @@ storiesOf("Events", module)
                   {
                     residues: { from: 1, to: 20 },
                     sequences: { from: 0, to: 0 },
-                    id: "id-1"
+                    id: "id-1",
                   },
                   {
                     residues: { from: 3, to: 10 },
                     sequences: { from: 2, to: 2 },
-                    id: "id-2"
-                  }
+                    id: "id-2",
+                  },
                 ]}
               />
             </MSAViewer>
@@ -194,17 +194,17 @@ storiesOf("Events", module)
   })
   .add("dispatch", () => {
     class MSADispatch extends Component {
-      onSpecificClick = e => {
+      onSpecificClick = (e) => {
         this.el.updatePosition({ xPos: 100, yPos: 100 });
       };
-      onGenericClick = e => {
+      onGenericClick = (e) => {
         const action = actions.movePosition({ xMovement: 50 });
         this.el.dispatch(action);
       };
       render() {
         return (
           <div>
-            <MSAViewer ref={ref => (this.el = ref)} sequences={sequences} />
+            <MSAViewer ref={(ref) => (this.el = ref)} sequences={sequences} />
             <button onClick={this.onSpecificClick}>Specific method</button>
             <button onClick={this.onGenericClick}>Generic dispatch</button>
           </div>
@@ -216,20 +216,20 @@ storiesOf("Events", module)
   .add("Required for Nightingale", () => {
     class MSADispatch extends Component {
       state = { tileWidth: 40, width: 700 };
-      goToSpecificResidue = aaPos => {
+      goToSpecificResidue = (aaPos) => {
         this.el.updatePositionByResidue({ aaPos });
       };
-      modifyTileWidth = increment => () => {
+      modifyTileWidth = (increment) => () => {
         // this.el.updateProp({key: 'tileWidth', value: this.state.tileWidth + increment})
         this.setState({ tileWidth: this.state.tileWidth + increment });
       };
-      modifyWidth = increment => () => {
+      modifyWidth = (increment) => () => {
         this.setState({ width: this.state.width + increment });
       };
       goToRegion = () => {
         const region = {
           start: 10,
-          end: 20
+          end: 20,
         };
         this.setState(
           { tileWidth: this.state.width / (region.end + 1 - region.start) },
@@ -241,13 +241,13 @@ storiesOf("Events", module)
           {
             sequences: {
               from: 1,
-              to: 2
+              to: 2,
             },
             residues: {
               from: 2,
-              to: 13
-            }
-          }
+              to: 13,
+            },
+          },
         ]);
       };
       removeHighlightRegion = () => {
@@ -260,7 +260,7 @@ storiesOf("Events", module)
         return (
           <div>
             <MSAViewer
-              ref={ref => (this.el = ref)}
+              ref={(ref) => (this.el = ref)}
               sequences={sequences}
               tileWidth={this.state.tileWidth}
               width={this.state.width}
@@ -301,28 +301,28 @@ storiesOf("Events", module)
   .add("Tooltips (WIP)", () => {
     class SimpleTooltip extends Component {
       state = {};
-      onResidueMouseEnter = e => {
+      onResidueMouseEnter = (e) => {
         let direction, tooltipPosition;
         if (e.position < 10) {
           direction = "left";
           tooltipPosition = {
             top: (e.i - 0.3) * 20 + "px",
-            left: (e.position + 1) * 20 + "px"
+            left: (e.position + 1) * 20 + "px",
           };
         } else {
           direction = "right";
           tooltipPosition = {
             top: (e.i - 0.3) * 20 + "px",
-            left: e.position * 20 - 165 + "px"
+            left: e.position * 20 - 165 + "px",
           };
         }
         this.setState({
           lastEvent: e,
           tooltipPosition,
-          direction
+          direction,
         });
       };
-      onResidueMouseLeave = e => {
+      onResidueMouseLeave = (e) => {
         this.setState({ lastEvent: undefined });
       };
       render() {
@@ -339,7 +339,7 @@ storiesOf("Events", module)
                     style={{
                       position: "absolute",
                       opacity: 0.8,
-                      ...this.state.tooltipPosition
+                      ...this.state.tooltipPosition,
                     }}
                   >
                     <Tooltip direction={this.state.direction}>

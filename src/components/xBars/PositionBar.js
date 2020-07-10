@@ -1,53 +1,53 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import {
-  partialRight,
-  pick,
-} from 'lodash-es';
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { partialRight, pick } from "lodash-es";
 
-import msaConnect from '../../store/connect'
-import shallowSelect from '../../utils/shallowSelect';
-import autobind from '../../utils/autobind';
+import msaConnect from "../../store/connect";
+import shallowSelect from "../../utils/shallowSelect";
+import autobind from "../../utils/autobind";
 
-import XBar from './xBar';
+import XBar from "./xBar";
 
-function createMarker({markerSteps, startIndex, tileWidth,
-  font, markerComponent, markerStyle, markerAttributes}) {
+function createMarker({
+  markerSteps,
+  startIndex,
+  tileWidth,
+  font,
+  markerComponent,
+  markerStyle,
+  markerAttributes,
+}) {
   /**
    * Displays an individual sequence name.
    */
   class Marker extends PureComponent {
     render() {
-      const {index, ...otherProps} = this.props;
+      const { index, ...otherProps } = this.props;
       if (markerComponent) {
         const MarkerComponent = markerComponent;
-        return <MarkerComponent index={index} />
+        return <MarkerComponent index={index} />;
       } else {
         otherProps.style = {
           width: tileWidth,
           display: "inline-block",
           textAlign: "center",
-          ...markerStyle
-        }
+          ...markerStyle,
+        };
         let name;
         if (index % markerSteps === 0) {
-          name = index+ 0 + startIndex;
+          name = index + 0 + startIndex;
         } else {
-          name = '.';
+          name = ".";
         }
-        const attributes = {...otherProps, ...markerAttributes};
-        return (
-          <div {...attributes} >
-            {name}
-          </div>
-        );
+        const attributes = { ...otherProps, ...markerAttributes };
+        return <div {...attributes}>{name}</div>;
       }
     }
   }
@@ -55,19 +55,22 @@ function createMarker({markerSteps, startIndex, tileWidth,
 }
 
 /**
-* Displays the sequence names with an arbitrary Marker component
-*/
+ * Displays the sequence names with an arbitrary Marker component
+ */
 class HTMLPositionBarComponent extends PureComponent {
-
   static markerAttributes = [
-    "markerSteps", "startIndex", "tileWidth",
-    "markerComponent", "markerStyle", "markerAttributes",
+    "markerSteps",
+    "startIndex",
+    "tileWidth",
+    "markerComponent",
+    "markerStyle",
+    "markerAttributes",
   ];
 
   constructor(props) {
     super(props);
-    this.cache = function(){};
-    autobind(this, 'createMarker');
+    this.cache = function () {};
+    autobind(this, "createMarker");
     this.marker = shallowSelect(
       partialRight(pick, this.constructor.markerAttributes),
       this.createMarker
@@ -75,18 +78,20 @@ class HTMLPositionBarComponent extends PureComponent {
   }
 
   createMarker(props) {
-    this.cache = function(){};
+    this.cache = function () {};
     return createMarker(props);
   }
 
   render() {
-    const {cacheElements,
+    const {
+      cacheElements,
       markerSteps,
       startIndex,
       dispatch,
       markerComponent,
       markerStyle,
-      ...otherProps} = this.props;
+      ...otherProps
+    } = this.props;
     return (
       <XBar
         tileComponent={this.marker(this.props)}
@@ -150,22 +155,18 @@ HTMLPositionBarComponent.propTypes = {
    * Attributes to apply to each marker.
    */
   markerAttributes: PropTypes.object,
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     sequences: state.sequences.raw,
     maxLength: state.sequences.maxLength,
     width: state.props.width,
     tileWidth: state.props.tileWidth,
     nrXTiles: state.sequenceStats.nrXTiles,
-  }
-}
+  };
+};
 
-export default msaConnect(
-  mapStateToProps,
-)(HTMLPositionBarComponent);
+export default msaConnect(mapStateToProps)(HTMLPositionBarComponent);
 
-export {
-  HTMLPositionBarComponent as PositionBar,
-}
+export { HTMLPositionBarComponent as PositionBar };

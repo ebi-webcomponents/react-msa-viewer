@@ -12,25 +12,25 @@ import {
   msaConnect,
   MSAViewer,
   withPositionStore,
-  SequenceViewer
+  SequenceViewer,
 } from "../lib";
 
 const sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
   },
   {
     name: "seq.2",
-    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
   },
   {
     name: "seq.3",
-    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  }
+    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+  },
 ];
 
-storiesOf("Plugins", module).add("My first plugin", function() {
+storiesOf("Plugins", module).add("My first plugin", function () {
   class MyFirstMSAPluginComponent extends Component {
     // called on every position update (e.g. mouse movement or scrolling)
     shouldRerender(newPosition) {
@@ -52,10 +52,10 @@ storiesOf("Plugins", module).add("My first plugin", function() {
   );
 
   // select attributes from the main redux store
-  const mapStateToProps = state => {
+  const mapStateToProps = (state) => {
     return {
       height: state.props.height,
-      sequences: state.sequences
+      sequences: state.sequences,
     };
   };
 

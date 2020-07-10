@@ -85,7 +85,7 @@ function withPositionConsumer(
         "currentViewSequence",
         "currentViewSequencePosition",
         "xPosOffset",
-        "yPosOffset"
+        "yPosOffset",
       ]);
       if (state.position) {
         newPosition.xPos = state.position.xPos;
@@ -100,7 +100,7 @@ function withPositionConsumer(
         // it doesn't matter what state we set here, this is just to force
         // React to rerender
         this.setState({
-          position: this.position
+          position: this.position,
         });
       } else {
         // copy over new position
@@ -119,7 +119,7 @@ function withPositionConsumer(
      * - determine if the current viewpoint still has enough nodes
      * - checks the respective viewports when `withX` or `withY` have been set
      */
-    shouldRerender = newPosition => {
+    shouldRerender = (newPosition) => {
       const it = this.el.current;
       if (it.shouldRerender !== undefined) {
         return it.shouldRerender(newPosition);
@@ -199,7 +199,7 @@ function withPositionConsumer(
       }
     };
 
-    dispatch = payload => {
+    dispatch = (payload) => {
       this.context.positionMSAStore.dispatch(payload);
     };
 
@@ -213,14 +213,15 @@ function withPositionConsumer(
         position: this.position,
         positionDispatch: this.dispatch,
         highlight: this.state.highlight,
-        ...this.props
+        ...this.props,
       });
     }
   }
-  MSAPositionConsumer.displayName = `withPosition(${Component.displayName ||
-    Component.name})`;
+  MSAPositionConsumer.displayName = `withPosition(${
+    Component.displayName || Component.name
+  })`;
   MSAPositionConsumer.contextTypes = {
-    positionMSAStore: PropTypes.object
+    positionMSAStore: PropTypes.object,
   };
 
   return MSAPositionConsumer;

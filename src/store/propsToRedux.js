@@ -1,58 +1,83 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 /**
  * This wrapper listens to prop changes and forwards these to their
  * appropriate redux store actions.
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import {
-  forOwn,
-  isEqual,
-  pick,
-  reduce,
-  omit,
-} from 'lodash-es';
+import { forOwn, isEqual, pick, reduce, omit } from "lodash-es";
 
-import createMSAStore from './createMSAStore';
-import { MSAPropTypes } from '../PropTypes';
-import mainStoreActions from './actions';
-import { actions as positionStoreActions } from './positionReducers';
-import requestAnimation from '../utils/requestAnimation';
+import createMSAStore from "./createMSAStore";
+import { MSAPropTypes } from "../PropTypes";
+import mainStoreActions from "./actions";
+import { actions as positionStoreActions } from "./positionReducers";
+import requestAnimation from "../utils/requestAnimation";
+
+import ConservationWorker from "../workers/conservation.worker.js";
+let worker = null;
+const setUpWorker = (store, sequences, element) => {
+  // sending seqs to worker
+  worker = new ConservationWorker();
+  worker.postMessage(sequences);
+  worker.onmessage = (e) => {
+    store.dispatch(mainStoreActions.updateConservation(e.data));
+    if (
+      element &&
+      element.current &&
+      element.current.el &&
+      element.current.el.current
+    ) {
+      element.current.el.current.dispatchEvent(
+        new CustomEvent("conservationProgress", {
+          bubbles: true,
+          detail: e.data,
+        })
+      );
+    }
+    if (e.data.progress === 1) {
+      console.log("completed conservation analisys");
+      store.dispatch(mainStoreActions.updateSequences(sequences));
+    }
+  };
+};
 
 /// Maps property changes to redux actions
 const reduxActions = {
-  "sequences": "updateSequences",
-}
+  sequences: "updateSequences",
+};
 
-  
-Object.keys(MSAPropTypes).forEach(key => {
-  if(!(key in reduxActions) && MSAPropTypes[key]) {
-    reduxActions[key] = 'updateProp';
+Object.keys(MSAPropTypes).forEach((key) => {
+  if (!(key in reduxActions) && MSAPropTypes[key]) {
+    reduxActions[key] = "updateProp";
   }
 });
 
 const attributesToStore = Object.keys(reduxActions);
 
 // precompute [action.key]: action for performance
-const mapToActionKeys = (obj) => reduce(obj, (acc, v, k) => {
-  acc[v.key] = v;
-  return acc;
-}, {});
+const mapToActionKeys = (obj) =>
+  reduce(
+    obj,
+    (acc, v, k) => {
+      acc[v.key] = v;
+      return acc;
+    },
+    {}
+  );
 const mainStoreActionKeys = mapToActionKeys(mainStoreActions);
 const positionStoreActionKeys = mapToActionKeys(positionStoreActions);
 
 export const PropsToRedux = (WrappedComponent) => {
   class PropsToReduxComponent extends Component {
-
     constructor(props) {
       super(props);
       const storeProps = pick(props, attributesToStore) || {};
@@ -60,6 +85,9 @@ export const PropsToRedux = (WrappedComponent) => {
       this.msaStore = props.msaStore;
       if (storeProps.sequences !== undefined) {
         this.msaStore = createMSAStore(storeProps);
+        if (storeProps.calculateConservation && this.msaStore) {
+          setUpWorker(this.msaStore, storeProps.sequences, this.el);
+        }
       } else {
         console.warn("Check your MSA properties", storeProps);
       }
@@ -81,9 +109,19 @@ export const PropsToRedux = (WrappedComponent) => {
             this.updatePosition(newProps[prop]);
           } else if (prop in reduxActions) {
             let action;
-            switch(reduxActions[prop]){
-              case 'updateProp':
-                action = mainStoreActions[reduxActions[prop]](prop, newProps[prop]);
+            if (prop === "calculateConservation") {
+              if (newProps[prop]) {
+                setUpWorker(this.msaStore, this.props.sequences, this.el);
+              } else {
+                worker.terminate();
+              }
+            }
+            switch (reduxActions[prop]) {
+              case "updateProp":
+                action = mainStoreActions[reduxActions[prop]](
+                  prop,
+                  newProps[prop]
+                );
                 break;
               default:
                 action = mainStoreActions[reduxActions[prop]](newProps[prop]);
@@ -111,33 +149,48 @@ export const PropsToRedux = (WrappedComponent) => {
         throw new Error("Invalid action", action);
       }
     }
+    getColorMap() {
+      const { colorScheme } = this.props;
+      let map = {};
+      try {
+        map = this.msaStore.getState().props.colorScheme.scheme.map;
+      } catch {}
+      return {
+        name: colorScheme,
+        map,
+      };
+    }
 
     render() {
-      const {msaStore, ...props} = omit(this.props, attributesToStore);
+      const { msaStore, ...props } = omit(this.props, attributesToStore);
       if (this.msaStore === undefined) {
-        return (<div> Error initializing the MSAViewer. </div>)
+        return <div> Error initializing the MSAViewer. </div>;
       } else {
         return (
-          <WrappedComponent ref={this.el} msaStore={msaStore || this.msaStore} {...props} />
+          <WrappedComponent
+            ref={this.el}
+            msaStore={msaStore || this.msaStore}
+            {...props}
+          />
         );
       }
     }
   }
   // add action from the main store directly to the main MSA instance
   forOwn(mainStoreActions, (v, k) => {
-    PropsToReduxComponent.prototype[k] = function(payload){
+    PropsToReduxComponent.prototype[k] = function (payload) {
       this.msaStore.dispatch(v(payload));
     };
   });
   // add action from the position store directly to the main MSA instance
   forOwn(positionStoreActions, (v, k) => {
-    PropsToReduxComponent.prototype[k] = function(payload){
+    PropsToReduxComponent.prototype[k] = function (payload) {
       requestAnimation(this, () => {
         this.el.current.positionStore.dispatch(v(payload));
       });
-    }
+    };
   });
   return PropsToReduxComponent;
-}
+};
 
 export default PropsToRedux;

@@ -1,11 +1,10 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 /**
  * Perform updates in a browser-requested animation frame.
@@ -19,10 +18,12 @@
  */
 function requestAnimation(instance, callback) {
   if (instance.nextFrame === undefined) {
-    instance.nextFrame = window.requestAnimationFrame(function(){
-      callback();
-      this.nextFrame = undefined;
-    }.bind(instance));
+    instance.nextFrame = window.requestAnimationFrame(
+      function () {
+        callback();
+        this.nextFrame = undefined;
+      }.bind(instance)
+    );
   }
 }
 

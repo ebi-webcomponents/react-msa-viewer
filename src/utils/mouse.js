@@ -1,5 +1,5 @@
 class Mouse {
-  static rel = function(e) {
+  static rel = function (e) {
     if (e.changedTouches !== undefined)
       //return Mouse.rel(e.changedTouches[e.targetTouches.length - 1]);
       return Mouse.rel(e.changedTouches[0]);
@@ -21,9 +21,9 @@ class Mouse {
       }
     }
     return [mouseX, mouseY];
-  }
+  };
 
-  static abs = function(e) {
+  static abs = function (e) {
     if (e.changedTouches !== undefined)
       //return Mouse.abs(e.changedTouches[e.targetTouches.length - 1]);
       return Mouse.abs(e.changedTouches[0]);
@@ -43,9 +43,9 @@ class Mouse {
       mouseY = e.y;
     }
     return [mouseX, mouseY];
-  }
+  };
 
-  static wheelDelta = function(e) {
+  static wheelDelta = function (e) {
     let delta = [e.deltaX, e.deltaY];
     if (delta[0] === undefined) {
       // in case there is a more detailed scroll sensor - use it
@@ -61,7 +61,7 @@ class Mouse {
       delta[1] = 0;
     }
     return delta;
-  }
-};
+  };
+}
 
 export default Mouse;

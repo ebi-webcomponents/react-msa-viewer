@@ -7,10 +7,10 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 function stringOfLength(string, length) {
-  let newString = '';
+  let newString = "";
   for (let i = 0; i < length; i++) {
     newString += string;
   }
@@ -18,29 +18,29 @@ function stringOfLength(string, length) {
 }
 
 function generateTitle(name, level) {
-  const title = '`' + name + '` (component)';
-  return stringOfLength('#', level) + ' ' + title + '\n'
+  const title = "`" + name + "` (component)";
+  return stringOfLength("#", level) + " " + title + "\n";
 }
 
 function generateDesciption(description) {
-  return description + '\n';
+  return description + "\n";
 }
 
 function generatePropType(type) {
   let values;
   if (Array.isArray(type.value)) {
     values =
-      '(' +
+      "(" +
       type.value
-        .map(function(typeValue) {
+        .map(function (typeValue) {
           return typeValue.name || typeValue.value;
         })
-        .join('|') +
-      ')';
+        .join("|") +
+      ")";
   } else {
-    if (type.value && type.value.name === 'custom') {
+    if (type.value && type.value.name === "custom") {
       values = type.value.raw;
-      if (type.name === 'arrayOf') {
+      if (type.name === "arrayOf") {
         values = `[${values}]`;
       }
     } else {
@@ -48,54 +48,56 @@ function generatePropType(type) {
     }
   }
 
-  return 'type: `' + type.name + (values ? values : '') + '`\n';
+  return "type: `" + type.name + (values ? values : "") + "`\n";
 }
 
 function generatePropDefaultValue(value) {
-  return 'defaultValue: `' + value.value + '`\n';
+  return "defaultValue: `" + value.value + "`\n";
 }
 
 function generateProp(propName, prop, level) {
   return (
-    stringOfLength('#', level) + ' `' +
+    stringOfLength("#", level) +
+    " `" +
     propName +
-    '`' +
-    (prop.required ? ' (required)' : '') +
-    '\n' +
-    '\n' +
-    (prop.description ? prop.description + '\n\n' : '') +
-    (prop.type ? generatePropType(prop.type) : '') +
-    (prop.defaultValue ? generatePropDefaultValue(prop.defaultValue) : '') +
-    '\n'
+    "`" +
+    (prop.required ? " (required)" : "") +
+    "\n" +
+    "\n" +
+    (prop.description ? prop.description + "\n\n" : "") +
+    (prop.type ? generatePropType(prop.type) : "") +
+    (prop.defaultValue ? generatePropDefaultValue(prop.defaultValue) : "") +
+    "\n"
   );
 }
 
 function generateProps(props, level) {
-  const title = 'Props';
+  const title = "Props";
   if (!props) {
-    return 'TBD\n';
+    return "TBD\n";
   }
 
   return (
-    stringOfLength('#', level) + ' ' +
+    stringOfLength("#", level) +
+    " " +
     title +
-    '\n' +
-    '\n' +
+    "\n" +
+    "\n" +
     Object.keys(props)
       .sort()
-      .map(function(propName) {
+      .map(function (propName) {
         return generateProp(propName, props[propName], level + 1);
       })
-      .join('\n')
+      .join("\n")
   );
 }
 
 function generateMarkdown(name, reactAPI, level = 1) {
   const markdownString =
     generateTitle(name, level) +
-    '\n' +
+    "\n" +
     generateDesciption(reactAPI.description) +
-    '\n' +
+    "\n" +
     generateProps(reactAPI.props, level + 1);
 
   return markdownString;

@@ -1,16 +1,16 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
-import { MSAViewer } from '../lib';
-import { number, button, withKnobs } from '@storybook/addon-knobs';
-import { repeat, times } from 'lodash-es';
+import React, { Component } from "react";
+import { storiesOf } from "@storybook/react";
+import { MSAViewer } from "../lib";
+import { number, button, withKnobs } from "@storybook/addon-knobs";
+import { repeat, times } from "lodash-es";
 
 const rawSequences = [
   "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
@@ -23,14 +23,13 @@ const sequences = [];
 times(1000, (i) => {
   sequences.push({
     name: `sequence ${i}`,
-    sequence:
-      repeat(rawSequences[i % 3], 5),
+    sequence: repeat(rawSequences[i % 3], 5),
   });
 });
 
-storiesOf('Navigation', module)
+storiesOf("Navigation", module)
   .addDecorator(withKnobs)
-  .add('Move viewpoint', function(){
+  .add("Move viewpoint", function () {
     const options = {
       sequences,
       sequenceOverflow: "hidden",
@@ -49,35 +48,35 @@ storiesOf('Navigation', module)
         position: {
           xPos: 100,
           yPos: 100,
-        }
-      }
-      moveLeft = () => this.move({x: -mov});
-      moveRight = () => this.move({x: mov});
-      moveTop = () => this.move({y: -mov});
-      moveBottom = () => this.move({y: mov});
+        },
+      };
+      moveLeft = () => this.move({ x: -mov });
+      moveRight = () => this.move({ x: mov });
+      moveTop = () => this.move({ y: -mov });
+      moveBottom = () => this.move({ y: mov });
 
-      move = ({x = 0, y = 0}) => {
-        const {xPos, yPos} = this.state.position;
+      move = ({ x = 0, y = 0 }) => {
+        const { xPos, yPos } = this.state.position;
         const position = {
           xPos: xPos + x,
           yPos: yPos + y,
-        }
-        this.setState({position});
-      }
+        };
+        this.setState({ position });
+      };
       startLoop = () => {
         if (this.frame) return;
         this.counter = 0;
         this.loop = () => {
           const xMov = this.counter % 40 < 20 ? 5 : -5;
           this.counter++;
-          this.move({x: xMov, y: xMov});
+          this.move({ x: xMov, y: xMov });
           this.frame = window.requestAnimationFrame(this.loop);
         };
         this.loop();
-      }
+      };
       endLoop = () => {
         window.cancelAnimationFrame(this.frame);
-      }
+      };
       render() {
         return (
           <div>
@@ -95,5 +94,4 @@ storiesOf('Navigation', module)
       }
     }
     return <MSA {...options} />;
-  })
- ;
+  });

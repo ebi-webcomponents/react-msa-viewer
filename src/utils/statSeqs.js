@@ -1,14 +1,6 @@
-import {
-  each,
-  extend,
-  map,
-  mapValues,
-  max,
-  reduce,
-  reject,
-} from 'lodash-es'
+import { each, extend, map, mapValues, max, reduce, reject } from "lodash-es";
 
-const stat = function(seqs, opts) {
+const stat = function (seqs, opts) {
   // if someone forgets new
   if (!this || this.constructor !== stat) {
     return new stat(seqs);
@@ -34,32 +26,37 @@ stat.prototype.addSeq = function addSeq(seq) {
 
 stat.prototype.removeSeq = function addSeq(seq) {
   // check for int or string
-  if (typeof seq === 'number') {
+  if (typeof seq === "number") {
     this.seqs.splice(seq, 1);
   } else {
     // identify matches (we could have multiple)
-    each(this.seqs, function(s, i) {
-      if (seq === s) {
-        this.seqs.splice(i, 1);
-      }
-    }.bind(this));
+    each(
+      this.seqs,
+      function (s, i) {
+        if (seq === s) {
+          this.seqs.splice(i, 1);
+        }
+      }.bind(this)
+    );
   }
   this._reset();
 };
 
 stat.prototype.addSeqs = function addSeqs(seqs) {
-  seqs.forEach(function(seq) {
-    this.addSeq(seq);
-  }.bind(this));
+  seqs.forEach(
+    function (seq) {
+      this.addSeq(seq);
+    }.bind(this)
+  );
 };
 
 stat.prototype.resetSeqs = function reset(seqs) {
   this.seqs = [];
 
   // support sequence models
-  if (! seqs instanceof Array || "at" in seqs) {
+  if (!seqs instanceof Array || "at" in seqs) {
     this.mseqs = seqs;
-    var mSeqsPluck = function() {
+    var mSeqsPluck = function () {
       var seqArr = this.mseqs.pluck("seq");
       this.resetSeqs(seqArr);
     };
@@ -107,8 +104,8 @@ stat.prototype.setProtein = function setDNA() {
 // -----------------------------------------------------------------------------
 
 // neat auto-wrappers
-calcValues.forEach(function(key) {
-  stat.prototype[key] = function() {
+calcValues.forEach(function (key) {
+  stat.prototype[key] = function () {
     if (this["_" + key] === undefined) {
       this["_" + key] = this[key + "Calc"]();
     }
@@ -137,7 +134,6 @@ stat.prototype.background = function background() {
   return this._background;
 };
 
-
 // -----------------------------------------------------------------------------
 // BEGIN: calc tools
 // -----------------------------------------------------------------------------
@@ -154,13 +150,13 @@ stat.prototype.frequencyCalc = function frequencyCalc(opts) {
   occs = new Array(this.maxLength());
   totalPerPos = new Array(this.seqs.length);
   var ignoredChars = this.ignoredChars;
-  if(opts !== undefined && opts.all){
+  if (opts !== undefined && opts.all) {
     ignoredChars = [];
   }
 
   // count the occurrences of the chars at a position
-  each(this.seqs, function(el) {
-    each(el, function(c, pos) {
+  each(this.seqs, function (el) {
+    each(el, function (c, pos) {
       if (ignoredChars.indexOf(c) >= 0) return;
       if (occs[pos] === undefined) {
         occs[pos] = {};
@@ -168,17 +164,17 @@ stat.prototype.frequencyCalc = function frequencyCalc(opts) {
       if (occs[pos][c] === undefined) {
         occs[pos][c] = 0;
       }
-      occs[pos][c] ++;
+      occs[pos][c]++;
       if (totalPerPos[pos] === undefined) {
         totalPerPos[pos] = 0;
       }
-      totalPerPos[pos] ++;
+      totalPerPos[pos]++;
     });
   });
 
   // normalize to 1
-  each(occs, function(el, pos) {
-    return each(el, function(val, c) {
+  each(occs, function (el, pos) {
+    return each(el, function (val, c) {
       return (occs[pos][c] = val / totalPerPos[pos]);
     });
   });
@@ -192,24 +188,23 @@ stat.prototype.backgroundCalc = function backgroundCalc() {
   var total = 0;
 
   // count the occurences of the chars of a position
-  each(this.seqs, function(el) {
-    each(el, function(c) {
+  each(this.seqs, function (el) {
+    each(el, function (c) {
       if (occ[c] === undefined) {
         occ[c] = 0;
       }
-      occ[c] ++;
+      occ[c]++;
       return total++;
     });
   });
 
   // normalize to 1
-  occ = mapValues(occ, function(val) {
+  occ = mapValues(occ, function (val) {
     return val / total;
   });
   this._background = occ;
   return occ;
 };
-
 
 // information content after Shannon
 // * gaps are excluded
@@ -220,14 +215,18 @@ stat.prototype.icCalc = function icCalc() {
   }
   var ignoredChars = this.ignoredChars;
   var useBackground = this._useBackground;
-  var ic = map(f, function(el) {
-    return reduce(el, function(memo, val, c) {
-      if (ignoredChars.indexOf(c) >= 0) return memo;
-      if (useBackground) {
-        val = val / b[c];
-      }
-      return memo - val * (Math.log(val) / Math.log(2));
-    }, 0);
+  var ic = map(f, function (el) {
+    return reduce(
+      el,
+      function (memo, val, c) {
+        if (ignoredChars.indexOf(c) >= 0) return memo;
+        if (useBackground) {
+          val = val / b[c];
+        }
+        return memo - val * (Math.log(val) / Math.log(2));
+      },
+      0
+    );
   });
   this._ic = ic;
   return ic;
@@ -244,9 +243,9 @@ stat.prototype.conservation = function conservation(alphabetSize) {
   alphabetSize = alphabetSize || this.alphabetSize;
   var icMax = Math.log(alphabetSize) / Math.log(2);
   var i = 0;
-  var conserv = map(ic, function(el) {
-    var ret = (icMax - el);
-    if(self.useGaps){
+  var conserv = map(ic, function (el) {
+    var ret = icMax - el;
+    if (self.useGaps) {
       ret = ret * (1 - gaps[i++]);
     }
     return ret;
@@ -268,12 +267,12 @@ stat.prototype.conservResidue = function conservation(input) {
   }
   var f = this.frequency();
   var keys;
-  var conserv = map(f, function(el, i) {
-    keys = reject(keys(el), function(c) {
+  var conserv = map(f, function (el, i) {
+    keys = reject(keys(el), function (c) {
       return ignoredChars.indexOf(c) >= 0;
     });
     var obj = {};
-    each(keys, function(key) {
+    each(keys, function (key) {
       obj[key] = el[key] * ic[i];
     });
     return obj;
@@ -287,13 +286,21 @@ stat.prototype.conservResidue2 = function conservation(alphabetSize) {
   var f = this.frequency();
   var ic = this.conservation(alphabetSize);
   var b = this.background();
-  var conserv = map(f, function(el, i) {
-    return map(el, function(val) {
-      var sum = reduce(f[i], function(memo, e) {
-        return memo + e / b[i];
-      }, 0);
-      return ((val / b[i]) / sum) * ic[i];
-    }, 0);
+  var conserv = map(f, function (el, i) {
+    return map(
+      el,
+      function (val) {
+        var sum = reduce(
+          f[i],
+          function (memo, e) {
+            return memo + e / b[i];
+          },
+          0
+        );
+        return (val / b[i] / sum) * ic[i];
+      },
+      0
+    );
   });
   return conserv;
 };
@@ -302,17 +309,17 @@ stat.prototype.conservResidue2 = function conservation(alphabetSize) {
 stat.prototype.scale = function conservation(ic, alphabetSize) {
   alphabetSize = alphabetSize || this.alphabetSize;
   var icMax = Math.log(alphabetSize) / Math.log(2);
-  var conserv = map(ic, function(el) {
+  var conserv = map(ic, function (el) {
     return el / icMax;
   });
   return conserv;
 };
 
-stat.prototype.maxLengthCalc = function() {
-  if(this.seqs.length === 0){
+stat.prototype.maxLengthCalc = function () {
+  if (this.seqs.length === 0) {
     return 0;
   }
-  return max(this.seqs, function(seq) {
+  return max(this.seqs, function (seq) {
     return seq.length;
   }).length;
 };
@@ -323,26 +330,30 @@ stat.prototype.consensusCalc = function consensusCal() {
   var occs = new Array(this.maxLength());
 
   // count the occurrences of the chars of a position
-  each(this.seqs, function(el) {
-    each(el, function(c, pos) {
+  each(this.seqs, function (el) {
+    each(el, function (c, pos) {
       if (occs[pos] === undefined) {
         occs[pos] = {};
       }
       if (occs[pos][c] === undefined) {
         occs[pos][c] = 0;
       }
-      occs[pos][c] ++;
+      occs[pos][c]++;
     });
   });
 
   // now pick the char with most occurrences
-  this._consensus = reduce(occs, function(memo, occ) {
-    var keys;
-    keys = Object.keys(occ);
-    return memo += max(keys, function(key) {
-      return occ[key];
-    });
-  }, "");
+  this._consensus = reduce(
+    occs,
+    function (memo, occ) {
+      var keys;
+      keys = Object.keys(occ);
+      return (memo += max(keys, function (key) {
+        return occ[key];
+      }));
+    },
+    ""
+  );
 
   return this._consensus;
 };
@@ -355,7 +366,7 @@ stat.prototype.consensusCalc = function consensusCal() {
 // @returns: array of length of the seqs with the identity to the consensus (double)
 stat.prototype.identityCalc = function identitiyCalc(compareSeq) {
   var consensus = compareSeq || this.consensus();
-  this._identity = this.seqs.map(function(seq) {
+  this._identity = this.seqs.map(function (seq) {
     var matches = 0;
     var total = 0;
     for (var i = 0; i < seq.length; i++) {
@@ -374,26 +385,26 @@ stat.prototype.identityCalc = function identitiyCalc(compareSeq) {
 // percentage of gaps per column
 stat.prototype.gapsCalc = function gapsCount() {
   var mLength = this.maxLength();
-  if(mLength <= 1 || typeof mLength === "undefined" ){
+  if (mLength <= 1 || typeof mLength === "undefined") {
     return [];
   }
   var occs = new Array(this.maxLength());
   // count the occurrences of the chars of a position
-  each(this.seqs, function(el) {
-    each(el, function(c, pos) {
+  each(this.seqs, function (el) {
+    each(el, function (c, pos) {
       if (occs[pos] === undefined) {
         occs[pos] = {
           g: 0,
-          t: 0
+          t: 0,
         };
       }
       c = c === "-" ? "g" : "t";
-      occs[pos][c] ++;
+      occs[pos][c]++;
     });
   });
 
   // now pick the char with most occurrences
-  this._gaps = map(occs, function(el) {
+  this._gaps = map(occs, function (el) {
     return el.g / (el.g + el.t);
   });
   return this._gaps;

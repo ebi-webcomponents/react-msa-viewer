@@ -15,16 +15,9 @@ import { merge } from "lodash-es";
 import { MSAPropTypes, msaDefaultProps } from "../PropTypes";
 
 import positionReducers from "../store/reducers";
-import {
-  updateProps,
-  updateSequences,
-  updateConservation
-} from "../store/actions";
+import { updateProps, updateSequences } from "../store/actions";
 
 import debug from "../debug";
-
-import ConservationWorker from "../workers/conservation.worker.js";
-const worker = new ConservationWorker();
 
 /**
 Initializes a new MSAViewer store-like structure.
@@ -32,7 +25,7 @@ For performance reasons, the frequently changing position information
 has its own redux store.
 The default properties from MSAViewer.defaultProps are used.
 */
-export const createMSAStore = props => {
+export const createMSAStore = (props) => {
   PropTypes.checkPropTypes(MSAPropTypes, props, "prop", "MSAViewer");
   const propsWithDefaultValues = merge({}, msaDefaultProps, props);
   const { sequences, position, ...otherProps } = propsWithDefaultValues;
@@ -45,16 +38,6 @@ export const createMSAStore = props => {
   );
   store.dispatch(updateProps(otherProps));
   store.dispatch(updateSequences(sequences));
-  // sending seqs to worker
-  worker.postMessage(sequences);
-  worker.onmessage = function(e) {
-    store.dispatch(updateConservation(e.data));
-    if (e.data.progress === 1) {
-      console.log("completed conservation analisys");
-      store.dispatch(updateSequences(sequences));
-    }
-  };
-
   return store;
 };
 

@@ -1,31 +1,33 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import {
-  partialRight,
-  pick,
-} from 'lodash-es';
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { partialRight, pick } from "lodash-es";
 
-import msaConnect from '../../store/connect'
-import shallowSelect from '../../utils/shallowSelect';
-import autobind from '../../utils/autobind';
+import msaConnect from "../../store/connect";
+import shallowSelect from "../../utils/shallowSelect";
+import autobind from "../../utils/autobind";
 
-import YBar from './yBar';
+import YBar from "./yBar";
 
-function createLabel({sequences, tileHeight, labelComponent,
-  labelStyle, labelAttributes}) {
+function createLabel({
+  sequences,
+  tileHeight,
+  labelComponent,
+  labelStyle,
+  labelAttributes,
+}) {
   /**
    * Displays an individual sequence name.
    */
   class Label extends PureComponent {
     render() {
-      const {index, ...otherProps} = this.props;
+      const { index, ...otherProps } = this.props;
       if (labelComponent) {
         const LabelComponent = labelComponent;
         return <LabelComponent sequence={sequences[index]} index={index} />;
@@ -33,14 +35,10 @@ function createLabel({sequences, tileHeight, labelComponent,
         otherProps.style = {
           ...this.props.style,
           height: tileHeight,
-          ...labelStyle
-        }
-        const attributes = {...otherProps, ...labelAttributes};
-        return (
-          <div {...attributes} >
-            {sequences[index].name}
-          </div>
-        );
+          ...labelStyle,
+        };
+        const attributes = { ...otherProps, ...labelAttributes };
+        return <div {...attributes}>{sequences[index].name}</div>;
       }
     }
   }
@@ -51,33 +49,37 @@ function createLabel({sequences, tileHeight, labelComponent,
  * Displays the sequence names.
  */
 class HTMLLabelsComponent extends PureComponent {
-
   static labelProps = [
-    "sequences", "tileHeight",
-    "labelComponent", "labelStyle", "labelAttributes"
+    "sequences",
+    "tileHeight",
+    "labelComponent",
+    "labelStyle",
+    "labelAttributes",
   ];
 
   constructor(props) {
     super(props);
-    autobind(this, 'createLabel');
-    this.label= shallowSelect(
+    autobind(this, "createLabel");
+    this.label = shallowSelect(
       partialRight(pick, this.constructor.labelProps),
       this.createLabel
     );
   }
 
   createLabel(props) {
-    this.cache = function(){};
+    this.cache = function () {};
     return createLabel(props);
   }
 
   render() {
-    const {cacheElements,
+    const {
+      cacheElements,
       dispatch,
       labelComponent,
       labelStyle,
       labelAttributes,
-      ...otherProps} = this.props;
+      ...otherProps
+    } = this.props;
     return (
       <YBar
         tileComponent={this.label(this.props)}
@@ -119,21 +121,17 @@ HTMLLabelsComponent.propTypes = {
    * Attributes to apply to each label.
    */
   labelAttributes: PropTypes.object,
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     height: state.props.height,
     tileHeight: state.props.tileHeight,
     sequences: state.sequences.raw,
     nrYTiles: state.sequenceStats.nrYTiles,
-  }
-}
+  };
+};
 
-export default msaConnect(
-  mapStateToProps,
-)(HTMLLabelsComponent);
+export default msaConnect(mapStateToProps)(HTMLLabelsComponent);
 // for testing
-export {
-  HTMLLabelsComponent as Labels,
-}
+export { HTMLLabelsComponent as Labels };

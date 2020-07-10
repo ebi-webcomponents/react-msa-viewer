@@ -1,15 +1,15 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
-import Canvas from '../../drawing/canvas';
+import Canvas from "../../drawing/canvas";
 
 /**
  * Constructs a drawable canvas (e.g. HTML Canvas or WebGL) and provides it as
@@ -18,10 +18,9 @@ import Canvas from '../../drawing/canvas';
  * On every redraw, this.draw() gets called.
  */
 class CanvasComponent extends PureComponent {
-
   static defaultProps = {
     engine: "canvas",
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -57,8 +56,7 @@ class CanvasComponent extends PureComponent {
           ref={this.canvas}
           width={this.props.width}
           height={this.props.height}
-        >
-        </canvas>
+        ></canvas>
       </div>
     );
   }
@@ -83,7 +81,7 @@ CanvasComponent.propTypes = {
   /**
    * Rendering engine: `canvas` or `webgl` (experimental).
    */
-  engine: PropTypes.oneOf(['canvas', 'webgl']),
-}
+  engine: PropTypes.oneOf(["canvas", "webgl"]),
+};
 
 export default CanvasComponent;

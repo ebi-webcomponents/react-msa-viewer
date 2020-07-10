@@ -21,5 +21,5 @@ export default {
   V: "#07f8f8",
   B: "#f30c0c",
   X: "#7c8383",
-  Z: "#5ba4a4"
+  Z: "#5ba4a4",
 };

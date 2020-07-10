@@ -27,18 +27,21 @@ function MSA() {
     sequences: [
       {
         name: "seq.1",
-        sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+        sequence:
+          "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
       },
       {
         name: "seq.2",
-        sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+        sequence:
+          "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
       },
       {
         name: "seq.3",
-        sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-      }
+        sequence:
+          "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+      },
     ],
-    colorScheme: "zappo"
+    colorScheme: "zappo",
   };
   return <MSAViewer {...options} />;
 }
@@ -72,7 +75,7 @@ import {
   OverviewBar,
   PositionBar,
   SequenceOverview,
-  SequenceViewer
+  SequenceViewer,
 } from "@plotly/react-msa-viewer";
 
 function MSA() {
@@ -80,17 +83,20 @@ function MSA() {
     sequences: [
       {
         name: "seq.1",
-        sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+        sequence:
+          "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
       },
       {
         name: "seq.2",
-        sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+        sequence:
+          "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
       },
       {
         name: "seq.3",
-        sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-      }
-    ]
+        sequence:
+          "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+      },
+    ],
   };
   return (
     <MSAViewer {...options}>
@@ -131,20 +137,20 @@ However, it can be used in Vanilla JS:
           {
             name: "seq.1",
             sequence:
-              "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+              "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
           },
           {
             name: "seq.2",
             sequence:
-              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
           },
           {
             name: "seq.3",
             sequence:
-              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-          }
+              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+          },
         ],
-        colorScheme: "zappo"
+        colorScheme: "zappo",
       };
       ReactDOM.render(
         React.createElement(ReactMSAViewer.MSAViewer, options),
@@ -395,12 +401,12 @@ Example:
 const sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
   },
   {
     name: "seq.2",
-    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  }
+    sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+  },
 ];
 ```
 
@@ -768,7 +774,7 @@ import React, { Component } from "react";
 import {
   msaConnect,
   MSAViewer,
-  SequenceViewer
+  SequenceViewer,
 } from "@plotly/react-msa-viewer";
 
 class MyFirstMSAPluginComponent extends React.Component {
@@ -777,17 +783,17 @@ class MyFirstMSAPluginComponent extends React.Component {
     const style = {
       width: this.props.tileWidth,
       height: this.props.tileHeight,
-      backgroundColor: this.props.colorScheme.getColor(residue)
+      backgroundColor: this.props.colorScheme.getColor(residue),
     };
     return <div style={style}>{residue}</div>;
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tileHeight: state.props.tileHeight,
     tileWidth: state.props.tileWidth,
-    colorScheme: state.props.colorScheme
+    colorScheme: state.props.colorScheme,
   };
 };
 
@@ -813,7 +819,7 @@ position events.
 import {
   withPositionStore,
   MSAViewer,
-  SequenceViewer
+  SequenceViewer,
 } from "@plotly/react-msa-viewer";
 
 class MyFirstMSAPlugin extends React.Component {
@@ -881,27 +887,27 @@ outside of React:
           {
             name: "seq.1",
             sequence:
-              "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+              "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
           },
           {
             name: "seq.2",
             sequence:
-              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
           },
           {
             name: "seq.3",
             sequence:
-              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-          }
+              "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+          },
         ],
-        colorScheme: "zappo"
+        colorScheme: "zappo",
       };
       var el = document.getElementById("my-msa");
       ReactDOM.render(
         React.createElement(ReactMSAViewer.MSAViewer, options),
         el
       );
-      el.addEventListener("residueClick", e => console.log(e.detail));
+      el.addEventListener("residueClick", (e) => console.log(e.detail));
     </script>
   </body>
 </html>
@@ -933,7 +939,7 @@ class MyMSA extends React.Component {
   render() {
     return (
       <div>
-        <MSAViewer sequences={sequences} ref={ref => (this.msa = ref)} />
+        <MSAViewer sequences={sequences} ref={(ref) => (this.msa = ref)} />
         <button onClick={this.moveLeft}>Move left</button>
         <button onClick={this.moveRight}>Move right</button>
         <button onClick={this.jumpOrigin}>Jump to the origin</button>
@@ -966,7 +972,7 @@ class MyMSA extends React.Component {
   render() {
     return (
       <div>
-        <MSAViewer sequences={sequences} ref={ref => (this.msa = ref)} />
+        <MSAViewer sequences={sequences} ref={(ref) => (this.msa = ref)} />
         <button onClick={this.moveLeft}>Move left</button>
         <button onClick={this.moveRight}>Move right</button>
         <button onClick={this.jumpOrigin}>Jump to the origin</button>

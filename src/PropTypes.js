@@ -1,14 +1,14 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {ColorScheme, isColorScheme} from './utils/ColorScheme';
+import { ColorScheme, isColorScheme } from "./utils/ColorScheme";
 
 /**
  * Definition of a single sequence object.
@@ -18,13 +18,24 @@ import {ColorScheme, isColorScheme} from './utils/ColorScheme';
 export const SequencePropType = PropTypes.shape({
   name: PropTypes.string,
   sequence: PropTypes.string,
-})
+});
 
 export const AllowedColorschemes = [
-  "buried_index", "clustal", "clustal2", "cinema",
-  "helix_propensity", "hydro",
-  "lesk", "mae", "nucleotide", "purine_pyrimidine",
-  "strand_propensity", "taylor", "turn_propensity", "zappo", "conservation"
+  "buried_index",
+  "clustal",
+  "clustal2",
+  "cinema",
+  "helix_propensity",
+  "hydro",
+  "lesk",
+  "mae",
+  "nucleotide",
+  "purine_pyrimidine",
+  "strand_propensity",
+  "taylor",
+  "turn_propensity",
+  "zappo",
+  "conservation",
 ];
 
 export const ColorSchemePropType = PropTypes.oneOfType([
@@ -35,17 +46,21 @@ export const ColorSchemePropType = PropTypes.oneOfType([
       // is a child of ColorScheme
     } else {
       return new Error(
-        'Invalid prop `' + propName + '` supplied to' +
-        ' `' + componentName + '`. Validation failed.'
+        "Invalid prop `" +
+          propName +
+          "` supplied to" +
+          " `" +
+          componentName +
+          "`. Validation failed."
       );
     }
-  }
+  },
 ]);
 
 export const PositionPropType = PropTypes.shape({
   xPos: PropTypes.number,
   yPos: PropTypes.number,
-})
+});
 
 /**
  * These are the "globally" exposes properties which get inserted into the
@@ -78,11 +93,16 @@ export const MSAPropTypes = {
    *`lesk`, `mae`, `nucleotide`, `purine_pyrimidine`, `strand_propensity`, `taylor`,
    * `turn_propensity`, and `zappo`.
    *
-  * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
-  */
+   * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
+   */
   colorScheme: ColorSchemePropType,
-};
 
+  /**
+   * The conservation analisys required to  uce the colorscheme 'conservation' runs on a web worker.
+   * By default it is disabled. but it can be enable by setting this prop to `true`
+   */
+  calculateConservation: PropTypes.bool,
+};
 
 // TODO: separate individual properties into their components
 export const msaDefaultProps = {
@@ -91,4 +111,5 @@ export const msaDefaultProps = {
   tileWidth: 20,
   tileHeight: 20,
   colorScheme: "clustal",
+  calculateConservation: false,
 };

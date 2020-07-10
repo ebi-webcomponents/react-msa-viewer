@@ -1,13 +1,12 @@
-Contributing Guidelines
-=======================
+# Contributing Guidelines
 
 First of all, **thank you** for contributing, **you are awesome**!
 
 Before starting, you should read, agree to, and follow these three things:
 
-* [How to contribute?](#how-to-contribute)
-* [Pull Request Guidelines](#pull-request-guidelines)
-* [Code of Conduct](CODE_OF_CONDUCT.md)
+- [How to contribute?](#how-to-contribute)
+- [Pull Request Guidelines](#pull-request-guidelines)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ---
 
@@ -19,8 +18,8 @@ Report bugs at: https://github.com/plotly/react-msa-viewer/issues/new.
 
 When reporting a bug, please include:
 
-* Any details about your local setup which might be helpful in troubleshooting
-* Detailed steps to reproduce the bug. Where possible, please write a test case
+- Any details about your local setup which might be helpful in troubleshooting
+- Detailed steps to reproduce the bug. Where possible, please write a test case
 
 If you are not able to do that, that's fine! Open an issue anyway and let us
 know as much information as you can. We will get back to you to determine the
@@ -33,10 +32,10 @@ issue](https://github.com/plotly/react-msa-viewer/issues/new) on GitHub.
 
 If you are proposing a feature:
 
-* Explain how you envision it working. Try to be as detailed as you can
-* Try to keep the scope as narrow as possible. This will help make it easier to
+- Explain how you envision it working. Try to be as detailed as you can
+- Try to keep the scope as narrow as possible. This will help make it easier to
   implement
-* Feel free to include any code you might already have, even if it is
+- Feel free to include any code you might already have, even if it is
   just a rough idea
 
 A plotly team member will take care of your issues.
@@ -52,9 +51,9 @@ input and Pull Requests.
 Here are a few rules to follow in order to make code reviews and discussions go
 more smoothly before maintainers accept and merge your work:
 
-* you MUST run the test suite
-* you MUST write (or update) unit tests
-* you SHOULD write documentation
+- you MUST run the test suite
+- you MUST write (or update) unit tests
+- you SHOULD write documentation
 
 Please, write [commit messages that make
 sense](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html),

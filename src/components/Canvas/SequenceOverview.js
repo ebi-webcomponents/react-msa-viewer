@@ -1,29 +1,24 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import PropTypes from 'prop-types';
-import {
-  clamp,
-  floor,
-} from 'lodash-es';
+import PropTypes from "prop-types";
+import { clamp, floor } from "lodash-es";
 
-import CanvasComponent from './CanvasComponent';
-import msaConnect from '../../store/connect'
+import CanvasComponent from "./CanvasComponent";
+import msaConnect from "../../store/connect";
 
-
-import withPositionStore from '../../store/withPositionStore';
+import withPositionStore from "../../store/withPositionStore";
 
 class SequenceOverviewComponent extends CanvasComponent {
-
   draw = () => {
     // TODO: only update this if required
     this.drawScene();
-  }
+  };
 
   updateScrollPosition() {
     this._draw();
@@ -31,17 +26,20 @@ class SequenceOverviewComponent extends CanvasComponent {
 
   drawScene() {
     this.scene = {};
-    ({xPos: this.scene.xViewPos, yPos: this.scene.yViewPos} = this.props.position);
-    this.scene.xScalingFactor = 1 / this.props.globalTileWidth * this.props.tileWidth;
-    this.scene.yScalingFactor = 1 / this.props.globalTileHeight * this.props.tileHeight;
+    ({
+      xPos: this.scene.xViewPos,
+      yPos: this.scene.yViewPos,
+    } = this.props.position);
+    this.scene.xScalingFactor =
+      (1 / this.props.globalTileWidth) * this.props.tileWidth;
+    this.scene.yScalingFactor =
+      (1 / this.props.globalTileHeight) * this.props.tileHeight;
     this.drawCurrentViewpoint();
     this.drawSequences();
   }
 
   drawSequences() {
-    const {
-      xViewPos, xScalingFactor,
-    } = this.scene;
+    const { xViewPos, xScalingFactor } = this.scene;
     const sequences = this.props.sequences.raw;
     const xInitPos = 0;
     //let yPos = -(yViewPos % tileHeight);
@@ -60,29 +58,29 @@ class SequenceOverviewComponent extends CanvasComponent {
         const el = sequence[j];
         this.ctx.fillStyle(this.props.colorScheme.getColor(el));
         this.ctx.globalAlpha(0.5);
-        this.ctx.fillRect(xPos, yPos, this.props.tileWidth, this.props.tileHeight);
+        this.ctx.fillRect(
+          xPos,
+          yPos,
+          this.props.tileWidth,
+          this.props.tileHeight
+        );
         xPos += this.props.tileWidth;
-        if (xPos > this.props.globalWidth)
-            break;
+        if (xPos > this.props.globalWidth) break;
       }
       yPos += this.props.tileHeight;
-      if (yPos > this.props.height)
-          break;
+      if (yPos > this.props.height) break;
     }
   }
 
   drawCurrentViewpoint() {
     // currently selected area
-    const {
-      xViewPos, xScalingFactor,
-      yViewPos, yScalingFactor,
-    } = this.scene;
+    const { xViewPos, xScalingFactor, yViewPos, yScalingFactor } = this.scene;
     this.ctx.globalAlpha(0.8);
     this.ctx.fillRect(
       xViewPos * xScalingFactor,
       yViewPos * yScalingFactor,
-      this.props.globalWidth  * xScalingFactor,
-      this.props.globalHeight * yScalingFactor,
+      this.props.globalWidth * xScalingFactor,
+      this.props.globalHeight * yScalingFactor
     );
   }
 
@@ -119,7 +117,7 @@ SequenceOverviewComponent.propTypes = {
 
 const SOC = withPositionStore(SequenceOverviewComponent);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     sequences: state.sequences,
     width: state.props.width,
@@ -128,9 +126,7 @@ const mapStateToProps = state => {
     globalTileWidth: state.props.tileWidth,
     globalTileHeight: state.props.tileHeight,
     colorScheme: state.props.colorScheme,
-  }
-}
+  };
+};
 
-export default msaConnect(
-  mapStateToProps,
-)(SOC);
+export default msaConnect(mapStateToProps)(SOC);
