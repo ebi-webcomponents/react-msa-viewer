@@ -24,7 +24,7 @@ export const calculateConservation = (sequences, isWorker = false) => {
   if (isWorker) self.postMessage({ progress: 1, conservation });
   return self.conservation;
 };
-onmessage = function (e) {
+const onmessage = function (e) {
   if (self.previous !== e.data) {
     calculateConservation(e.data, true);
   }
