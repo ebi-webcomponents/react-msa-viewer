@@ -62,12 +62,17 @@ storiesOf("Customization", module)
       calculateConservation: true,
       sequences
     };
+    let currentColor = null;
     class MSAConservation extends Component {
       componentDidMount() {
         this.parentDiv.addEventListener("conservationProgress", console.log);
-        this.parentDiv.addEventListener("drawCompleted", () =>
-          console.log(this.viewer.getColorMap())
-        );
+        this.parentDiv.addEventListener("drawCompleted", () =>{
+          const {name, map} = this.viewer.getColorMap();
+          if (name!==currentColor){
+            console.log(name, map)
+            currentColor = name;
+          }
+        });
       }
       render() {
         return (
