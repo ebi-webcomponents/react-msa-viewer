@@ -2,6 +2,7 @@
 
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={600}
   layout="full"

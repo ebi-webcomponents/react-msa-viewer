@@ -1116,6 +1116,7 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
 
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={600}
   sequences={
@@ -1803,6 +1804,7 @@ exports[`sends movement actions on mousemove events should change the cursor sta
 
 exports[`should fire an event on mouseclick 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={200}
   sequences={
