@@ -19,6 +19,7 @@ export const DynSchemeClass = function(fun,opt){
     fun.init.call(this);
     this.getColor = fun.run;
     this.reset = fun.init;
+    this.map =fun.map;
   }else{
     this.getColor = fun;
   }

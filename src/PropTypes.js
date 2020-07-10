@@ -81,6 +81,12 @@ export const MSAPropTypes = {
   * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
   */
   colorScheme: ColorSchemePropType,
+
+  /**
+   * The conservation analisys required to  uce the colorscheme 'conservation' runs on a web worker. 
+   * By default it is disabled. but it can be enable by setting this prop to `true` 
+   */
+  calculateConservation: PropTypes.bool,
 };
 
 
@@ -91,4 +97,5 @@ export const msaDefaultProps = {
   tileWidth: 20,
   tileHeight: 20,
   colorScheme: "clustal",
+  calculateConservation: false,
 };

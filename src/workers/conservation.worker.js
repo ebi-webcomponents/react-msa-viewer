@@ -1,6 +1,6 @@
 self.conservation = null;
 
-const calculateConservation = (sequences) => {
+export const calculateConservation = (sequences, isWorker=false) => {
   const length = (sequences && sequences.length && sequences[0].sequence.length) ||0;
 
 
@@ -13,18 +13,19 @@ const calculateConservation = (sequences) => {
       }
       self.conservation[i][seq.sequence[i]]++;
     }
-    self.postMessage({progress: (n++)/sequences.length, conservation});
+    if(isWorker) self.postMessage({progress: (n++)/sequences.length, conservation});
   }
   self.conservation.forEach(cons => {
     Object.keys(cons).forEach(ch=>{
       cons[ch] /= sequences.length;
     })
   });
-  self.postMessage({progress: 1, conservation});
+  if(isWorker) self.postMessage({progress: 1, conservation});
+  return self.conservation;
 }
 onmessage = function(e) {
   if (self.previous !== e.data){
-    calculateConservation(e.data);
+    calculateConservation(e.data, true);
   }
 
   self.previous = e.data;

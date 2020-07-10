@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from "react";
+import React, { Component }from "react";
 import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
 import { select, text, withKnobs } from "@storybook/addon-knobs";
@@ -59,9 +59,25 @@ storiesOf("Customization", module)
     ];
     const options = {
       colorScheme: select("Colorscheme", createObject(colorschemes), "zappo"),
+      calculateConservation: true,
       sequences
     };
-    return <MSAViewer {...options} />;
+    class MSAConservation extends Component {
+      componentDidMount() {
+        this.parentDiv.addEventListener("conservationProgress", console.log);
+        console.log(this.viewer.getColorMap());
+      }
+      render() {
+        return (
+          <div ref={ref => (this.parentDiv = ref)}>
+            <MSAViewer  {...options} ref={ref => (this.viewer = ref)}/>
+          </div>
+        );
+      }
+    }
+    return (
+      <MSAConservation />
+    );
   })
   .add("Custom ColorScheme", function() {
     // see https://github.com/wilzbach/msa-colorschemes for now

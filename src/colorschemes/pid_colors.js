@@ -20,4 +20,11 @@ pid.run = function(letter,pos, conservation){
   }
 }
 
+pid.map = {
+  "> 0.8":  "#6464ff",
+  "> 0.6":  "#9da5ff",
+  "> 0.4":  "#cccccc",
+  "> 0":  "#ffffff",
+}
+
 export default pid;

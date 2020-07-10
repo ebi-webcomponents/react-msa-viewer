@@ -28,6 +28,34 @@ import mainStoreActions from './actions';
 import { actions as positionStoreActions } from './positionReducers';
 import requestAnimation from '../utils/requestAnimation';
 
+import ConservationWorker from '../workers/conservation.worker.js';
+let worker = null;
+const setUpWorker = (store, sequences, element) => {
+  // sending seqs to worker
+  worker = new ConservationWorker();
+  worker.postMessage(sequences);
+  worker.onmessage = e => {
+    store.dispatch(mainStoreActions.updateConservation(e.data));
+    if (
+      element &&
+      element.current &&
+      element.current.el &&
+      element.current.el.current
+    ) {
+      element.current.el.current.dispatchEvent(
+        new CustomEvent("conservationProgress", {
+          bubbles: true,
+          detail: e.data
+        })
+      );
+    }
+    if (e.data.progress === 1) {
+      console.log("completed conservation analisys");
+      store.dispatch(mainStoreActions.updateSequences(sequences));
+    }
+  };
+}
+
 /// Maps property changes to redux actions
 const reduxActions = {
   "sequences": "updateSequences",
@@ -60,6 +88,10 @@ export const PropsToRedux = (WrappedComponent) => {
       this.msaStore = props.msaStore;
       if (storeProps.sequences !== undefined) {
         this.msaStore = createMSAStore(storeProps);
+        if (storeProps.calculateConservation && this.msaStore){
+          setUpWorker(this.msaStore, storeProps.sequences, this.el);
+        }
+      
       } else {
         console.warn("Check your MSA properties", storeProps);
       }
@@ -81,6 +113,13 @@ export const PropsToRedux = (WrappedComponent) => {
             this.updatePosition(newProps[prop]);
           } else if (prop in reduxActions) {
             let action;
+            if(prop==="calculateConservation"){
+              if (newProps[prop]){
+                setUpWorker(this.msaStore, this.props.sequences, this.el);
+              }else{
+                worker.terminate();
+              }
+            }
             switch(reduxActions[prop]){
               case 'updateProp':
                 action = mainStoreActions[reduxActions[prop]](prop, newProps[prop]);
@@ -111,7 +150,19 @@ export const PropsToRedux = (WrappedComponent) => {
         throw new Error("Invalid action", action);
       }
     }
-
+    getColorMap() {
+      const {colorScheme} = this.props;
+      let map = {};
+      try {
+        map = this.msaStore.getState().props.colorScheme.scheme.map;
+      } catch{}
+      return {
+        name: colorScheme,
+        map,
+      };
+    }
+  
+  
     render() {
       const {msaStore, ...props} = omit(this.props, attributesToStore);
       if (this.msaStore === undefined) {

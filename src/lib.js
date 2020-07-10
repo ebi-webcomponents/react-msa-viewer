@@ -12,6 +12,7 @@ import createMSAStore from './store/createMSAStore';
 import { Provider as MSAProvider } from 'react-redux'
 import withPositionStore from './store/withPositionStore';
 import { actions as positionStoreActions } from './store/positionReducers';
+import { calculateConservation } from './workers/conservation.worker'
 
 import MSAViewer from './components/MSAViewer';
 
@@ -37,6 +38,7 @@ export {
   shallowSelect,
   shallowEqual,
   withPositionStore,
+  calculateConservation,
   VERSION as version,
 };
 

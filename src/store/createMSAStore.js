@@ -20,13 +20,10 @@ import positionReducers from '../store/reducers';
 import {
   updateProps,
   updateSequences,
-  updateConservation,
 } from '../store/actions';
 
 import debug from '../debug';
 
-import ConservationWorker from '../workers/conservation.worker.js';
-const worker = new ConservationWorker();
 
 
 /**
@@ -45,16 +42,6 @@ export const createMSAStore = (props) => {
   );
   store.dispatch(updateProps(otherProps));
   store.dispatch(updateSequences(sequences));
-  // sending seqs to worker
-  worker.postMessage(sequences);
-  worker.onmessage = function(e) {
-    store.dispatch(updateConservation(e.data));
-    if (e.data.progress === 1){
-      console.log("completed conservation analisys");
-      store.dispatch(updateSequences(sequences));
-    }
-  }
-  
   return store;
 }
 
