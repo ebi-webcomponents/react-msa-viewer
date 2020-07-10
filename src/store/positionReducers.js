@@ -39,7 +39,7 @@ export const actions = {
   movePosition,
   updatePositionByResidue,
   highlightRegion,
-  removeHighlightRegion
+  removeHighlightRegion,
 };
 
 /**
@@ -55,7 +55,7 @@ function commonPositionReducer(prevState, pos) {
   pos.yPos = clamp(pos.yPos, 0, maxHeight);
   return {
     ...prevState,
-    position: pos
+    position: pos,
   };
 }
 
@@ -86,7 +86,7 @@ const relativePositionReducer = (
       );
       const updatePayload = {
         xPos: action.payload.xPos || pos.xPos,
-        yPos: action.payload.yPos || pos.yPos
+        yPos: action.payload.yPos || pos.yPos,
       };
       return commonPositionReducer(prevState, updatePayload);
     case updatePositionByResidue.key:
@@ -94,7 +94,7 @@ const relativePositionReducer = (
 
       const updateResidue = {
         xPos: prevState.props.tileWidth * (action.payload.aaPos - 1),
-        yPos: pos.yPos
+        yPos: pos.yPos,
       };
       return commonPositionReducer(prevState, updateResidue);
     default:
@@ -115,13 +115,13 @@ export function positionReducer(
 ) {
   let state = oldState;
   let position = oldState.position;
-  let highlight= oldState.highlight;
+  let highlight = oldState.highlight;
   switch (action.type) {
     case updateMainStore.key:
       // merge updates of the main store with this store for now
       state = {
         ...pick(state, ["props", "sequenceStats", "sequences"]),
-        ...action.payload
+        ...action.payload,
       };
       break;
     case updatePosition.key:
@@ -151,12 +151,12 @@ export function positionReducer(
       0,
       state.sequences.maxLength
     ),
-    position
+    position,
   };
   return {
     ...state,
     ...addedState,
-    highlight
+    highlight,
   };
 }
 

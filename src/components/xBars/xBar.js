@@ -1,22 +1,21 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
-import withPositionStore from '../../store/withPositionStore';
+import withPositionStore from "../../store/withPositionStore";
 
-import ListComponent from '../ListComponent';
+import ListComponent from "../ListComponent";
 
 /**
-* Displays the sequence names with an arbitrary Marker component
-*/
+ * Displays the sequence names with an arbitrary Marker component
+ */
 class XBarComponent extends PureComponent {
-
   constructor(props) {
     super(props);
     this.el = React.createRef();
@@ -51,15 +50,23 @@ class XBarComponent extends PureComponent {
       sequences,
       tileComponent,
     };
-    const startTile = Math.max(0, this.props.position.currentViewSequencePosition - this.props.cacheElements);
-    const endTile = Math.min(this.props.maxLength, startTile + this.props.nrXTiles + this.props.cacheElements * 2);
-    const maxWidth = this.props.width + this.props.cacheElements * 2 * this.props.tileWidth;
+    const startTile = Math.max(
+      0,
+      this.props.position.currentViewSequencePosition - this.props.cacheElements
+    );
+    const endTile = Math.min(
+      this.props.maxLength,
+      startTile + this.props.nrXTiles + this.props.cacheElements * 2
+    );
+    const maxWidth =
+      this.props.width + this.props.cacheElements * 2 * this.props.tileWidth;
     this.props.position.lastStartXTile = startTile;
     this.props.position.lastCurrentViewSequencePosition = this.props.position.currentViewSequencePosition;
     return (
       <div style={containerStyle} {...otherProps}>
         <div style={style} ref={this.el}>
-          <ListComponent {...forwardedProps}
+          <ListComponent
+            {...forwardedProps}
             componentCache={this.props.componentCache}
             startTile={startTile}
             endTile={endTile}
@@ -75,10 +82,8 @@ XBarComponent.propTypes = {
   /**
    * Tile to render.
    */
-  tileComponent: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  tileComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+    .isRequired,
 
   cacheElements: PropTypes.number.isRequired,
 
@@ -87,9 +92,7 @@ XBarComponent.propTypes = {
   maxLength: PropTypes.number.isRequired,
 
   componentCache: PropTypes.func.isRequired,
-}
+};
 
-export default withPositionStore(XBarComponent, {withX: true});
-export {
-  XBarComponent as xBar,
-}
+export default withPositionStore(XBarComponent, { withX: true });
+export { XBarComponent as xBar };

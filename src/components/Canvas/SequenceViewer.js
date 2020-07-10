@@ -104,10 +104,10 @@ class SequenceViewerComponent extends DraggingComponent {
             "tileWidth",
             "border",
             "borderWidth",
-            "borderColor"
-          ])
+            "borderColor",
+          ]),
         });
-      }
+      },
     });
   };
 
@@ -192,7 +192,7 @@ class SequenceViewerComponent extends DraggingComponent {
   onPositionUpdate = (oldPos, newPos) => {
     const relativeMovement = {
       xMovement: oldPos[0] - newPos[0],
-      yMovement: oldPos[1] - newPos[1]
+      yMovement: oldPos[1] - newPos[1],
     };
     this.sendEvent("onPositionUpdate", newPos);
     this.props.positionDispatch(movePosition(relativeMovement));
@@ -216,7 +216,7 @@ class SequenceViewerComponent extends DraggingComponent {
       i: seqNr,
       sequence,
       position,
-      residue: sequence.sequence[position]
+      residue: sequence.sequence[position],
     };
   }
 
@@ -231,7 +231,7 @@ class SequenceViewerComponent extends DraggingComponent {
     const [x, y] = Mouse.rel(e);
     return this.positionToSequence({
       xPos: x,
-      yPos: y
+      yPos: y,
     });
   }
 
@@ -244,7 +244,7 @@ class SequenceViewerComponent extends DraggingComponent {
     }
   }
 
-  onMouseMove = e => {
+  onMouseMove = (e) => {
     if (typeof this.isInDragPhase === "undefined") {
       if (
         this.props.onResidueMouseEnter !== undefined ||
@@ -264,13 +264,13 @@ class SequenceViewerComponent extends DraggingComponent {
     super.onMouseMove(e);
   };
 
-  onMouseLeave = e => {
+  onMouseLeave = (e) => {
     this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
     super.onMouseLeave(e);
   };
 
-  onClick = e => {
+  onClick = (e) => {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
@@ -278,7 +278,7 @@ class SequenceViewerComponent extends DraggingComponent {
     super.onClick(e);
   };
 
-  onDoubleClick = e => {
+  onDoubleClick = (e) => {
     const eventData = this.currentPointerPosition(e);
     this.sendEvent("onResidueDoubleClick", eventData);
     super.onDoubleClick(e);
@@ -295,14 +295,14 @@ class SequenceViewerComponent extends DraggingComponent {
       "tileHeight",
       "colorScheme",
       "textFont",
-      "borderColor"
+      "borderColor",
     ];
     this.tileCache.updateTileSpecs(
       pick(this.props, [
         ...tileAttributes,
         "xGridSize",
         "yGridSize",
-        "sequences"
+        "sequences",
       ])
     );
     this.residueTileCache.updateTileSpecs(pick(this.props, tileAttributes));
@@ -327,7 +327,7 @@ SequenceViewerComponent.defaultProps = {
   overflowX: "auto",
   overflowY: "auto",
   scrollBarPositionX: "bottom",
-  scrollBarPositionY: "right"
+  scrollBarPositionY: "right",
 };
 
 SequenceViewerComponent.propTypes = {
@@ -419,7 +419,7 @@ SequenceViewerComponent.propTypes = {
   /**
    * Y Position of the scroll bar ("left" or "right")
    */
-  scrollBarPositionY: PropTypes.oneOf(["left", "right"])
+  scrollBarPositionY: PropTypes.oneOf(["left", "right"]),
 };
 
 // hoist the list of accepted properties to the parent
@@ -428,7 +428,7 @@ SequenceViewerComponent.propKeys = Object.keys(
   SequenceViewerComponent.propTypes
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   // Fallback to a smaller size if the given area is too large
   const width = Math.min(
     state.props.width,
@@ -448,18 +448,18 @@ const mapStateToProps = state => {
     nrXTiles: state.sequenceStats.nrXTiles,
     nrYTiles: state.sequenceStats.nrYTiles,
     fullWidth: state.sequenceStats.fullWidth,
-    fullHeight: state.sequenceStats.fullHeight
+    fullHeight: state.sequenceStats.fullHeight,
   };
 };
 
 const SV = withPositionStore(SequenceViewerComponent, {
   withX: true,
-  withY: true
+  withY: true,
 });
 
 export default msaConnect(mapStateToProps)(SV);
 
 export {
   SequenceViewerComponent as SequenceViewer,
-  SV as SequenceViewerWithPosition
+  SV as SequenceViewerWithPosition,
 };

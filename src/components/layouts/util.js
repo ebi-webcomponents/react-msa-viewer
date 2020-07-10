@@ -1,14 +1,12 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import {
-  forOwn,
-} from 'lodash-es'
+import { forOwn } from "lodash-es";
 
 export const same = "FORWARD_SAME_PROP_NAME";
 
@@ -36,7 +34,7 @@ export function forwardProps(props, propsSelector) {
       other[k] = v;
     }
   });
-  return {forward, other};
+  return { forward, other };
 }
 
 /**
@@ -62,5 +60,5 @@ export function forwardPropsMapper(props, propsToForward) {
     forward[k] = result.forward;
     remainingProps = result.other;
   });
-  return {forward, other: remainingProps};
+  return { forward, other: remainingProps };
 }

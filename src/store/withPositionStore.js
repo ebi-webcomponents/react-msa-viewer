@@ -1,19 +1,16 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import {
-  forOwn,
-  pick,
-} from 'lodash-es';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { forOwn, pick } from "lodash-es";
 
-import assert from '../assert';
+import assert from "../assert";
 
 /**
  * Injects the position store functionality in the requiring components.
@@ -43,21 +40,26 @@ import assert from '../assert';
  * (2) If a component implements `shouldRerender(newPosition)`, it will be called after
  * every store update. Otherwise a default implementation will be used.
  */
-function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
+function withPositionConsumer(
+  Component,
+  { withX = false, withY = false } = {}
+) {
   class MSAPositionConsumer extends PureComponent {
     constructor(props) {
       super(props);
       this.el = React.createRef();
-      this.state = {highlight:null}
+      this.state = { highlight: null };
     }
 
     componentDidMount() {
       // update to all updates from the position store
-      this.unsubscribe = this.context.positionMSAStore.subscribe(this.updateFromPositionStore);
+      this.unsubscribe = this.context.positionMSAStore.subscribe(
+        this.updateFromPositionStore
+      );
       this.updateScrollPosition(true);
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
       this.updateScrollPosition();
     }
 
@@ -71,20 +73,25 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
      * always calls `updateScrollPosition`
      */
     updateFromPositionStore = () => {
-      assert(this.context && this.context.positionMSAStore,
+      assert(
+        this.context && this.context.positionMSAStore,
         "MSA PositionStore needs to be injected"
       );
       const state = this.context.positionMSAStore.getState();
       this.position = this.position || {};
 
       // create new position object to compare it with the previous
-      const newPosition = pick(state, ["currentViewSequence",
-        "currentViewSequencePosition", "xPosOffset", "yPosOffset"]);
+      const newPosition = pick(state, [
+        "currentViewSequence",
+        "currentViewSequencePosition",
+        "xPosOffset",
+        "yPosOffset",
+      ]);
       if (state.position) {
         newPosition.xPos = state.position.xPos;
         newPosition.yPos = state.position.yPos;
       }
-      this.setState({highlight:state.highlight});
+      this.setState({ highlight: state.highlight });
 
       // not called on the first render
       if (this.el.current && this.shouldRerender(newPosition)) {
@@ -104,7 +111,7 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
           this.updateScrollPosition();
         }
       }
-    }
+    };
 
     /**
      * If the child defines this method, it will be called.
@@ -119,18 +126,27 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
       }
       const cacheElements = it.props.cacheElements;
       if (withY) {
-        if (Math.abs(newPosition.currentViewSequence - this.position.lastCurrentViewSequence) >= cacheElements) {
+        if (
+          Math.abs(
+            newPosition.currentViewSequence -
+              this.position.lastCurrentViewSequence
+          ) >= cacheElements
+        ) {
           return true;
         }
       }
       if (withX) {
-        if (Math.abs(newPosition.currentViewSequencePosition - this.position.lastCurrentViewSequencePosition) >= cacheElements) {
+        if (
+          Math.abs(
+            newPosition.currentViewSequencePosition -
+              this.position.lastCurrentViewSequencePosition
+          ) >= cacheElements
+        ) {
           return true;
         }
       }
       return false;
-    }
-
+    };
 
     /**
      * If the child defines this method, it will be called.
@@ -147,27 +163,45 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
         if (withX) {
           const tileWidth = it.props.tileWidth;
           let offsetX = -this.position.xPosOffset;
-          offsetX += (this.position.lastCurrentViewSequencePosition - this.position.lastStartXTile) * tileWidth;
-          if (this.position.currentViewSequencePosition !== this.position.lastCurrentViewSequencePosition) {
-            offsetX += (this.position.currentViewSequencePosition - this.position.lastCurrentViewSequencePosition) * tileWidth;
+          offsetX +=
+            (this.position.lastCurrentViewSequencePosition -
+              this.position.lastStartXTile) *
+            tileWidth;
+          if (
+            this.position.currentViewSequencePosition !==
+            this.position.lastCurrentViewSequencePosition
+          ) {
+            offsetX +=
+              (this.position.currentViewSequencePosition -
+                this.position.lastCurrentViewSequencePosition) *
+              tileWidth;
           }
           it.el.current.scrollLeft = offsetX;
         }
         if (withY) {
           const tileHeight = it.props.tileHeight;
           let offsetY = -this.position.yPosOffset;
-          offsetY += (this.position.lastCurrentViewSequence - this.position.lastStartYTile) * tileHeight;
-          if (this.position.currentViewSequence !== this.position.lastCurrentViewSequence) {
-            offsetY += (this.position.currentViewSequence - this.position.lastCurrentViewSequence) * tileHeight;
+          offsetY +=
+            (this.position.lastCurrentViewSequence -
+              this.position.lastStartYTile) *
+            tileHeight;
+          if (
+            this.position.currentViewSequence !==
+            this.position.lastCurrentViewSequence
+          ) {
+            offsetY +=
+              (this.position.currentViewSequence -
+                this.position.lastCurrentViewSequence) *
+              tileHeight;
           }
           it.el.current.scrollTop = offsetY;
         }
       }
-    }
+    };
 
     dispatch = (payload) => {
       this.context.positionMSAStore.dispatch(payload);
-    }
+    };
 
     render() {
       if (!this.hasBeenInitialized) {
@@ -175,7 +209,7 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
         this.hasBeenInitialized = true;
       }
       return React.createElement(Component, {
-        ref:this.el,
+        ref: this.el,
         position: this.position,
         positionDispatch: this.dispatch,
         highlight: this.state.highlight,
@@ -183,10 +217,12 @@ function withPositionConsumer(Component, {withX = false, withY = false} = {}) {
       });
     }
   }
-  MSAPositionConsumer.displayName = `withPosition(${Component.displayName || Component.name})`;
+  MSAPositionConsumer.displayName = `withPosition(${
+    Component.displayName || Component.name
+  })`;
   MSAPositionConsumer.contextTypes = {
     positionMSAStore: PropTypes.object,
-  }
+  };
 
   return MSAPositionConsumer;
 }

@@ -5,5 +5,5 @@ export default {
   R: " #FF83FA",
   T: " #40E0D0",
   U: " #40E0D0",
-  Y: " #40E0D0"
+  Y: " #40E0D0",
 };

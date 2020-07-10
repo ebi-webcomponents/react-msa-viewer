@@ -1,15 +1,13 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import shallowEqual from '../../utils/shallowEqual';
-import {
-  minBy
-} from 'lodash-es';
+import shallowEqual from "../../utils/shallowEqual";
+import { minBy } from "lodash-es";
 
 /**
  * A simple, in-memory cache for Canvas tiles outside of the DOM.
@@ -20,7 +18,7 @@ import {
  * @param {Number} maxElements Maximal elements to keep in the cache (default: 200)
  */
 class CanvasCache {
-  constructor({maxElements} = {}) {
+  constructor({ maxElements } = {}) {
     this.maxElements = maxElements || 200;
     this.invalidate();
   }
@@ -32,14 +30,17 @@ class CanvasCache {
    * @param {Number} tileWidth Width of the to be created canvas
    * @param {function} create Callback to be called if for the given `key` to canvas exists in the cache
    */
-  createTile({key, tileWidth, tileHeight, create}) {
+  createTile({ key, tileWidth, tileHeight, create }) {
     // check if cache needs to be regenerated
     if (key in this.cache) {
       return this.cache[key].value;
     }
     if (this.cachedElements >= this.maxElements) {
       // purge oldest key from cache if maxSize is reached
-      const oldestKey = minBy(Object.keys(this.cache), k => this.cache[k].insertionTime);
+      const oldestKey = minBy(
+        Object.keys(this.cache),
+        (k) => this.cache[k].insertionTime
+      );
       delete this.cache[oldestKey];
     }
     const canvas = document.createElement("canvas");
@@ -49,10 +50,10 @@ class CanvasCache {
     };
     canvas.width = tileWidth;
     canvas.height = tileHeight;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     this.cachedElements++;
 
-    create({canvas: ctx});
+    create({ canvas: ctx });
     return canvas;
   }
 

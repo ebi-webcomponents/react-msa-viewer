@@ -1,22 +1,21 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
-import PropTypes from 'prop-types';
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import PropTypes from "prop-types";
 
-import msaConnect from '../store/connect'
-import CanvasComponent from './CanvasComponent';
+import msaConnect from "../store/connect";
+import CanvasComponent from "./CanvasComponent";
 
-import MSAStats from '../utils/statSeqs';
+import MSAStats from "../utils/statSeqs";
 
 /**
  * Creates a small overview box of the sequences for a general overview.
  */
 class OverviewBarComponent extends CanvasComponent {
-
   constructor(props) {
     super(props);
     this.calculateStats();
@@ -32,9 +31,9 @@ class OverviewBarComponent extends CanvasComponent {
     const yPos = 0;
     const startTile = this.props.stats.currentViewSequencePosition;
     let xPos = this.props.stats.xPosOffset;
-    for (let i = startTile; i < (startTile + this.props.stats.nrTiles); i++) {
-			let height = this.props.height * this.columnHeights[i];
-			const remainingHeight = this.props.height - height;
+    for (let i = startTile; i < startTile + this.props.stats.nrTiles; i++) {
+      let height = this.props.height * this.columnHeights[i];
+      const remainingHeight = this.props.height - height;
       this.ctx.fillStyle(this.props.fillColor);
       this.ctx.fillRect(xPos, yPos + remainingHeight, tileWidth, height);
       xPos += this.props.tileWidth;
@@ -43,7 +42,7 @@ class OverviewBarComponent extends CanvasComponent {
 
   // TODO: do smarter caching here
   calculateStats() {
-    const stats = MSAStats(this.props.sequences.map(e => e.sequence));
+    const stats = MSAStats(this.props.sequences.map((e) => e.sequence));
     this.columnHeights = [];
     switch (this.props.method) {
       case "conservation":
@@ -53,7 +52,10 @@ class OverviewBarComponent extends CanvasComponent {
         this.columnHeights = stats.scale(stats.ic());
         break;
       default:
-        console.error(this.props.method + "is an invalid aggregation method for <OverviewBar />");
+        console.error(
+          this.props.method +
+            "is an invalid aggregation method for <OverviewBar />"
+        );
     }
   }
 
@@ -68,7 +70,7 @@ OverviewBarComponent.defaultProps = {
   height: 50,
   fillColor: "#999999",
   method: "conservation",
-}
+};
 
 OverviewBarComponent.propTypes = {
   ...CanvasComponent.propTypes,
@@ -77,7 +79,7 @@ OverviewBarComponent.propTypes = {
    *  - `information-content`: Information entropy after Shannon of a column (scaled)
    *  - `conservation`: Conservation of a column (scaled)
    */
-  method: PropTypes.oneOf(['information-content', 'conservation']),
+  method: PropTypes.oneOf(["information-content", "conservation"]),
 
   /**
    * Height of the OverviewBar (in pixels), e.g. `100`
@@ -90,7 +92,7 @@ OverviewBarComponent.propTypes = {
   fillColor: PropTypes.string,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     sequences: state.sequences.raw,
     position: state.position,
@@ -98,10 +100,10 @@ const mapStateToProps = state => {
     tileHeight: state.props.tileHeight,
     tileWidth: state.props.tileWidth,
     stats: state.sequenceStats,
-  }
-}
+  };
+};
 
 export default msaConnect(
-  mapStateToProps,
+  mapStateToProps
   //mapDispatchToProps
 )(OverviewBarComponent);

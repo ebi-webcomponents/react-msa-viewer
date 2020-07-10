@@ -1,19 +1,17 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from "react";
+import PropTypes from "prop-types";
 
-import {
-  some,
-} from 'lodash-es';
+import { some } from "lodash-es";
 
-import shallowEqual from '../../utils/shallowEqual';
+import shallowEqual from "../../utils/shallowEqual";
 
 /**
  * Provides a `shouldComponentUpdate` method for the layouts.
@@ -22,8 +20,14 @@ import shallowEqual from '../../utils/shallowEqual';
  */
 class PureBaseLayout extends Component {
   shouldComponentUpdate(nextProps) {
-    return !(shallowEqual(this.props, nextProps) &&
-      some(this.props.forwardedPropsKeys.map(k => shallowEqual(this.props[k], nextProps[k]))));
+    return !(
+      shallowEqual(this.props, nextProps) &&
+      some(
+        this.props.forwardedPropsKeys.map((k) =>
+          shallowEqual(this.props[k], nextProps[k])
+        )
+      )
+    );
   }
 }
 

@@ -1,25 +1,24 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
-import { movePosition } from '../../store/positionReducers';
-import withPositionStore from '../../store/withPositionStore';
+import { movePosition } from "../../store/positionReducers";
+import withPositionStore from "../../store/withPositionStore";
 
-import requestAnimation from '../../utils/requestAnimation';
+import requestAnimation from "../../utils/requestAnimation";
 
 /**
  * Creates a DOM element with absolute position that can have scrollbars.
  * However, no actual content is displayed by this element.
  */
 class FakeScroll extends PureComponent {
-
   constructor(props) {
     super(props);
     this.el = React.createRef();
@@ -27,12 +26,12 @@ class FakeScroll extends PureComponent {
 
   onScroll = (e) => {
     requestAnimation(this, () => {
-      const {showX, showY}= this.shouldShow();
+      const { showX, showY } = this.shouldShow();
       const movement = {
         xMovement:
           this.el.current.scrollLeft - (showX ? this.props.position.xPos : 0),
         yMovement:
-          this.el.current.scrollTop - (showY ? this.props.position.yPos : 0)
+          this.el.current.scrollTop - (showY ? this.props.position.yPos : 0),
       };
       this.props.positionDispatch(movePosition(movement));
     });
@@ -42,11 +41,11 @@ class FakeScroll extends PureComponent {
     if (!this.el || !this.el.current) return;
     this.el.current.scrollTop = this.props.position.yPos;
     this.el.current.scrollLeft = this.props.position.xPos;
-  }
+  };
 
-  checkOverflow(overflow, {withX = false, withY = false}) {
+  checkOverflow(overflow, { withX = false, withY = false }) {
     let show = false;
-    switch(overflow) {
+    switch (overflow) {
       case "auto":
         if (withX) {
           show |= this.props.fullWidth > this.props.width;
@@ -67,30 +66,36 @@ class FakeScroll extends PureComponent {
   }
 
   shouldShow() {
-    const withX = {withX: true};
-    const withY = {withY: true};
-    const overflowX = this.props.overflowX === "initial" ? this.props.overflow : this.props.overflowX;
-    const overflowY = this.props.overflowY === "initial" ? this.props.overflow : this.props.overflowY;
-    const showX = this.checkOverflow(overflowX, withX) &&
+    const withX = { withX: true };
+    const withY = { withY: true };
+    const overflowX =
+      this.props.overflowX === "initial"
+        ? this.props.overflow
+        : this.props.overflowX;
+    const overflowY =
+      this.props.overflowY === "initial"
+        ? this.props.overflow
+        : this.props.overflowY;
+    const showX =
+      this.checkOverflow(overflowX, withX) &&
       this.checkOverflow(this.props.overflow, withX);
-    const showY = this.checkOverflow(overflowY, withY) &&
+    const showY =
+      this.checkOverflow(overflowY, withY) &&
       this.checkOverflow(this.props.overflow, withY);
-    return {showX, showY};
+    return { showX, showY };
   }
 
   render() {
-    const {
-      width, height,
-      fullWidth, fullHeight
-    } = this.props;
+    const { width, height, fullWidth, fullHeight } = this.props;
     const style = {
       position: "absolute",
       overflowX: "auto",
       overflowY: "auto",
-      width, height,
+      width,
+      height,
       transform: "",
     };
-    const {showX, showY} = this.shouldShow();
+    const { showX, showY } = this.shouldShow();
     const childStyle = {
       height: 1,
       width: 1,
@@ -112,9 +117,11 @@ class FakeScroll extends PureComponent {
         style.transform += "rotateY(180deg)";
       }
     }
-    return <div style={style} onScroll={this.onScroll} ref={this.el}>
-      <div style={childStyle} />
-    </div>;
+    return (
+      <div style={style} onScroll={this.onScroll} ref={this.el}>
+        <div style={childStyle} />
+      </div>
+    );
   }
 }
 
@@ -125,7 +132,7 @@ FakeScroll.defaultProps = {
   positionX: "bottom",
   positionY: "right",
   scrollBarWidth: 5,
-}
+};
 
 FakeScroll.propTypes = {
   overflow: PropTypes.oneOf(["hidden", "auto", "scroll"]),
@@ -137,6 +144,6 @@ FakeScroll.propTypes = {
   fullWidth: PropTypes.number.isRequired,
   positionX: PropTypes.oneOf(["top", "bottom"]),
   positionY: PropTypes.oneOf(["left", "right"]),
-}
+};
 
-export default withPositionStore(FakeScroll, {withX: true, withY: true});
+export default withPositionStore(FakeScroll, { withX: true, withY: true });

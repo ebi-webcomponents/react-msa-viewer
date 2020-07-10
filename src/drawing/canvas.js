@@ -1,18 +1,18 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import DrawingBase from './base';
-import CanvasCharCache from './cache';
+import DrawingBase from "./base";
+import CanvasCharCache from "./cache";
 
 class Canvas extends DrawingBase {
   constructor(el) {
     super(el);
-    this.ctx = el.getContext('2d');
+    this.ctx = el.getContext("2d");
     this.cache = new CanvasCharCache();
   }
 
@@ -31,7 +31,10 @@ class Canvas extends DrawingBase {
     //this.ctx.fillText(text, x, y);
     return this.ctx.drawImage(
       this.cache.getFontTile(text, width, height, this.ctx.font),
-      x, y, width, height,
+      x,
+      y,
+      width,
+      height
     );
   }
 
@@ -57,5 +60,5 @@ class Canvas extends DrawingBase {
   }
 }
 
-export {Canvas};
+export { Canvas };
 export default Canvas;

@@ -1,7 +1,4 @@
-import {
-  StaticSchemeClass,
-  DynSchemeClass
-} from "./schemeclass";
+import { StaticSchemeClass, DynSchemeClass } from "./schemeclass";
 
 import Buried from "./buried";
 import Cinema from "./cinema";
@@ -19,7 +16,6 @@ import Turn from "./turn";
 import Zappo from "./zappo";
 
 import pid from "./pid_colors";
-
 
 const staticSchemes = {
   buried: Buried,
@@ -40,40 +36,40 @@ const staticSchemes = {
   taylor: Taylor,
   turn: Turn,
   turn_propensity: Turn,
-  zappo: Zappo
+  zappo: Zappo,
 };
 
 const dynSchemes = {
-  conservation: pid
+  conservation: pid,
 };
 
-const Colors = function(opt){
+const Colors = function (opt) {
   this.maps = clone(staticSchemes);
   this.dyn = clone(dynSchemes);
   this.opt = opt;
-}
+};
 
-Colors.getScheme = function(scheme){
+Colors.getScheme = function (scheme) {
   return staticSchemes[scheme];
-}
-Colors.prototype.getScheme = function(scheme) {
+};
+Colors.prototype.getScheme = function (scheme) {
   var color = this.maps[scheme];
   if (color === undefined) {
     color = {};
-    if(this.dyn[scheme] !== undefined){
-      return new DynSchemeClass(this.dyn[scheme],this.opt);
+    if (this.dyn[scheme] !== undefined) {
+      return new DynSchemeClass(this.dyn[scheme], this.opt);
     }
   }
   return new StaticSchemeClass(color);
 };
 
-Colors.prototype.addStaticScheme = function(name,scheme) {
+Colors.prototype.addStaticScheme = function (name, scheme) {
   this.maps[name] = scheme;
-}
+};
 
-Colors.prototype.addDynScheme = function(name,scheme) {
+Colors.prototype.addDynScheme = function (name, scheme) {
   this.dyn[name] = scheme;
-}
+};
 
 // small helper to clone an object
 function clone(obj) {

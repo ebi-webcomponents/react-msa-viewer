@@ -1,23 +1,21 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import {
-  omit
-} from 'lodash-es';
+import { omit } from "lodash-es";
 
-import Mouse from '../../utils/mouse';
+import Mouse from "../../utils/mouse";
 
-import ModBar from '../ModBar';
-import FakeScroll from './FakeScroll';
-import requestAnimation from '../../utils/requestAnimation';
-import autobind from '../../utils/autobind';
+import ModBar from "../ModBar";
+import FakeScroll from "./FakeScroll";
+import requestAnimation from "../../utils/requestAnimation";
+import autobind from "../../utils/autobind";
 
 /**
 Provides dragging support in a canvas for sub-classes.
@@ -31,7 +29,6 @@ Moreover, a component's viewpoint needs to be passed in via its properties:
 */
 // TODO: handle wheel events
 class DraggingComponent extends PureComponent {
-
   /**
    * The internal state is kept in:
    *
@@ -44,13 +41,13 @@ class DraggingComponent extends PureComponent {
   static defaultProps = {
     engine: "canvas",
     showModBar: true,
-  }
+  };
 
   state = {
     mouse: {
       isMouseWithin: false,
       cursorState: "grab",
-    }
+    },
   };
 
   constructor(props) {
@@ -59,10 +56,19 @@ class DraggingComponent extends PureComponent {
     this.container = React.createRef();
 
     // bind events (can't use static properties due to inheritance)
-    autobind(this,
-      "onMouseEnter", "onMouseLeave", "onMouseDown", "onMouseUp", "onMouseMove",
-      "onTouchStart", "onTouchMove", "onTouchEnd", "onTouchCancel",
-      "onClick", "onDoubleClick",
+    autobind(
+      this,
+      "onMouseEnter",
+      "onMouseLeave",
+      "onMouseDown",
+      "onMouseUp",
+      "onMouseMove",
+      "onTouchStart",
+      "onTouchMove",
+      "onTouchEnd",
+      "onTouchCancel",
+      "onClick",
+      "onDoubleClick",
       "draw"
     );
 
@@ -94,8 +100,8 @@ class DraggingComponent extends PureComponent {
   }
 
   /**
-    * Called every time when the component's dimensions change.
-    */
+   * Called every time when the component's dimensions change.
+   */
   onViewpointChange() {
     // no work is necessary anymore
   }
@@ -103,19 +109,19 @@ class DraggingComponent extends PureComponent {
   componentDidMount() {
     // choose the best engine
     this.ctxBuffers = [
-      this.canvasBuffers[0].current.getContext('2d', {alpha: 'false'}),
-      this.canvasBuffers[1].current.getContext('2d', {alpha: 'false'}),
+      this.canvasBuffers[0].current.getContext("2d", { alpha: "false" }),
+      this.canvasBuffers[1].current.getContext("2d", { alpha: "false" }),
     ];
     // init
     this.swapContexts();
-    this.container.current.addEventListener('mouseenter', this.onMouseEnter);
-    this.container.current.addEventListener('mouseleave', this.onMouseLeave);
-    this.container.current.addEventListener('touchstart', this.onTouchStart);
-    this.container.current.addEventListener('touchmove', this.onTouchMove);
-    this.container.current.addEventListener('touchend', this.onTouchEnd);
-    this.container.current.addEventListener('touchcancel', this.onTouchCancel);
-    this.container.current.addEventListener('click', this.onClick);
-    this.container.current.addEventListener('dblclick', this.onDoubleClick);
+    this.container.current.addEventListener("mouseenter", this.onMouseEnter);
+    this.container.current.addEventListener("mouseleave", this.onMouseLeave);
+    this.container.current.addEventListener("touchstart", this.onTouchStart);
+    this.container.current.addEventListener("touchmove", this.onTouchMove);
+    this.container.current.addEventListener("touchend", this.onTouchEnd);
+    this.container.current.addEventListener("touchcancel", this.onTouchCancel);
+    this.container.current.addEventListener("click", this.onClick);
+    this.container.current.addEventListener("dblclick", this.onDoubleClick);
     if (!this.props.sequenceDisableDragging) {
       this.container.current.addEventListener("mousedown", this.onMouseDown);
       this.container.current.addEventListener("mouseup", this.onMouseUp);
@@ -171,16 +177,12 @@ class DraggingComponent extends PureComponent {
   /**
    * To be implemented by its childs.
    */
-  onClick(e) {
-
-  }
+  onClick(e) {}
 
   /**
    * To be implemented by its childs.
    */
-  onDoubleClick(e) {
-
-  }
+  onDoubleClick(e) {}
 
   onMouseDown(e) {
     //console.log("mousedown", e);
@@ -195,10 +197,10 @@ class DraggingComponent extends PureComponent {
     const pos = Mouse.abs(e);
     // TODO: use global window out and not this container's out for better dragging
     //if (!this.isEventWithinComponent(e)) {
-      //this.stopDragPhase();
-      //return;
+    //this.stopDragPhase();
+    //return;
     //}
-    const oldPos = this.mouseMovePosition
+    const oldPos = this.mouseMovePosition;
     requestAnimation(this, () => {
       // already use the potentially updated mouse move position here
       this.mouseMovePosition = pos;
@@ -211,11 +213,11 @@ class DraggingComponent extends PureComponent {
   }
 
   onMouseEnter() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       mouse: {
         ...prevState.mouse,
         isMouseWithin: true,
-      }
+      },
     }));
   }
 
@@ -255,11 +257,11 @@ class DraggingComponent extends PureComponent {
     this.mouseMovePosition = Mouse.abs(e);
     this.mouseHasMoved = undefined;
     this.isInDragPhase = true;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       mouse: {
         ...prevState.mouse,
         cursorState: "grabbing",
-      }
+      },
     }));
   }
 
@@ -267,7 +269,7 @@ class DraggingComponent extends PureComponent {
    * Called whenever the mouse leaves the canvas area.
    */
   stopHoverPhase() {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       mouse: {
         ...prevState.mouse,
         isMouseWithin: false,
@@ -280,7 +282,7 @@ class DraggingComponent extends PureComponent {
    */
   stopDragPhase() {
     this.isInDragPhase = undefined;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       mouse: {
         ...prevState.mouse,
         cursorState: "grab",
@@ -291,8 +293,12 @@ class DraggingComponent extends PureComponent {
   isEventWithinComponent(e) {
     // TODO: cache width + height for the rel call
     const relPos = Mouse.rel(e);
-    return 0 <= relPos[0] && relPos[0] <= this.props.width &&
-           0 <= relPos[1] && relPos[1] <= this.props.height;
+    return (
+      0 <= relPos[0] &&
+      relPos[0] <= this.props.width &&
+      0 <= relPos[1] &&
+      relPos[1] <= this.props.height
+    );
   }
 
   /**
@@ -301,18 +307,21 @@ class DraggingComponent extends PureComponent {
   componentWillUnmount() {
     // TODO: should we react to resize events dynamically?
     //window.removeEventListener('resize', this.onResize);
-    this.container.current.removeEventListener('mouseenter', this.onMouseEnter);
-    this.container.current.removeEventListener('mouseleave', this.onMouseLeave);
-    this.container.current.removeEventListener('click', this.onClick);
-    this.container.current.removeEventListener('dblclick', this.onDoubleClick);
-    this.container.current.removeEventListener('touchstart', this.onTouchStart);
-    this.container.current.removeEventListener('touchend', this.onTouchEnd);
-    this.container.current.removeEventListener('touchcancel', this.onTouchCancel);
-    this.container.current.removeEventListener('touchmove', this.onTouchMove);
-    if (!this.props.sequenceDisableDragging){
-      this.container.current.removeEventListener('mouseup', this.onMouseUp);
-      this.container.current.removeEventListener('mousedown', this.onMouseDown);
-      this.container.current.removeEventListener('mousemove', this.onMouseMove);
+    this.container.current.removeEventListener("mouseenter", this.onMouseEnter);
+    this.container.current.removeEventListener("mouseleave", this.onMouseLeave);
+    this.container.current.removeEventListener("click", this.onClick);
+    this.container.current.removeEventListener("dblclick", this.onDoubleClick);
+    this.container.current.removeEventListener("touchstart", this.onTouchStart);
+    this.container.current.removeEventListener("touchend", this.onTouchEnd);
+    this.container.current.removeEventListener(
+      "touchcancel",
+      this.onTouchCancel
+    );
+    this.container.current.removeEventListener("touchmove", this.onTouchMove);
+    if (!this.props.sequenceDisableDragging) {
+      this.container.current.removeEventListener("mouseup", this.onMouseUp);
+      this.container.current.removeEventListener("mousedown", this.onMouseDown);
+      this.container.current.removeEventListener("mousemove", this.onMouseMove);
     }
     this.stopDragPhase();
   }
@@ -339,28 +348,28 @@ class DraggingComponent extends PureComponent {
     };
     const otherProps = omit(this.props, [
       ...this.constructor.propKeys,
-      "tileWidth", "tileHeight", "colorScheme",
-      "nrXTiles", "nrYTiles",
-      "dispatch", "sequences",
-      "fullWidth", "fullHeight",
-      "position", "positionDispatch",
+      "tileWidth",
+      "tileHeight",
+      "colorScheme",
+      "nrXTiles",
+      "nrYTiles",
+      "dispatch",
+      "sequences",
+      "fullWidth",
+      "fullHeight",
+      "position",
+      "positionDispatch",
     ]);
     return (
-      <div
-          style={style}
-          ref={this.container}
-          {...otherProps}
-      >
-        { showModBar && (
-            <ModBar style={modBar}> Plotly Modbar</ModBar>
-        )}
+      <div style={style} ref={this.container} {...otherProps}>
+        {showModBar && <ModBar style={modBar}> Plotly Modbar</ModBar>}
         <canvas
           style={canvasStyle}
           ref={this.canvasBuffers[0]}
           width={this.props.width}
           height={this.props.height}
         >
-        Your browser does not seem to support HTML5 canvas.
+          Your browser does not seem to support HTML5 canvas.
         </canvas>
         <canvas
           style={canvasStyle}
@@ -368,7 +377,7 @@ class DraggingComponent extends PureComponent {
           width={this.props.width}
           height={this.props.height}
         >
-        Your browser does not seem to support HTML5 canvas.
+          Your browser does not seem to support HTML5 canvas.
         </canvas>
         <FakeScroll
           overflow={this.props.overflow}
@@ -379,7 +388,8 @@ class DraggingComponent extends PureComponent {
           width={this.props.width}
           height={this.props.height}
           fullWidth={this.props.fullWidth}
-          fullHeight={this.props.fullHeight}        />
+          fullHeight={this.props.fullHeight}
+        />
       </div>
     );
   }

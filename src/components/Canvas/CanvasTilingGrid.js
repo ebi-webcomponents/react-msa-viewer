@@ -1,12 +1,12 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import CanvasComponent from '../Canvas/CanvasComponent';
+import CanvasComponent from "../Canvas/CanvasComponent";
 
 /**
  * Allows rendering in tiles of grids.
@@ -25,8 +25,7 @@ import CanvasComponent from '../Canvas/CanvasComponent';
  * Tree calculations slim.
  */
 class CanvasTilingGridComponent extends CanvasComponent {
-
-  drawTile({row, column}) {
+  drawTile({ row, column }) {
     const tileWidth = this.props.tileWidth;
     const tileHeight = this.props.tileHeight;
     const yPos = tileHeight * (row - this.props.startYTile);
@@ -39,25 +38,34 @@ class CanvasTilingGridComponent extends CanvasComponent {
       const colorScheme = this.props.colorScheme.getColor(text, column);
       const key = `${text}-${colorScheme}`;
       const canvasTile = this.props.residueTileCache.createTile({
-        key, tileWidth, tileHeight,
-        create: ({canvas}) => {
-          return this.drawResidue({text, canvas, row, column, colorScheme});
-        }
+        key,
+        tileWidth,
+        tileHeight,
+        create: ({ canvas }) => {
+          return this.drawResidue({ text, canvas, row, column, colorScheme });
+        },
       });
       this.props.ctx.drawImage(
-        canvasTile, 0, 0, tileWidth, tileHeight,
-        xPos, yPos, tileWidth, tileHeight,
+        canvasTile,
+        0,
+        0,
+        tileWidth,
+        tileHeight,
+        xPos,
+        yPos,
+        tileWidth,
+        tileHeight
       );
     }
   }
 
-  drawResidue({row, column, canvas, colorScheme, text}) {
+  drawResidue({ row, column, canvas, colorScheme, text }) {
     canvas.globalAlpha = 0.7;
     canvas.fillStyle = colorScheme;
     canvas.fillRect(0, 0, this.props.tileWidth, this.props.tileHeight);
-    const minW=4;
-    const fullOpacityW=10;
-    if (this.props.tileWidth<minW) return;
+    const minW = 4;
+    const fullOpacityW = 10;
+    if (this.props.tileWidth < minW) return;
 
     if (this.props.border) {
       canvas.globalAlpha = 1;
@@ -65,25 +73,27 @@ class CanvasTilingGridComponent extends CanvasComponent {
       canvas.strokeStyle = this.props.borderStyle;
       canvas.strokeRect(0, 0, this.props.tileWidth, this.props.tileHeight);
     }
-    const m = 1.0 / (fullOpacityW-minW);
+    const m = 1.0 / (fullOpacityW - minW);
     const b = -m * minW;
-    canvas.globalAlpha = Math.min(1, m*this.props.tileWidth+b)
+    canvas.globalAlpha = Math.min(1, m * this.props.tileWidth + b);
     // 1.0;
     canvas.fillStyle = this.props.textColor;
     canvas.font = this.props.textFont + "px mono";
-    canvas.textBaseline = 'middle';
-    canvas.textAlign = 'center';
-    canvas.fillText(text,
+    canvas.textBaseline = "middle";
+    canvas.textAlign = "center";
+    canvas.fillText(
+      text,
       this.props.tileWidth / 2,
-      (this.props.tileHeight / 2) + 1,
-      this.props.tileWidth);
+      this.props.tileHeight / 2 + 1,
+      this.props.tileWidth
+    );
   }
 
   draw(props) {
     this.props = props;
     for (let i = this.props.startYTile; i < this.props.endYTile; i++) {
       for (let j = this.props.startXTile; j < this.props.endXTile; j++) {
-        this.drawTile({row:i, column:j});
+        this.drawTile({ row: i, column: j });
       }
     }
   }

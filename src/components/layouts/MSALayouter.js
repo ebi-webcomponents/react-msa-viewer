@@ -1,44 +1,39 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
-import {
-} from 'lodash-es'
+import {} from "lodash-es";
 
-import {
-  same,
-  forwardPropsMapper,
-} from './util';
+import { same, forwardPropsMapper } from "./util";
 
-import BasicLayout from './basic';
-import InverseLayout from './inverse';
-import FullLayout from './full';
-import CompactLayout from './compact';
-import FunkyLayout from './funky';
-import NightingaleLayout from './nightingale';
+import BasicLayout from "./basic";
+import InverseLayout from "./inverse";
+import FullLayout from "./full";
+import CompactLayout from "./compact";
+import FunkyLayout from "./funky";
+import NightingaleLayout from "./nightingale";
 
 const layouts = {
-  "basic": BasicLayout,
-  "inverse": InverseLayout,
-  "full": FullLayout,
-  "compact": CompactLayout,
-  "funky": FunkyLayout,
-  "nightingale": NightingaleLayout,
-  "default": BasicLayout,
+  basic: BasicLayout,
+  inverse: InverseLayout,
+  full: FullLayout,
+  compact: CompactLayout,
+  funky: FunkyLayout,
+  nightingale: NightingaleLayout,
+  default: BasicLayout,
 };
 
 /**
  * Pick the selected layout and forwards all properties to it.
  */
 class MSALayouter extends PureComponent {
-
   constructor(props) {
     super(props);
     this.el = React.createRef();
@@ -49,45 +44,45 @@ class MSALayouter extends PureComponent {
   static propsToForward = {
     // List of props forwarded to the SequenceViewer component
     sequenceViewerProps: {
-      "showModBar": same,
-      "onResidueMouseEnter": same,
-      "onResidueMouseLeave": same,
-      "onResidueClick": same,
-      "onResidueDoubleClick": same,
-      "sequenceBorder": "border",
-      "sequenceBorderColor": "borderColor",
-      "sequenceBorderWidth": "borderWidth",
-      "sequenceTextColor": "textColor",
-      "sequenceTextFont": "textFont",
-      "sequenceOverflow": "overflow",
-      "sequenceOverflowX": "overflowX",
-      "sequenceOverflowy": "overflowY",
-      "sequenceScrollBarPositionX": "scrollBarPositionX",
-      "sequenceScrollBarPositionY": "scrollBarPositionY",
-      "sequenceDisableDragging": same,
+      showModBar: same,
+      onResidueMouseEnter: same,
+      onResidueMouseLeave: same,
+      onResidueClick: same,
+      onResidueDoubleClick: same,
+      sequenceBorder: "border",
+      sequenceBorderColor: "borderColor",
+      sequenceBorderWidth: "borderWidth",
+      sequenceTextColor: "textColor",
+      sequenceTextFont: "textFont",
+      sequenceOverflow: "overflow",
+      sequenceOverflowX: "overflowX",
+      sequenceOverflowy: "overflowY",
+      sequenceScrollBarPositionX: "scrollBarPositionX",
+      sequenceScrollBarPositionY: "scrollBarPositionY",
+      sequenceDisableDragging: same,
     },
     // List of props forwarded to the Labels component
     labelsProps: {
-      "labelComponent": same,
-      "labelStyle": same,
-      "labelAttributes": same,
+      labelComponent: same,
+      labelStyle: same,
+      labelAttributes: same,
     },
     // List of props forwarded to the PositionBar component
     positionBarProps: {
-      "markerSteps": same,
-      "markerStartIndex": "startIndex",
-      "markerComponent": same,
-      "markerStyle": same,
-      "markerAttributes": same,
+      markerSteps: same,
+      markerStartIndex: "startIndex",
+      markerComponent: same,
+      markerStyle: same,
+      markerAttributes: same,
     },
     // List of props forwarded to the OverviewBar component
     overviewBarProps: {
-      "barMethod": "method",
-      "barFillColor": "fillColor",
-      "barComponent": same,
-      "barStyle": same,
-      "barAttributes": same,
-    }
+      barMethod: "method",
+      barFillColor: "fillColor",
+      barComponent: same,
+      barStyle: same,
+      barAttributes: same,
+    },
   };
 
   // behave like a DOM node and support event dispatching
@@ -96,22 +91,33 @@ class MSALayouter extends PureComponent {
   }
 
   render() {
-    const {layout, ...otherProps} = this.props;
+    const { layout, ...otherProps } = this.props;
     if (layout in layouts) {
       const Layout = layouts[layout];
-      const {forward: forwardProps, other: propsOnDiv} =
-        forwardPropsMapper(otherProps, this.constructor.propsToForward);
-      return <div el={this.ref} {...propsOnDiv} >
-          <Layout {...forwardProps} forwardedPropsKeys={this.forwardedPropsKeys} />
-        </div>;
+      const { forward: forwardProps, other: propsOnDiv } = forwardPropsMapper(
+        otherProps,
+        this.constructor.propsToForward
+      );
+      return (
+        <div el={this.ref} {...propsOnDiv}>
+          <Layout
+            {...forwardProps}
+            forwardedPropsKeys={this.forwardedPropsKeys}
+          />
+        </div>
+      );
     } else {
-        console.error(`$this.props.layout} is invalid. Please use one of ${Object.keys(layouts)}`);
+      console.error(
+        `$this.props.layout} is invalid. Please use one of ${Object.keys(
+          layouts
+        )}`
+      );
     }
   }
 }
 
 MSALayouter.defaultProps = {
-  layout: "default"
+  layout: "default",
 };
 
 MSALayouter.propTyes = {

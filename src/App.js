@@ -1,18 +1,15 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { Component } from 'react';
-import MSAViewer from './lib';
+import React, { Component } from "react";
+import MSAViewer from "./lib";
 
-import {
-  repeat,
-  times,
-} from 'lodash';
+import { repeat, times } from "lodash";
 
 class App extends Component {
   render() {
@@ -20,31 +17,38 @@ class App extends Component {
       sequences: [
         {
           name: "sequence 1",
-          sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+          sequence:
+            "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
         },
         {
           name: "sequence 2",
-          sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+          sequence:
+            "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
         },
         {
           name: "sequence 3",
-          sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+          sequence:
+            "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
         },
         {
           name: "sequence 4",
-          sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+          sequence:
+            "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
         },
         {
           name: "sequence 5",
-          sequence: "MEEPQSD--IEL-PLSEETFSDLWWPLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+          sequence:
+            "MEEPQSD--IEL-PLSEETFSDLWWPLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
         },
         {
           name: "sequence 6",
-          sequence: "MEEPQEDLSSSL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+          sequence:
+            "MEEPQEDLSSSL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
         },
         {
           name: "sequence 7",
-          sequence: "MEEPQ---SISE-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE---LSENVAGWLEDP"
+          sequence:
+            "MEEPQ---SISE-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE---LSENVAGWLEDP",
         },
       ],
       onResidueClick: (e) => {
@@ -57,8 +61,7 @@ class App extends Component {
     times(1000, (i) => {
       options.sequences.push({
         name: `sequence ${i}`,
-        sequence:
-          repeat(options.sequences[i % 7].sequence, 5),
+        sequence: repeat(options.sequences[i % 7].sequence, 5),
       });
     });
     return (

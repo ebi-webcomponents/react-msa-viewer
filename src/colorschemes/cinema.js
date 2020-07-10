@@ -25,5 +25,5 @@ export default {
   X: "grey",
   Y: "magenta",
   Z: "grey",
-  Gap: "grey"
+  Gap: "grey",
 };

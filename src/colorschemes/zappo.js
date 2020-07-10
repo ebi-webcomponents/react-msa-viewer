@@ -21,5 +21,5 @@ export default {
   V: "#ffafaf",
   B: "#fff",
   X: "#fff",
-  Z: "#fff"
+  Z: "#fff",
 };

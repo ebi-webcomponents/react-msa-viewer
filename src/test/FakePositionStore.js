@@ -1,22 +1,19 @@
 /**
-* Copyright 2018, Plotly, Inc.
-* All rights reserved.
-*
-* This source code is licensed under the MIT license found in the
-* LICENSE file in the root directory of this source tree.
-*/
+ * Copyright 2018, Plotly, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import createMSAStore from '../store/createMSAStore';
+import createMSAStore from "../store/createMSAStore";
 // import MSAProvider from '../store/provider';
-import { Provider as MSAProvider } from 'react-redux'
+import { Provider as MSAProvider } from "react-redux";
 
-import {
-  pick,
-  omit,
-} from 'lodash-es';
+import { pick, omit } from "lodash-es";
 
 /**
  * Forwards all passed-in properties to an mocked `positionStore`
@@ -28,9 +25,12 @@ class FakePositionStore extends Component {
   constructor(props) {
     super(props);
     const positionAttributes = [
-      "xPosOffset", "yPosOffset",
-      "currentViewSequence", "currentViewSequencePosition", "position",
-    ]
+      "xPosOffset",
+      "yPosOffset",
+      "currentViewSequence",
+      "currentViewSequencePosition",
+      "position",
+    ];
     this.positionStore = {
       actions: [],
       getState: () => ({
@@ -42,7 +42,7 @@ class FakePositionStore extends Component {
         if (this._subscribe !== undefined) {
           this._subscribe();
         }
-      }
+      },
     };
     // only if defined
     if (this.props.sequences) {
@@ -59,8 +59,8 @@ class FakePositionStore extends Component {
     // unsubscribe callback
     return () => {
       this._subscribe = undefined;
-    }
-  }
+    };
+  };
   componentDidUpdate() {
     // notify listeners
     if (this._subscribe) this._subscribe();
@@ -68,11 +68,11 @@ class FakePositionStore extends Component {
   render() {
     // only inject the msaStore if defined
     if (this.msaStore) {
-      return (<MSAProvider store={this.msaStore}>
-        <div>
-          { this.props.children }
-        </div>
-      </MSAProvider>);
+      return (
+        <MSAProvider store={this.msaStore}>
+          <div>{this.props.children}</div>
+        </MSAProvider>
+      );
     } else {
       return this.props.children;
     }
@@ -89,7 +89,7 @@ FakePositionStore.defaultProps = {
     xPos: 0,
     yPos: 0,
   },
-}
+};
 
 FakePositionStore.childContextTypes = {
   positionMSAStore: PropTypes.object,

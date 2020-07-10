@@ -25,5 +25,5 @@ export default {
   X: "#fff",
   Y: "blue",
   Z: "#fff",
-  Gap: "#fff"
+  Gap: "#fff",
 };

@@ -44,4 +44,4 @@ export default function shallowEqual(objA, objB, compare, compareContext) {
   }
 
   return true;
-};
+}
