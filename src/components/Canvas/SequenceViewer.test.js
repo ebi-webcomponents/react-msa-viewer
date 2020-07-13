@@ -9,7 +9,6 @@
 import React from "react";
 
 import SequenceViewer from "./SequenceViewer";
-import CanvasCache from "./CanvasCache";
 import {
   SequenceViewer as CanvasSequenceViewer,
   SequenceViewerWithPosition,
@@ -137,11 +136,22 @@ describe("sends movement actions on mousemove events", () => {
   });
 });
 
-it("should fire an event on mouseclick", () => {
-  const mockOnClick = jest.fn();
+it("should fire onResidueClick and onHighlightClick event on mouseclick", () => {
+  const mockOnResidueClick = jest.fn();
+  const mockOnHighlightClick = jest.fn();
   const msa = mount(
     <MSAViewer sequences={[...dummySequences]} width={400} height={200}>
-      <SequenceViewer onResidueClick={mockOnClick} />
+      <SequenceViewer
+        onResidueClick={mockOnResidueClick}
+        onHighlightClick={mockOnHighlightClick}
+        highlight={[
+          {
+            residues: { from: 1, to: 10 },
+            sequences: { from: 1, to: 1 },
+            id: "id",
+          },
+        ]}
+      />
     </MSAViewer>
   );
   expect(msa).toMatchSnapshot();
@@ -151,8 +161,8 @@ it("should fire an event on mouseclick", () => {
     offsetY: 20,
   };
   sv.onClick(fakeClickEvent);
-  expect(mockOnClick.mock.calls.length).toBe(1);
-  expect(mockOnClick.mock.calls[0][0]).toEqual({
+  expect(mockOnResidueClick.mock.calls.length).toBe(1);
+  expect(mockOnResidueClick.mock.calls[0][0]).toEqual({
     i: 1,
     position: 2,
     residue: "E",
@@ -161,6 +171,8 @@ it("should fire an event on mouseclick", () => {
       sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
     },
   });
+  expect(mockOnHighlightClick.mock.calls.length).toBe(1);
+  expect(mockOnHighlightClick.mock.calls[0][0]).toEqual("id");
 });
 
 it("renders differently after changed properties", () => {
