@@ -37,6 +37,29 @@ class SequenceViewerComponent extends DraggingComponent {
     this.tilingGridManager = new TilingGrid();
   }
 
+  hasOnMouseMoveProps() {
+    return (
+      this.props.onResidueMouseEnter !== undefined ||
+      this.props.onResidueMouseLeave !== undefined ||
+      this.props.onHighlightMouseEnter !== undefined ||
+      this.props.onHighlightMouseLeave !== undefined
+    );
+  }
+
+  componentDidMount() {
+    if (this.hasOnMouseMoveProps()) {
+      this.container.current.addEventListener("mousemove", this.onMouseMove);
+    }
+    super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    if (this.hasOnMouseMoveProps()) {
+      this.container.current.removeEventListener("mousemove", this.onMouseMove);
+    }
+    super.componentWillUnmount();
+  }
+
   // starts the drawing process
   drawScene() {
     const positions = this.getTilePositions();
@@ -271,12 +294,7 @@ class SequenceViewerComponent extends DraggingComponent {
 
   onMouseMove = (e) => {
     if (typeof this.isInDragPhase === "undefined") {
-      if (
-        this.props.onResidueMouseEnter !== undefined ||
-        this.props.onResidueMouseLeave !== undefined ||
-        this.props.onHighlightMouseEnter !== undefined ||
-        this.props.onHighlightMouseLeave !== undefined
-      ) {
+      if (this.hasOnMouseMoveProps()) {
         const eventData = this.currentPointerPosition(e);
         const lastValue = this.currentMouseSequencePosition;
         const lastMouseHighlight = this.currentMouseHighlight;
