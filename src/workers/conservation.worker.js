@@ -1,6 +1,6 @@
 self.conservation = null;
 
-export const calculateConservation = (sequences, isWorker = false) => {
+const calculateConservation = (sequences, isWorker = false) => {
   const length =
     (sequences && sequences.length && sequences[0].sequence.length) || 0;
 
@@ -33,3 +33,5 @@ const onmessage = function (e) {
   // self.postMessage(conservation);
 };
 self.addEventListener("message", onmessage);
+
+export default calculateConservation;
