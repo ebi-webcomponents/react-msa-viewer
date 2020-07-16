@@ -1377,7 +1377,6 @@ exports[`renders without crashing 1`] = `
             >
               <div
                 height={140}
-                highlight={null}
                 style={
                   Object {
                     "cursor": "grab",
@@ -1802,7 +1801,7 @@ exports[`sends movement actions on mousemove events should change the cursor sta
 </FakePositionStore>
 `;
 
-exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`] = `
+exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] = `
 <PropsToReduxComponent
   calculateConservation={false}
   colorScheme="clustal"
@@ -1867,7 +1866,7 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
     >
       <div>
         <Connect(withPosition(SequenceViewerComponent))
-          highlight={
+          features={
             Array [
               Object {
                 "id": "id",
@@ -1882,7 +1881,7 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
               },
             ]
           }
-          onHighlightClick={[MockFunction]}
+          onFeatureClick={[MockFunction]}
           onResidueClick={[MockFunction]}
         >
           <withPosition(SequenceViewerComponent)
@@ -1925,10 +1924,7 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
               }
             }
             dispatch={[Function]}
-            fullHeight={140}
-            fullWidth={1200}
-            height={140}
-            highlight={
+            features={
               Array [
                 Object {
                   "id": "id",
@@ -1943,9 +1939,12 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
                 },
               ]
             }
+            fullHeight={140}
+            fullWidth={1200}
+            height={140}
             nrXTiles={21}
             nrYTiles={11}
-            onHighlightClick={[MockFunction]}
+            onFeatureClick={[MockFunction]}
             onResidueClick={[MockFunction]}
             sequences={
               Object {
@@ -2031,10 +2030,7 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
                 }
               }
               dispatch={[Function]}
-              fullHeight={140}
-              fullWidth={1200}
-              height={140}
-              highlight={
+              features={
                 Array [
                   Object {
                     "id": "id",
@@ -2049,9 +2045,13 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
                   },
                 ]
               }
+              fullHeight={140}
+              fullWidth={1200}
+              height={140}
+              highlight={null}
               nrXTiles={21}
               nrYTiles={11}
-              onHighlightClick={[MockFunction]}
+              onFeatureClick={[MockFunction]}
               onResidueClick={[MockFunction]}
               overflow="hidden"
               overflowX="auto"
@@ -2116,21 +2116,6 @@ exports[`should fire onResidueClick and onHighlightClick event on mouseclick 1`]
             >
               <div
                 height={140}
-                highlight={
-                  Array [
-                    Object {
-                      "id": "id",
-                      "residues": Object {
-                        "from": 1,
-                        "to": 10,
-                      },
-                      "sequences": Object {
-                        "from": 1,
-                        "to": 1,
-                      },
-                    },
-                  ]
-                }
                 style={
                   Object {
                     "cursor": "grab",

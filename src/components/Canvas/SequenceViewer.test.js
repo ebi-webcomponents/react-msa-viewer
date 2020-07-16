@@ -136,15 +136,15 @@ describe("sends movement actions on mousemove events", () => {
   });
 });
 
-it("should fire onResidueClick and onHighlightClick event on mouseclick", () => {
+it("should fire onResidueClick and onFeatureClick event on mouseclick", () => {
   const mockOnResidueClick = jest.fn();
-  const mockOnHighlightClick = jest.fn();
+  const mockOnFeatureClick = jest.fn();
   const msa = mount(
     <MSAViewer sequences={[...dummySequences]} width={400} height={200}>
       <SequenceViewer
         onResidueClick={mockOnResidueClick}
-        onHighlightClick={mockOnHighlightClick}
-        highlight={[
+        onFeatureClick={mockOnFeatureClick}
+        features={[
           {
             residues: { from: 1, to: 10 },
             sequences: { from: 1, to: 1 },
@@ -171,8 +171,8 @@ it("should fire onResidueClick and onHighlightClick event on mouseclick", () => 
       sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
     },
   });
-  expect(mockOnHighlightClick.mock.calls.length).toBe(1);
-  expect(mockOnHighlightClick.mock.calls[0][0]).toEqual("id");
+  expect(mockOnFeatureClick.mock.calls.length).toBe(1);
+  expect(mockOnFeatureClick.mock.calls[0][0]).toEqual("id");
 });
 
 it("renders differently after changed properties", () => {

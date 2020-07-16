@@ -26,16 +26,20 @@ const sequences = [
   },
 ];
 
-const highlight = [
+const features = [
   {
     residues: { from: 1, to: 20 },
     sequences: { from: 0, to: 0 },
     id: "id-1",
+    borderColor: "blue",
+    fillColor: "black",
   },
   {
     residues: { from: 3, to: 10 },
     sequences: { from: 2, to: 2 },
     id: "id-2",
+    borderColor: "blue",
+    fillColor: "black",
   },
 ];
 
@@ -169,35 +173,24 @@ storiesOf("Events", module)
     }
     return <ExtraInformation />;
   })
-  .add("onHighlight", () => (
-    <MSAViewer sequences={sequences}>
-      Check the console or the "Action Logger" tab for the resulting events.
-      <SequenceViewer
-        onHighlightClick={storyAction("onHilightClick")}
-        onHighlightMouseEnter={storyAction("onHighlightMouseEnter")}
-        onHighlightMouseLeave={storyAction("onHighlightMouseLeave")}
-        highlight={highlight}
-      />
-    </MSAViewer>
-  ))
-  .add("onHighlightClick", () => {
+  .add("onFeatureClick", () => {
     class ExtraInformation extends Component {
       state = {};
-      onHighlightClick = (e) => {
+      onFeatureClick = (e) => {
         this.setState({ lastEvent: e });
       };
       render() {
         return (
           <div>
-            Click on a residue:
+            Click on a feature:
             <MSAViewer sequences={sequences}>
               <SequenceViewer
-                onHighlightClick={this.onHighlightClick}
-                highlight={highlight}
+                onFeatureClick={this.onFeatureClick}
+                features={features}
               />
             </MSAViewer>
             {this.state.lastEvent && (
-              <div>Last highlight clicked: {this.state.lastEvent}</div>
+              <div>Last feature clicked: {this.state.lastEvent}</div>
             )}
           </div>
         );
@@ -250,18 +243,16 @@ storiesOf("Events", module)
         );
       };
       highlightRegion = () => {
-        this.el.highlightRegion([
-          {
-            sequences: {
-              from: 1,
-              to: 2,
-            },
-            residues: {
-              from: 2,
-              to: 13,
-            },
+        this.el.highlightRegion({
+          sequences: {
+            from: 1,
+            to: 2,
           },
-        ]);
+          residues: {
+            from: 2,
+            to: 13,
+          },
+        });
       };
       removeHighlightRegion = () => {
         const action = actions.removeHighlightRegion();

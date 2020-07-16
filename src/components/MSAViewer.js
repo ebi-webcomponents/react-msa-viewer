@@ -221,19 +221,19 @@ MSAViewerComponent.propTypes = {
   onResidueDoubleClick: PropTypes.func,
 
   /**
-   * Callback fired when the mouse pointer clicked a highlight.
+   * Callback fired when the mouse pointer clicked a feature.
    */
-  onHighlightClick: PropTypes.func,
+  onFeatureClick: PropTypes.func,
 
   /**
-   * Callback fired when the mouse pointer is entering a highlight.
+   * Displays a highlight
    */
-  onHighlightMouseEnter: PropTypes.func,
+  highlight: PropTypes.object,
 
   /**
-   * Callback fired when the mouse pointer is leaving a highlight.
+   * An array of features which can be clicked
    */
-  onHighlightMouseLeave: PropTypes.func,
+  features: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * Predefined layout scheme to use (only used when no child elements are provided).

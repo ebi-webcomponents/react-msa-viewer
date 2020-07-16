@@ -2960,7 +2960,6 @@ exports[`it should rerender when new props are given 1`] = `
                         >
                           <div
                             height={140}
-                            highlight={null}
                             style={
                               Object {
                                 "cursor": "grab",
@@ -6032,7 +6031,6 @@ exports[`renders without crashing in enzyme 1`] = `
                         >
                           <div
                             height={140}
-                            highlight={null}
                             style={
                               Object {
                                 "cursor": "grab",

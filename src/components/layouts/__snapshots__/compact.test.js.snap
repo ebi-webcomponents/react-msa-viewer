@@ -1479,7 +1479,6 @@ exports[`renders without crashing 1`] = `
                     >
                       <div
                         height={140}
-                        highlight={null}
                         style={
                           Object {
                             "cursor": "grab",

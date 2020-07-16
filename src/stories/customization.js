@@ -15,20 +15,20 @@ import { zipObject } from "lodash-es";
 const sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED"
+    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
   },
   {
     name: "seq.2",
-    sequence: "MEEPQSDLSIEL-PLSQETFTDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+    sequence: "MEEPQSDLSIEL-PLSQETFTDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
   },
   {
     name: "seq.3",
-    sequence: "MEPIQSDLSIEL-PLSQETFWDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
+    sequence: "MEPIQSDLSIEL-PLSQETFWDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
   },
   {
     name: "seq.4",
-    sequence: "MIPEQSSLSIEL-PLSQETFLDLWKLYPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP"
-  }
+    sequence: "MIPEQSSLSIEL-PLSQETFLDLWKLYPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+  },
 ];
 
 // Storybook 4 selects only accepts key/value objects
@@ -38,7 +38,7 @@ function createObject(options) {
 
 storiesOf("Customization", module)
   .addDecorator(withKnobs)
-  .add("Colorschemes", function() {
+  .add("Colorschemes", function () {
     // see https://github.com/wilzbach/msa-colorschemes for now
     const colorschemes = [
       "buried_index",
@@ -55,41 +55,41 @@ storiesOf("Customization", module)
       "taylor",
       "turn_propensity",
       "zappo",
-      "conservation"
+      "conservation",
     ];
     const options = {
       colorScheme: select("Colorscheme", createObject(colorschemes), "zappo"),
       calculateConservation: true,
-      sequences
+      sequences,
     };
     let currentColor = null;
     class MSAConservation extends Component {
       componentDidMount() {
         this.parentDiv.addEventListener("conservationProgress", console.log);
-        this.parentDiv.addEventListener("drawCompleted", () =>{
-          const {name, map} = this.viewer.getColorMap();
-          if (name!==currentColor){
-            console.log(name, map)
+        this.parentDiv.addEventListener("drawCompleted", () => {
+          const { name, map } = this.viewer.getColorMap();
+          if (name !== currentColor) {
+            console.log(name, map);
             currentColor = name;
           }
         });
       }
       render() {
         return (
-          <div ref={ref => (this.parentDiv = ref)}>
-            <MSAViewer {...options} ref={ref => (this.viewer = ref)} />
+          <div ref={(ref) => (this.parentDiv = ref)}>
+            <MSAViewer {...options} ref={(ref) => (this.viewer = ref)} />
           </div>
         );
       }
     }
     return <MSAConservation />;
   })
-  .add("Custom ColorScheme", function() {
+  .add("Custom ColorScheme", function () {
     // see https://github.com/wilzbach/msa-colorschemes for now
     const myColorMap = {
       M: "blue",
       E: "red",
-      T: "green"
+      T: "green",
     };
     class MyColorScheme {
       getColor(element) {
@@ -99,11 +99,11 @@ storiesOf("Customization", module)
     const myColorScheme = new MyColorScheme();
     const options = {
       colorScheme: myColorScheme,
-      sequences
+      sequences,
     };
     return <MSAViewer {...options} />;
   })
-  .add("Custom Labels", function() {
+  .add("Custom Labels", function () {
     const fontSizes = [
       "6px",
       "8px",
@@ -112,7 +112,7 @@ storiesOf("Customization", module)
       "14px",
       "16px",
       "18px",
-      "20px"
+      "20px",
     ];
     const fontSize = select("Font size", createObject(fontSizes), "14px");
     const options = {
@@ -123,11 +123,11 @@ storiesOf("Customization", module)
             My: {sequence.name}
           </div>
         );
-      }
+      },
     };
     return <MSAViewer {...options} />;
   })
-  .add("Custom Markers", function() {
+  .add("Custom Markers", function () {
     const fontSizes = ["6px", "8px", "10px", "12px", "14px", "16px", "18px"];
     const fontSize = select("Font size", createObject(fontSizes), "10px");
     const options = {
@@ -141,30 +141,30 @@ storiesOf("Customization", module)
               textAlign: "center",
               fontSize: fontSize,
               fontWeight: "bold",
-              color: "pink"
+              color: "pink",
             }}
           >
             {index}
           </div>
         );
-      }
+      },
     };
     return <MSAViewer {...options} />;
   })
-  .add("Custom styling", function() {
+  .add("Custom styling", function () {
     const options = {
       sequences,
       labelStyle: {
-        outline: text("Label style (outline)", "1px solid black")
+        outline: text("Label style (outline)", "1px solid black"),
       },
       markerStyle: {
-        outline: text("Marker style (outline)", "1px solid black")
+        outline: text("Marker style (outline)", "1px solid black"),
       },
-      sequenceTextColor: text("Sequence color", "blue")
+      sequenceTextColor: text("Sequence color", "blue"),
     };
     return <MSAViewer {...options} />;
   })
-  .add("Custom scollbars", function() {
+  .add("Custom scollbars", function () {
     const options = {
       sequences,
       sequenceScrollBarPositionX: select(
@@ -181,27 +181,7 @@ storiesOf("Customization", module)
         "Overflow",
         createObject(["scroll", "auto", "hidden"]),
         "scroll"
-      )
-    };
-    return <MSAViewer {...options} />;
-  })
-  .add("Custom highlights", function () {
-    const options = {
-      sequences,
-      highlight: [
-        {
-          residues: { from: 1, to: 20 },
-          sequences: { from: 0, to: 0 },
-          fillColor: "blue",
-          borderColor: "violet",
-        },
-        {
-          residues: { from: 3, to: 10 },
-          sequences: { from: 2, to: 2 },
-          fillColor: "black",
-          borderColor: "black",
-        },
-      ],
+      ),
     };
     return <MSAViewer {...options} />;
   });

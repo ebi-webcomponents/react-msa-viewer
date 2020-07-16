@@ -41,8 +41,7 @@ class SequenceViewerComponent extends DraggingComponent {
     return (
       this.props.onResidueMouseEnter !== undefined ||
       this.props.onResidueMouseLeave !== undefined ||
-      this.props.onHighlightMouseEnter !== undefined ||
-      this.props.onHighlightMouseLeave !== undefined
+      (this.props.features && this.props.features.length > 0)
     );
   }
 
@@ -170,26 +169,27 @@ class SequenceViewerComponent extends DraggingComponent {
 
   drawHighlightedRegions() {
     if (this.props.highlight) {
-      this.props.highlight.forEach((highlight) => {
-        this.drawHighligtedRegion(highlight);
+      this.drawHighligtedRegion(this.props.highlight);
+    }
+    if (this.props.features) {
+      this.props.features.forEach((feature) => {
+        this.drawHighligtedRegion(feature);
       });
     }
   }
 
-  drawHighligtedRegion(highlight) {
-    if (!this.ctx || !highlight) return;
+  drawHighligtedRegion(region) {
+    if (!this.ctx || !region) return;
     const regionWidth =
-      this.props.tileWidth *
-      (1 + highlight.residues.to - highlight.residues.from);
+      this.props.tileWidth * (1 + region.residues.to - region.residues.from);
     const regionHeight =
-      this.props.tileHeight *
-      (1 + highlight.sequences.to - highlight.sequences.from);
+      this.props.tileHeight * (1 + region.sequences.to - region.sequences.from);
     const yPosFrom =
-      (highlight.sequences.from - this.props.position.currentViewSequence) *
+      (region.sequences.from - this.props.position.currentViewSequence) *
         this.props.tileHeight +
       this.props.position.yPosOffset;
     const xPosFrom =
-      (highlight.residues.from -
+      (region.residues.from -
         1 -
         this.props.position.currentViewSequencePosition) *
         this.props.tileWidth +
@@ -200,12 +200,12 @@ class SequenceViewerComponent extends DraggingComponent {
     canvas.height = regionHeight;
 
     const ctx = canvas.getContext("2d");
-
+    const mouseOver = this.mouseOverFeatureIds?.some((id) => id === region.id);
     ctx.globalAlpha = 0.3;
-    ctx.fillStyle = highlight.fillColor || "yellow";
+    ctx.fillStyle = mouseOver ? "green" : region.fillColor || "yellow";
     ctx.fillRect(0, 0, regionWidth, regionHeight);
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = highlight.borderColor || "red";
+    ctx.strokeStyle = mouseOver ? "black " : region.borderColor || "red";
     ctx.lineWidth = "2";
     ctx.rect(0, 0, regionWidth, regionHeight);
 
@@ -254,18 +254,20 @@ class SequenceViewerComponent extends DraggingComponent {
     };
   }
 
-  sequencePositionToHighlightWithId(sequencePosition) {
-    if (!this.props.highlight) {
+  sequencePositionToFeatureIds(sequencePosition) {
+    if (!this.props.features) {
       return;
     }
-    return this.props.highlight.filter(
-      (highlight) =>
-        highlight.id &&
-        sequencePosition.position >= highlight.residues.from - 1 &&
-        sequencePosition.position <= highlight.residues.to - 1 &&
-        sequencePosition.i >= highlight.sequences.from &&
-        sequencePosition.i <= highlight.sequences.to
-    );
+    return this.props.features
+      .filter(
+        (feature) =>
+          feature.id &&
+          sequencePosition.position >= feature.residues.from - 1 &&
+          sequencePosition.position <= feature.residues.to - 1 &&
+          sequencePosition.i >= feature.sequences.from &&
+          sequencePosition.i <= feature.sequences.to
+      )
+      .map((feature) => feature.id);
   }
 
   updateScrollPosition = () => {
@@ -297,33 +299,23 @@ class SequenceViewerComponent extends DraggingComponent {
       if (this.hasOnMouseMoveProps()) {
         const eventData = this.currentPointerPosition(e);
         const lastValue = this.currentMouseSequencePosition;
-        const lastMouseHighlight = this.currentMouseHighlight;
         if (!isEqual(lastValue, eventData)) {
           if (lastValue !== undefined) {
             this.sendEvent("onResidueMouseLeave", lastValue);
           }
           this.currentMouseSequencePosition = eventData;
           this.sendEvent("onResidueMouseEnter", eventData);
-          const mouseHighlight = this.sequencePositionToHighlightWithId(
-            eventData
-          );
-          const highlightMouseLeave = differenceWith(
-            lastMouseHighlight,
-            mouseHighlight,
-            isEqual
-          );
-          const highlightMouseEnter = differenceWith(
-            mouseHighlight,
-            lastMouseHighlight,
-            isEqual
-          );
-          this.currentMouseHighlight = mouseHighlight;
-          highlightMouseLeave.forEach((highlight) => {
-            this.sendEvent("onHighlightMouseLeave", highlight.id);
-          });
-          highlightMouseEnter.forEach((highlight) => {
-            this.sendEvent("onHighlightMouseEnter", highlight.id);
-          });
+
+          if (this.props.features && this.props.features.length > 0) {
+            const lastMouseOverFeatureIds = this.mouseOverFeatureIds || [];
+            const mouseOverFeatureIds = this.sequencePositionToFeatureIds(
+              eventData
+            );
+            if (!isEqual(lastMouseOverFeatureIds, mouseOverFeatureIds)) {
+              this.mouseOverFeatureIds = mouseOverFeatureIds;
+              super.draw();
+            }
+          }
         }
       }
     }
@@ -333,11 +325,9 @@ class SequenceViewerComponent extends DraggingComponent {
   onMouseLeave = (e) => {
     this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
-    if (this.currentMouseHighlight) {
-      this.currentMouseHighlight.forEach((highlight) => {
-        this.sendEvent("onHighlightMouseLeave", highlight.id);
-      });
-      this.currentMouseHighlight = undefined;
+    if (this.mouseOverFeatureIds) {
+      this.mouseOverFeatureIds = undefined;
+      super.draw();
     }
     super.onMouseLeave(e);
   };
@@ -346,10 +336,11 @@ class SequenceViewerComponent extends DraggingComponent {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
-      if (!this.props.highlight) return;
-      this.sequencePositionToHighlightWithId(eventData).forEach((highlight) => {
-        this.sendEvent("onHighlightClick", highlight.id);
-      });
+      if (this.props.features) {
+        this.sequencePositionToFeatureIds(eventData).forEach((id) => {
+          this.sendEvent("onFeatureClick", id);
+        });
+      }
     }
     super.onClick(e);
   };
@@ -428,19 +419,19 @@ SequenceViewerComponent.propTypes = {
   onResidueClick: PropTypes.func,
 
   /**
-   * Callback fired when the mouse pointer clicked a highlight.
+   * Callback fired when the mouse pointer clicked a feature.
    */
-  onHighlightClick: PropTypes.func,
+  onFeatureClick: PropTypes.func,
 
   /**
-   * Callback fired when the mouse pointer is entering a highlight.
+   * Displays a highlight
    */
-  onHighlightMouseEnter: PropTypes.func,
+  highlight: PropTypes.object,
 
   /**
-   * Callback fired when the mouse pointer is leaving a highlight.
+   * An array of features which can be clicked
    */
-  onHighlightMouseLeave: PropTypes.func,
+  features: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * Callback fired when the mouse pointer clicked a residue.

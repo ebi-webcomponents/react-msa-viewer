@@ -311,7 +311,7 @@ Callback fired when the mouse pointer is leaving a residue.
 
 type: `func`
 
-##### `onHighlightClick`
+##### `onFeatureClick`
 
 Callback fired when the mouse pointer clicked a highlight.
 
@@ -686,7 +686,7 @@ Callback fired when the mouse pointer is leaving a residue.
 
 type: `func`
 
-##### `onHighlightClick`
+##### `onFeatureClick`
 
 Callback fired when the mouse pointer clicked a highlight.
 
