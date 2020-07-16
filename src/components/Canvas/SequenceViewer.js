@@ -8,7 +8,7 @@
 
 import PropTypes from "prop-types";
 
-import { clamp, floor, isEqual, pick, differenceWith } from "lodash-es";
+import { clamp, floor, isEqual, pick } from "lodash-es";
 
 import DraggingComponent from "./DraggingComponent";
 import TilingGrid from "./CanvasTilingGrid";
