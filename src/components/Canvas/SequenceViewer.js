@@ -69,6 +69,13 @@ class SequenceViewerComponent extends DraggingComponent {
     }
     this.drawTiles(positions);
     this.drawHighlightedRegions();
+    if (this.ctx) {
+      this.ctx.canvas.dispatchEvent(
+        new CustomEvent("drawCompleted", {
+          bubbles: true,
+        })
+      );
+    }
     if (debug) {
       const elapsed = Date.now() - this.redrawStarted;
       if (elapsed > 5) {
