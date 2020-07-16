@@ -3,12 +3,13 @@ const pid = {};
 // calculating the conservation is expensive
 // we only want to do it once
 pid.init = function () {};
-
+const gaps = ['', ' ', '-', '_'];
 pid.run = function (letter, pos, conservation) {
   if (
     !conservation ||
     conservation.progress !== 1 ||
-    pos > conservation.map.length
+    pos > conservation.map.length ||
+    gaps.includes(letter)
   )
     return "#ffffff";
 
