@@ -85,7 +85,7 @@ class CanvasTilingGridComponent extends CanvasComponent {
     canvas.globalAlpha = Math.min(1, m * this.props.tileWidth + b);
     // 1.0;
     canvas.fillStyle = this.props.textColor;
-    canvas.font = this.props.textFont + "px mono";
+    canvas.font = this.props.textFont;
     canvas.textBaseline = "middle";
     canvas.textAlign = "center";
     canvas.fillText(

@@ -62,6 +62,7 @@ storiesOf("Customization", module)
       calculateConservation: true,
       overlayConservation: boolean("overlayConservation", false),
       sampleSizeConservation: number('sampleSizeConservation',''),
+      sequenceTextFont: '16px Monospace',
       sequences
     };
     let currentColor = null;
