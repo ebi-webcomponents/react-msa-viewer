@@ -3,7 +3,7 @@ const pid = {};
 // calculating the conservation is expensive
 // we only want to do it once
 pid.init = function () {};
-const gaps = ['', ' ', '-', '_'];
+const gaps = ['', ' ', '-', '_', '.'];
 pid.run = function (letter, pos, conservation) {
   if (
     !conservation ||
