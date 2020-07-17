@@ -116,6 +116,10 @@ export const PropsToRedux = (WrappedComponent) => {
                 worker.terminate();
               }
             }
+            if (prop === "sampleSizeConservation") {
+              if (worker) worker.terminate();
+              setUpWorker(this.msaStore, this.props.sequences, this.props.sampleSizeConservation, this.el);
+            }
             switch (reduxActions[prop]) {
               case "updateProp":
                 action = mainStoreActions[reduxActions[prop]](
