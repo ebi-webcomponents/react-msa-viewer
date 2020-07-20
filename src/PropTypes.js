@@ -21,6 +21,13 @@ export const SequencePropType = PropTypes.shape({
 });
 
 export const AllowedColorschemes = [
+  "aa_aliphatic",
+  "aa_aromatic",
+  "aa_charged",
+  "aa_negative",
+  "aa_polar",
+  "aa_positive",
+  "aa_serine_threosine",
   "buried_index",
   "clustal",
   "clustal2",

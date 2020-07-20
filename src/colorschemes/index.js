@@ -1,5 +1,12 @@
 import { StaticSchemeClass, DynSchemeClass } from "./schemeclass";
 
+import AaAliphatic from "./aa_aliphatic";
+import AaAromatic from "./aa_aromatic";
+import AaCharged from "./aa_charged";
+import AaNegative from "./aa_negative";
+import AaPolar from "./aa_polar";
+import AaPositive from "./aa_positive";
+import AaSerineThreosine from "./aa_serine_threonine";
 import Buried from "./buried";
 import Cinema from "./cinema";
 import Clustal from "./clustal";
@@ -18,6 +25,13 @@ import Zappo from "./zappo";
 import pid from "./pid_colors";
 
 const staticSchemes = {
+  aa_aliphatic: AaAliphatic,
+  aa_aromatic: AaAromatic,
+  aa_charged: AaCharged,
+  aa_negative: AaNegative,
+  aa_polar: AaPolar,
+  aa_positive: AaPositive,
+  aa_serine_threosine: AaSerineThreosine,
   buried: Buried,
   buried_index: Buried,
   cinema: Cinema,
