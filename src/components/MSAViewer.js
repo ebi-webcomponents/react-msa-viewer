@@ -221,6 +221,21 @@ MSAViewerComponent.propTypes = {
   onResidueDoubleClick: PropTypes.func,
 
   /**
+   * Callback fired when the mouse pointer clicked a feature.
+   */
+  onFeatureClick: PropTypes.func,
+
+  /**
+   * Displays a highlight
+   */
+  highlight: PropTypes.object,
+
+  /**
+   * An array of features which can be clicked
+   */
+  features: PropTypes.arrayOf(PropTypes.object),
+
+  /**
    * Predefined layout scheme to use (only used when no child elements are provided).
    * Available layouts: `basic`, `inverse`, `full`, `compact`, `funky`, `nightingale`
    */

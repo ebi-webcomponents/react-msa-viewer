@@ -2,6 +2,7 @@
 
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={600}
   layout="full"
@@ -556,7 +557,6 @@ exports[`renders without crashing 1`] = `
                       >
                         <div
                           height={140}
-                          highlight={null}
                           style={
                             Object {
                               "cursor": "grab",

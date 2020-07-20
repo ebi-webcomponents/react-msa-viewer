@@ -37,6 +37,28 @@ class SequenceViewerComponent extends DraggingComponent {
     this.tilingGridManager = new TilingGrid();
   }
 
+  hasOnMouseMoveProps() {
+    return (
+      this.props.onResidueMouseEnter !== undefined ||
+      this.props.onResidueMouseLeave !== undefined ||
+      (this.props.features && this.props.features.length > 0)
+    );
+  }
+
+  componentDidMount() {
+    if (this.hasOnMouseMoveProps()) {
+      this.container.current.addEventListener("mousemove", this.onMouseMove);
+    }
+    super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    if (this.hasOnMouseMoveProps()) {
+      this.container.current.removeEventListener("mousemove", this.onMouseMove);
+    }
+    super.componentWillUnmount();
+  }
+
   // starts the drawing process
   drawScene() {
     const positions = this.getTilePositions();
@@ -46,11 +68,11 @@ class SequenceViewerComponent extends DraggingComponent {
       this.redrawnTiles = 0;
     }
     this.drawTiles(positions);
-    this.drawHighligtedRegion();
+    this.drawHighlightedRegions();
     if (this.ctx) {
       this.ctx.canvas.dispatchEvent(
         new CustomEvent("drawCompleted", {
-          bubbles: true
+          bubbles: true,
         })
       );
     }
@@ -153,20 +175,32 @@ class SequenceViewerComponent extends DraggingComponent {
       }
     }
   }
-  drawHighligtedRegion() {
-    const r = this.props.highlight;
 
-    if (!this.ctx || !r) return;
+  drawHighlightedRegions() {
+    if (this.props.highlight) {
+      this.drawHighligtedRegion(this.props.highlight);
+    }
+    if (this.props.features) {
+      this.props.features.forEach((feature) => {
+        this.drawHighligtedRegion(feature);
+      });
+    }
+  }
+
+  drawHighligtedRegion(region) {
+    if (!this.ctx || !region) return;
     const regionWidth =
-      this.props.tileWidth * (1 + r.residues.to - r.residues.from);
+      this.props.tileWidth * (1 + region.residues.to - region.residues.from);
     const regionHeight =
-      this.props.tileHeight * (1 + r.sequences.to - r.sequences.from);
+      this.props.tileHeight * (1 + region.sequences.to - region.sequences.from);
     const yPosFrom =
-      (r.sequences.from - this.props.position.currentViewSequence) *
+      (region.sequences.from - this.props.position.currentViewSequence) *
         this.props.tileHeight +
       this.props.position.yPosOffset;
     const xPosFrom =
-      (r.residues.from - 1 - this.props.position.currentViewSequencePosition) *
+      (region.residues.from -
+        1 -
+        this.props.position.currentViewSequencePosition) *
         this.props.tileWidth +
       this.props.position.xPosOffset;
 
@@ -175,12 +209,12 @@ class SequenceViewerComponent extends DraggingComponent {
     canvas.height = regionHeight;
 
     const ctx = canvas.getContext("2d");
-
+    const mouseOver = this.mouseOverFeatureIds?.some((id) => id === region.id);
     ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = mouseOver ? "green" : region.fillColor || "yellow";
     ctx.fillRect(0, 0, regionWidth, regionHeight);
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = mouseOver ? "black " : region.borderColor || "red";
     ctx.lineWidth = "2";
     ctx.rect(0, 0, regionWidth, regionHeight);
 
@@ -229,6 +263,22 @@ class SequenceViewerComponent extends DraggingComponent {
     };
   }
 
+  sequencePositionToFeatureIds(sequencePosition) {
+    if (!this.props.features) {
+      return;
+    }
+    return this.props.features
+      .filter(
+        (feature) =>
+          feature.id &&
+          sequencePosition.position >= feature.residues.from - 1 &&
+          sequencePosition.position <= feature.residues.to - 1 &&
+          sequencePosition.i >= feature.sequences.from &&
+          sequencePosition.i <= feature.sequences.to
+      )
+      .map((feature) => feature.id);
+  }
+
   updateScrollPosition = () => {
     this.draw();
   };
@@ -255,10 +305,7 @@ class SequenceViewerComponent extends DraggingComponent {
 
   onMouseMove = (e) => {
     if (typeof this.isInDragPhase === "undefined") {
-      if (
-        this.props.onResidueMouseEnter !== undefined ||
-        this.props.onResidueMouseLeave !== undefined
-      ) {
+      if (this.hasOnMouseMoveProps()) {
         const eventData = this.currentPointerPosition(e);
         const lastValue = this.currentMouseSequencePosition;
         if (!isEqual(lastValue, eventData)) {
@@ -267,6 +314,17 @@ class SequenceViewerComponent extends DraggingComponent {
           }
           this.currentMouseSequencePosition = eventData;
           this.sendEvent("onResidueMouseEnter", eventData);
+
+          if (this.props.features && this.props.features.length > 0) {
+            const lastMouseOverFeatureIds = this.mouseOverFeatureIds || [];
+            const mouseOverFeatureIds = this.sequencePositionToFeatureIds(
+              eventData
+            );
+            if (!isEqual(lastMouseOverFeatureIds, mouseOverFeatureIds)) {
+              this.mouseOverFeatureIds = mouseOverFeatureIds;
+              super.draw();
+            }
+          }
         }
       }
     }
@@ -276,6 +334,10 @@ class SequenceViewerComponent extends DraggingComponent {
   onMouseLeave = (e) => {
     this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
+    if (this.mouseOverFeatureIds) {
+      this.mouseOverFeatureIds = undefined;
+      super.draw();
+    }
     super.onMouseLeave(e);
   };
 
@@ -283,6 +345,11 @@ class SequenceViewerComponent extends DraggingComponent {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
+      if (this.props.features) {
+        this.sequencePositionToFeatureIds(eventData).forEach((id) => {
+          this.sendEvent("onFeatureClick", id);
+        });
+      }
     }
     super.onClick(e);
   };
@@ -363,6 +430,21 @@ SequenceViewerComponent.propTypes = {
    * Callback fired when the mouse pointer clicked a residue.
    */
   onResidueClick: PropTypes.func,
+
+  /**
+   * Callback fired when the mouse pointer clicked a feature.
+   */
+  onFeatureClick: PropTypes.func,
+
+  /**
+   * Displays a highlight
+   */
+  highlight: PropTypes.object,
+
+  /**
+   * An array of features which can be clicked
+   */
+  features: PropTypes.arrayOf(PropTypes.object),
 
   /**
    * Callback fired when the mouse pointer clicked a residue.

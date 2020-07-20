@@ -26,6 +26,23 @@ const sequences = [
   },
 ];
 
+const features = [
+  {
+    residues: { from: 1, to: 20 },
+    sequences: { from: 0, to: 0 },
+    id: "id-1",
+    borderColor: "blue",
+    fillColor: "black",
+  },
+  {
+    residues: { from: 3, to: 10 },
+    sequences: { from: 2, to: 2 },
+    id: "id-2",
+    borderColor: "blue",
+    fillColor: "black",
+  },
+];
+
 // storybook-action-logger doesn't support auto event expansion,
 // but most consoles do
 const storyAction = (name) => {
@@ -131,7 +148,7 @@ storiesOf("Events", module)
       />
     </MSAViewer>
   ))
-  .add("onClick", () => {
+  .add("onResidueClick", () => {
     class ExtraInformation extends Component {
       state = {};
       onResidueClick = (e) => {
@@ -149,6 +166,31 @@ storiesOf("Events", module)
                 Selection: {this.state.lastEvent.residue}
                 (from {this.state.lastEvent.sequence.name})
               </div>
+            )}
+          </div>
+        );
+      }
+    }
+    return <ExtraInformation />;
+  })
+  .add("onFeatureClick", () => {
+    class ExtraInformation extends Component {
+      state = {};
+      onFeatureClick = (e) => {
+        this.setState({ lastEvent: e });
+      };
+      render() {
+        return (
+          <div>
+            Click on a feature:
+            <MSAViewer sequences={sequences}>
+              <SequenceViewer
+                onFeatureClick={this.onFeatureClick}
+                features={features}
+              />
+            </MSAViewer>
+            {this.state.lastEvent && (
+              <div>Last feature clicked: {this.state.lastEvent}</div>
             )}
           </div>
         );

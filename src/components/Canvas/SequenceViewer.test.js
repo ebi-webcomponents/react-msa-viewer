@@ -9,7 +9,6 @@
 import React from "react";
 
 import SequenceViewer from "./SequenceViewer";
-import CanvasCache from "./CanvasCache";
 import {
   SequenceViewer as CanvasSequenceViewer,
   SequenceViewerWithPosition,
@@ -122,26 +121,37 @@ describe("sends movement actions on mousemove events", () => {
     });
     // should send updates here, but we need to wait for requestAnimationFrame
     jest.runAllTimers();
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     sv.onMouseUp({});
     // shouldn't send updates here
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     // no redraws on mouse{Enter,Leave}
     sv.onMouseEnter({});
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
 
     sv.onMouseEnter({});
-    expect(sv.draw.mock.calls.length).toBe(1);
+    expect(sv.draw.mock.calls.length).toBe(0);
   });
 });
 
-it("should fire an event on mouseclick", () => {
-  const mockOnClick = jest.fn();
+it("should fire onResidueClick and onFeatureClick event on mouseclick", () => {
+  const mockOnResidueClick = jest.fn();
+  const mockOnFeatureClick = jest.fn();
   const msa = mount(
     <MSAViewer sequences={[...dummySequences]} width={400} height={200}>
-      <SequenceViewer onResidueClick={mockOnClick} />
+      <SequenceViewer
+        onResidueClick={mockOnResidueClick}
+        onFeatureClick={mockOnFeatureClick}
+        features={[
+          {
+            residues: { from: 1, to: 10 },
+            sequences: { from: 1, to: 1 },
+            id: "id",
+          },
+        ]}
+      />
     </MSAViewer>
   );
   expect(msa).toMatchSnapshot();
@@ -151,8 +161,8 @@ it("should fire an event on mouseclick", () => {
     offsetY: 20,
   };
   sv.onClick(fakeClickEvent);
-  expect(mockOnClick.mock.calls.length).toBe(1);
-  expect(mockOnClick.mock.calls[0][0]).toEqual({
+  expect(mockOnResidueClick.mock.calls.length).toBe(1);
+  expect(mockOnResidueClick.mock.calls[0][0]).toEqual({
     i: 1,
     position: 2,
     residue: "E",
@@ -161,6 +171,8 @@ it("should fire an event on mouseclick", () => {
       sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
     },
   });
+  expect(mockOnFeatureClick.mock.calls.length).toBe(1);
+  expect(mockOnFeatureClick.mock.calls[0][0]).toEqual("id");
 });
 
 it("renders differently after changed properties", () => {
@@ -185,7 +197,7 @@ it("renders differently after changed properties", () => {
 
   let wrapper = mountWithContext(component);
   expect(wrapper).toMatchSnapshot();
-  let n = 1;
+  let n = 0;
   expect(spy.mock.calls.length).toBe(++n);
 
   wrapper.setProps({
