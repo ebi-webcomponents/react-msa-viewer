@@ -48,7 +48,7 @@ function withPositionConsumer(
     constructor(props) {
       super(props);
       this.el = React.createRef();
-      this.state = { highlight: null };
+      this.state = { highlight: null, hasBeenInitialized: false };
     }
 
     componentDidMount() {
@@ -57,6 +57,7 @@ function withPositionConsumer(
         this.updateFromPositionStore
       );
       this.updateScrollPosition(true);
+      this.updateFromPositionStore();
     }
 
     componentDidUpdate() {
@@ -91,7 +92,7 @@ function withPositionConsumer(
         newPosition.xPos = state.position.xPos;
         newPosition.yPos = state.position.yPos;
       }
-      this.setState({ highlight: state.highlight });
+      this.setState({ highlight: state.highlight, hasBeenInitialized: true });
 
       // not called on the first render
       if (this.el.current && this.shouldRerender(newPosition)) {
@@ -204,9 +205,8 @@ function withPositionConsumer(
     };
 
     render() {
-      if (!this.hasBeenInitialized) {
-        this.updateFromPositionStore();
-        this.hasBeenInitialized = true;
+      if (!this.state.hasBeenInitialized) {
+        return null;
       }
       return React.createElement(Component, {
         ref: this.el,

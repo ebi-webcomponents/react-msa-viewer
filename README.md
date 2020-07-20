@@ -311,6 +311,12 @@ Callback fired when the mouse pointer is leaving a residue.
 
 type: `func`
 
+##### `onFeatureClick`
+
+Callback fired when the mouse pointer clicked a highlight.
+
+type: `func`
+
 ##### `position`
 
 Current x and y position of the viewpoint
@@ -677,6 +683,12 @@ type: `func`
 ##### `onResidueMouseLeave`
 
 Callback fired when the mouse pointer is leaving a residue.
+
+type: `func`
+
+##### `onFeatureClick`
+
+Callback fired when the mouse pointer clicked a highlight.
 
 type: `func`
 

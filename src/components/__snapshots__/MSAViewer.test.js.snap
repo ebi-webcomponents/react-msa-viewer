@@ -2,6 +2,7 @@
 
 exports[`it should rerender when new props are given 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={300}
   sequences={
@@ -2959,7 +2960,6 @@ exports[`it should rerender when new props are given 1`] = `
                         >
                           <div
                             height={140}
-                            highlight={null}
                             style={
                               Object {
                                 "cursor": "grab",
@@ -3073,6 +3073,7 @@ exports[`renders without crashing 1`] = `
 
 exports[`renders without crashing in enzyme 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={600}
   sequences={
@@ -6030,7 +6031,6 @@ exports[`renders without crashing in enzyme 1`] = `
                         >
                           <div
                             height={140}
-                            highlight={null}
                             style={
                               Object {
                                 "cursor": "grab",
