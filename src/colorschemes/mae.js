@@ -14,7 +14,7 @@ export default {
   M: " #66bbff",
   N: " #55bb33",
   O: " #fff",
-  P: " #eeaaaa",
+  P: " #eeaa",
   Q: " #55bb33",
   R: " #ffcc77",
   S: " #ff4455",

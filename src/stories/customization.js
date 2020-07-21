@@ -9,6 +9,7 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
+import { staticSchemes } from "../../src/colorschemes";
 import { select, text, withKnobs } from "@storybook/addon-knobs";
 import { zipObject } from "lodash-es";
 
@@ -40,32 +41,9 @@ storiesOf("Customization", module)
   .addDecorator(withKnobs)
   .add("Colorschemes", function () {
     // see https://github.com/wilzbach/msa-colorschemes for now
-    const colorschemes = [
-      "aa_aliphatic",
-      "aa_aromatic",
-      "aa_charged",
-      "aa_negative",
-      "aa_polar",
-      "aa_positive",
-      "aa_serine_threosine",
-      "buried_index",
-      "clustal",
-      "clustal2",
-      "cinema",
-      "helix_propensity",
-      "hydro",
-      "lesk",
-      "mae",
-      "nucleotide",
-      "purine_pyrimidine",
-      "strand_propensity",
-      "taylor",
-      "turn_propensity",
-      "zappo",
-      "conservation",
-    ];
+    const colorSchemes = [...Object.keys(staticSchemes), "conservation"];
     const options = {
-      colorScheme: select("Colorscheme", createObject(colorschemes), "zappo"),
+      colorScheme: select("Colorscheme", createObject(colorSchemes), "zappo"),
       calculateConservation: true,
       sequences,
     };
