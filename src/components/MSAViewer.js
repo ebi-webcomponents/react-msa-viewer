@@ -192,9 +192,10 @@ MSAViewerComponent.propTypes = {
 
   /**
    * Colorscheme to use. Currently the follow colorschemes are supported:
-   * `buried_index`, `clustal`, `clustal2`, `cinema`, `helix_propensity`, `hydro`,
-   *`lesk`, `mae`, `nucleotide`, `purine_pyrimidine`, `strand_propensity`, `taylor`,
-   * `turn_propensity`, and `zappo`.
+   * `aliphatic`, `aromatic`, `buried`, `buried_index`, `charged`, `cinema`, `clustal2`,
+   * `clustal`, `helix`, `helix_propensity`, `hydro`, `lesk`, `mae`, `negative`,
+   * `nucleotide`, `polar`, `positive`, `purine`, `purine_pyrimidine`, `serine_threonine`,
+   * `strand`, `strand_propensity`, `taylor`, `turn`, `turn_propensity`, `zappo`, `conservation`
    *
    * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.
    */

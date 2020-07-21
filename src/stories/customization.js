@@ -9,7 +9,14 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
-import { select, text, boolean, number, withKnobs } from "@storybook/addon-knobs";
+import { staticSchemes, dynSchemes } from "../../src/colorschemes";
+import {
+  select,
+  text,
+  boolean,
+  number,
+  withKnobs,
+} from "@storybook/addon-knobs";
 import { zipObject } from "lodash-es";
 
 const sequences = [
@@ -39,30 +46,18 @@ function createObject(options) {
 storiesOf("Customization", module)
   .addDecorator(withKnobs)
   .add("Colorschemes", function () {
-    // see https://github.com/wilzbach/msa-colorschemes for now
-    const colorschemes = [
-      "buried_index",
-      "clustal",
-      "clustal2",
-      "cinema",
-      "helix_propensity",
-      "hydro",
-      "lesk",
-      "mae",
-      "nucleotide",
-      "purine_pyrimidine",
-      "strand_propensity",
-      "taylor",
-      "turn_propensity",
-      "zappo",
-      "conservation",
+    // 2018: see https://github.com/wilzbach/msa-colorschemes for now
+    // 2020: additional color schemes added for UniProt amino acid properties
+    const colorSchemes = [
+      ...Object.keys(staticSchemes),
+      ...Object.keys(dynSchemes),
     ];
     const options = {
-      colorScheme: select("Colorscheme", createObject(colorschemes), "zappo"),
+      colorScheme: select("Colorscheme", createObject(colorSchemes), "zappo"),
       calculateConservation: true,
       overlayConservation: boolean("overlayConservation", false),
-      sampleSizeConservation: number('sampleSizeConservation',''),
-      sequenceTextFont: '16px Monospace',
+      sampleSizeConservation: number("sampleSizeConservation", ""),
+      sequenceTextFont: "16px Monospace",
       sequences,
     };
     let currentColor = null;
