@@ -27,7 +27,7 @@ export const AllowedColorschemes = [
   "negative",
   "polar",
   "positive",
-  "serine_threosine",
+  "serine_threonine",
   "buried_index",
   "clustal",
   "clustal2",
@@ -98,7 +98,7 @@ export const MSAPropTypes = {
    * Colorscheme to use. Currently the follow colorschemes are supported:
    * `aliphatic`, `aromatic`, `buried`, `buried_index`, `charged`, `cinema`, `clustal2`,
    * `clustal`, `helix`, `helix_propensity`, `hydro`, `lesk`, `mae`, `negative`,
-   * `nucleotide`, `polar`, `positive`, `purine`, `purine_pyrimidine`, `serine_threosine`,
+   * `nucleotide`, `polar`, `positive`, `purine`, `purine_pyrimidine`, `serine_threonine`,
    * `strand`, `strand_propensity`, `taylor`, `turn`, `turn_propensity`, `zappo`, `conservation`
    *
    * See [msa-colorschemes](https://github.com/wilzbach/msa-colorschemes) for details.

@@ -6,7 +6,7 @@ import Charged from "./charged";
 import Negative from "./negative";
 import Polar from "./polar";
 import Positive from "./positive";
-import SerineThreosine from "./serine_threonine";
+import SerineThreonine from "./serine_threonine";
 import Buried from "./buried";
 import Cinema from "./cinema";
 import Clustal from "./clustal";
@@ -44,7 +44,7 @@ export const staticSchemes = {
   positive: Positive,
   purine: Purine,
   purine_pyrimidine: Purine,
-  serine_threosine: SerineThreosine,
+  serine_threonine: SerineThreonine,
   strand: Strand,
   strand_propensity: Strand,
   taylor: Taylor,
