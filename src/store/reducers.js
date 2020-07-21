@@ -24,7 +24,9 @@ function checkColorScheme(state) {
   } else {
     state.colorScheme = new ColorScheme(state.colorScheme);
   }
-  state.colorScheme.updateConservation(state.conservation);
+  if (typeof state?.colorScheme?.updateConservation === "function") {
+    state.colorScheme.updateConservation(state.conservation);
+  }
 }
 
 /**
