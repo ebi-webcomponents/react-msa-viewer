@@ -1116,6 +1116,7 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
 
 exports[`renders without crashing 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={600}
   sequences={
@@ -1376,7 +1377,6 @@ exports[`renders without crashing 1`] = `
             >
               <div
                 height={140}
-                highlight={null}
                 style={
                   Object {
                     "cursor": "grab",
@@ -1801,8 +1801,9 @@ exports[`sends movement actions on mousemove events should change the cursor sta
 </FakePositionStore>
 `;
 
-exports[`should fire an event on mouseclick 1`] = `
+exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] = `
 <PropsToReduxComponent
+  calculateConservation={false}
   colorScheme="clustal"
   height={200}
   sequences={
@@ -1865,6 +1866,22 @@ exports[`should fire an event on mouseclick 1`] = `
     >
       <div>
         <Connect(withPosition(SequenceViewerComponent))
+          features={
+            Array [
+              Object {
+                "id": "id",
+                "residues": Object {
+                  "from": 1,
+                  "to": 10,
+                },
+                "sequences": Object {
+                  "from": 1,
+                  "to": 1,
+                },
+              },
+            ]
+          }
+          onFeatureClick={[MockFunction]}
           onResidueClick={[MockFunction]}
         >
           <withPosition(SequenceViewerComponent)
@@ -1907,11 +1924,27 @@ exports[`should fire an event on mouseclick 1`] = `
               }
             }
             dispatch={[Function]}
+            features={
+              Array [
+                Object {
+                  "id": "id",
+                  "residues": Object {
+                    "from": 1,
+                    "to": 10,
+                  },
+                  "sequences": Object {
+                    "from": 1,
+                    "to": 1,
+                  },
+                },
+              ]
+            }
             fullHeight={140}
             fullWidth={1200}
             height={140}
             nrXTiles={21}
             nrYTiles={11}
+            onFeatureClick={[MockFunction]}
             onResidueClick={[MockFunction]}
             sequences={
               Object {
@@ -1997,12 +2030,28 @@ exports[`should fire an event on mouseclick 1`] = `
                 }
               }
               dispatch={[Function]}
+              features={
+                Array [
+                  Object {
+                    "id": "id",
+                    "residues": Object {
+                      "from": 1,
+                      "to": 10,
+                    },
+                    "sequences": Object {
+                      "from": 1,
+                      "to": 1,
+                    },
+                  },
+                ]
+              }
               fullHeight={140}
               fullWidth={1200}
               height={140}
               highlight={null}
               nrXTiles={21}
               nrYTiles={11}
+              onFeatureClick={[MockFunction]}
               onResidueClick={[MockFunction]}
               overflow="hidden"
               overflowX="auto"
@@ -2067,7 +2116,6 @@ exports[`should fire an event on mouseclick 1`] = `
             >
               <div
                 height={140}
-                highlight={null}
                 style={
                   Object {
                     "cursor": "grab",
