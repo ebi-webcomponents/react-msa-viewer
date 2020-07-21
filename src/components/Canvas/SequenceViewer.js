@@ -134,6 +134,8 @@ class SequenceViewerComponent extends DraggingComponent {
             "border",
             "borderWidth",
             "borderColor",
+            "overlayConservation",
+            "conservation",
           ]),
         });
       },
@@ -370,6 +372,8 @@ class SequenceViewerComponent extends DraggingComponent {
       "colorScheme",
       "textFont",
       "borderColor",
+      "overlayConservation",
+      "conservation",
     ];
     this.tileCache.updateTileSpecs(
       pick(this.props, [
@@ -402,6 +406,8 @@ SequenceViewerComponent.defaultProps = {
   overflowY: "auto",
   scrollBarPositionX: "bottom",
   scrollBarPositionY: "right",
+  overlayConservation: false,
+  conservation: null,
 };
 
 SequenceViewerComponent.propTypes = {
@@ -534,6 +540,8 @@ const mapStateToProps = (state) => {
     tileWidth: state.props.tileWidth,
     tileHeight: state.props.tileHeight,
     colorScheme: state.props.colorScheme,
+    overlayConservation: state.props.overlayConservation,
+    conservation: state.props.overlayConservation ? state.props.conservation : null,
     nrXTiles: state.sequenceStats.nrXTiles,
     nrYTiles: state.sequenceStats.nrYTiles,
     fullWidth: state.sequenceStats.fullWidth,

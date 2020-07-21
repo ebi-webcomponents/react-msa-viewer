@@ -102,6 +102,21 @@ export const MSAPropTypes = {
    * By default it is disabled. but it can be enable by setting this prop to `true`
    */
   calculateConservation: PropTypes.bool,
+
+  /**
+   * The conservation data can be used to define an overlay that 
+   * defines the opacity of the background color of each residue.
+   */
+  overlayConservation: PropTypes.bool,
+
+
+  /**
+   * Number of sequences to use when calculating the conservation. Which is useful to get results for alignments of many sequences.
+   * If not included, or not a vlid numeric value, the whole alignemnt will be use for the calculation.
+   */
+  sampleSizeConservation: PropTypes.number,
+
+
 };
 
 // TODO: separate individual properties into their components
@@ -112,4 +127,6 @@ export const msaDefaultProps = {
   tileHeight: 20,
   colorScheme: "clustal",
   calculateConservation: false,
+  overlayConservation: false,
+  sampleSizeConservation: undefined,
 };
