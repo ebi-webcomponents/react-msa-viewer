@@ -10,7 +10,13 @@ import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
 import { staticSchemes, dynSchemes } from "../../src/colorschemes";
-import { select, text, withKnobs } from "@storybook/addon-knobs";
+import {
+  select,
+  text,
+  boolean,
+  number,
+  withKnobs,
+} from "@storybook/addon-knobs";
 import { zipObject } from "lodash-es";
 
 const sequences = [
@@ -49,6 +55,9 @@ storiesOf("Customization", module)
     const options = {
       colorScheme: select("Colorscheme", createObject(colorSchemes), "zappo"),
       calculateConservation: true,
+      overlayConservation: boolean("overlayConservation", false),
+      sampleSizeConservation: number("sampleSizeConservation", ""),
+      sequenceTextFont: "16px Monospace",
       sequences,
     };
     let currentColor = null;

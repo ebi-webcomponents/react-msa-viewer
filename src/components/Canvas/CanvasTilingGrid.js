@@ -36,13 +36,14 @@ class CanvasTilingGridComponent extends CanvasComponent {
     const text = sequence[column];
     if (text !== undefined) {
       const colorScheme = this.props.colorScheme.getColor(text, column);
-      const key = `${text}-${colorScheme}`;
+      const overlayFactor = this.getOverlayFactor(text, column);
+      const key = `${text}-${colorScheme}-${overlayFactor}`;
       const canvasTile = this.props.residueTileCache.createTile({
         key,
         tileWidth,
         tileHeight,
         create: ({ canvas }) => {
-          return this.drawResidue({ text, canvas, row, column, colorScheme });
+          return this.drawResidue({ text, canvas, row, column, colorScheme, overlayFactor });
         },
       });
       this.props.ctx.drawImage(
@@ -59,8 +60,14 @@ class CanvasTilingGridComponent extends CanvasComponent {
     }
   }
 
-  drawResidue({ row, column, canvas, colorScheme, text }) {
-    canvas.globalAlpha = 0.7;
+  getOverlayFactor(text, column){
+    if(!this.props.overlayConservation || !this.props.conservation) return 1;
+    const raw = this.props.conservation.map[column][text] || 0;
+    return Math.floor(raw*5)/5.0;    
+  }
+
+  drawResidue({ row, column, canvas, colorScheme, text, overlayFactor=1 }) {
+    canvas.globalAlpha = 0.7* overlayFactor;
     canvas.fillStyle = colorScheme;
     canvas.fillRect(0, 0, this.props.tileWidth, this.props.tileHeight);
     const minW = 4;
@@ -78,7 +85,7 @@ class CanvasTilingGridComponent extends CanvasComponent {
     canvas.globalAlpha = Math.min(1, m * this.props.tileWidth + b);
     // 1.0;
     canvas.fillStyle = this.props.textColor;
-    canvas.font = this.props.textFont + "px mono";
+    canvas.font = this.props.textFont;
     canvas.textBaseline = "middle";
     canvas.textAlign = "center";
     canvas.fillText(
