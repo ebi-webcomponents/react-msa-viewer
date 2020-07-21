@@ -40,7 +40,8 @@ function createObject(options) {
 storiesOf("Customization", module)
   .addDecorator(withKnobs)
   .add("Colorschemes", function () {
-    // see https://github.com/wilzbach/msa-colorschemes for now
+    // 2018: see https://github.com/wilzbach/msa-colorschemes for now
+    // 2020: additional color schemes added for UniProt amino acid properties
     const colorSchemes = [...Object.keys(staticSchemes), "conservation"];
     const options = {
       colorScheme: select("Colorscheme", createObject(colorSchemes), "zappo"),
