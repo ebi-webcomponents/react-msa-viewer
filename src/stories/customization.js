@@ -9,7 +9,7 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
-import { staticSchemes } from "../../src/colorschemes";
+import { staticSchemes, dynSchemes } from "../../src/colorschemes";
 import { select, text, withKnobs } from "@storybook/addon-knobs";
 import { zipObject } from "lodash-es";
 
@@ -42,7 +42,10 @@ storiesOf("Customization", module)
   .add("Colorschemes", function () {
     // 2018: see https://github.com/wilzbach/msa-colorschemes for now
     // 2020: additional color schemes added for UniProt amino acid properties
-    const colorSchemes = [...Object.keys(staticSchemes), "conservation"];
+    const colorSchemes = [
+      ...Object.keys(staticSchemes),
+      ...Object.keys(dynSchemes),
+    ];
     const options = {
       colorScheme: select("Colorscheme", createObject(colorSchemes), "zappo"),
       calculateConservation: true,

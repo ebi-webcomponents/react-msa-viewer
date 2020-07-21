@@ -53,7 +53,7 @@ export const staticSchemes = {
   zappo: Zappo,
 };
 
-const dynSchemes = {
+export const dynSchemes = {
   conservation: pid,
 };
 
