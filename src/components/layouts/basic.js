@@ -8,13 +8,7 @@
 
 import React from "react";
 
-import {
-  Labels,
-  OverviewBar,
-  PositionBar,
-  SequenceViewer,
-  Coordinates,
-} from "../index";
+import { Labels, OverviewBar, PositionBar, SequenceViewer } from "../index";
 
 import PureBaseLayout from "./PureBaseLayout";
 import msaConnect from "../../store/connect";
@@ -32,11 +26,9 @@ class MSABasicLayout extends PureBaseLayout {
     const separatorPadding = {
       height: 10,
     };
-    console.log(this.props);
     return (
       <div style={labelsAndSequenceDiv}>
         <Labels style={labelsStyle} {...this.props.labelsProps} />
-        <Coordinates style={labelsStyle} />
         <div>
           <OverviewBar
             height={overviewBarHeight}
@@ -46,7 +38,6 @@ class MSABasicLayout extends PureBaseLayout {
           <SequenceViewer {...this.props.sequenceViewerProps} />
           <div style={separatorPadding} />
         </div>
-        <Coordinates style={labelsStyle} />
       </div>
     );
     //<SequenceOverview />
