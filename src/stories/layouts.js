@@ -11,7 +11,6 @@ import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
 
 import {
-  createMSAStore,
   Labels,
   OverviewBar,
   PositionBar,
@@ -23,32 +22,65 @@ const sequences = [
   {
     name: "seq.1",
     sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
+    start: 1,
   },
   {
     name: "seq.2",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 40,
   },
   {
     name: "seq.3",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 23,
   },
   {
     name: "seq.4",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 102,
   },
   {
     name: "seq.5",
     sequence: "MEEPQSD--IEL-PLSEETFSDLWWPLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 998,
   },
   {
     name: "seq.6",
     sequence: "MEEPQEDLSSSL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 61,
   },
   {
     name: "seq.7",
     sequence: "MEEPQ---SISE-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE---LSENVAGWLEDP",
+    start: 10,
   },
 ];
+
+const Coordinate = ({ tileHeight, style = {}, children }) => (
+  <div style={{ height: tileHeight, ...style }}>{children}</div>
+);
+
+const LeftCoordinate = ({ start, style = {}, ...otherProps }) => (
+  <Coordinate
+    style={{
+      width: "3rem",
+      textAlign: "right",
+      paddingRight: "0.25rem",
+      ...style,
+    }}
+    {...otherProps}
+  >
+    {start}
+  </Coordinate>
+);
+
+const RightCoordinate = ({ end, style = {}, ...otherProps }) => {
+  return (
+    <Coordinate style={{ paddingLeft: "0.25rem" }} {...otherProps}>
+      {end}
+    </Coordinate>
+  );
+};
 
 storiesOf("Layouting", module)
   .add("Inverse", function () {
@@ -129,4 +161,12 @@ storiesOf("Layouting", module)
         <SequenceOverview />
       </MSAViewer>
     );
-  });
+  })
+  .add("Nightingale", () => (
+    <MSAViewer
+      sequences={sequences}
+      layout="nightingale"
+      leftCoordinateComponent={LeftCoordinate}
+      rightCoordinateComponent={RightCoordinate}
+    />
+  ));

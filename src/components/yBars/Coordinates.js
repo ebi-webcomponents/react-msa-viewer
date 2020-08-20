@@ -4,21 +4,14 @@ import PropTypes from "prop-types";
 import msaConnect from "../../store/connect";
 import withPositionStore from "../../store/withPositionStore";
 
-const Coordinate = ({
-  coordinateComponent,
-  start,
-  end,
-  tileHeight,
-  style = {},
-  ...otherProps
-}) => {
-  style.height = tileHeight;
+const Coordinate = ({ coordinateComponent, ...otherProps }) => {
   if (coordinateComponent) {
     const CoordinateComponent = coordinateComponent;
-    return <CoordinateComponent style={style} {...otherProps} />;
+    return <CoordinateComponent {...otherProps} />;
   } else {
+    const { start, end, tileHeight } = otherProps;
     return (
-      <div style={style}>
+      <div style={{ height: tileHeight }}>
         {start}-{end}
       </div>
     );
@@ -63,17 +56,19 @@ export class Coordinates extends PureComponent {
     // Calculating this rather than using currentViewSequencePosition as
     // we want to the start/end to increment by one when the scroll is past
     // half a tileWidth (which Math.round gives us)
-    const start = Math.round(this.props.position.xPos / tileWidth) + 1;
+    const start = Math.round(this.props.position.xPos / tileWidth);
     const end = start + Math.round(width / tileWidth) - 1;
     return (
       <div style={containerStyle}>
         <div style={style} ref={this.el}>
-          {this.props.sequences.map((_, index) => (
+          {this.props.sequences.map((sequence, index) => (
             <Coordinate
               key={index}
-              start={start}
-              end={end}
+              index={index}
+              start={start + sequence.start}
+              end={end + sequence.start}
               tileHeight={tileHeight}
+              coordinateComponent={coordinateComponent}
             />
           ))}
         </div>
