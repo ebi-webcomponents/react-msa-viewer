@@ -1,22 +1,25 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, memo } from "react";
 import PropTypes from "prop-types";
 
 import msaConnect from "../../store/connect";
 import withPositionStore from "../../store/withPositionStore";
 
-const Coordinate = ({ coordinateComponent, ...otherProps }) => {
-  if (coordinateComponent) {
-    const CoordinateComponent = coordinateComponent;
-    return <CoordinateComponent {...otherProps} />;
-  } else {
-    const { start, end, tileHeight } = otherProps;
-    return (
-      <div style={{ height: tileHeight }}>
-        {start}-{end}
-      </div>
-    );
-  }
-};
+const Coordinate = memo(
+  ({ coordinateComponent, ...otherProps }) => {
+    if (coordinateComponent) {
+      const CoordinateComponent = coordinateComponent;
+      return <CoordinateComponent {...otherProps} />;
+    } else {
+      const { start, end, tileHeight } = otherProps;
+      return (
+        <div style={{ height: tileHeight }}>
+          {start}-{end}
+        </div>
+      );
+    }
+  },
+  (_, { inView }) => !inView
+);
 
 /**
  * Displays the coordinates of the current scrolled position.
@@ -42,6 +45,7 @@ export class Coordinates extends PureComponent {
       style: containerStyle,
       position,
       coordinateComponent,
+      sequences,
     } = this.props;
     const style = {
       height,
@@ -56,19 +60,25 @@ export class Coordinates extends PureComponent {
     // Calculating this rather than using currentViewSequencePosition as
     // we want to the start/end to increment by one when the scroll is past
     // half a tileWidth (which Math.round gives us)
-    const start = Math.round(this.props.position.xPos / tileWidth);
+    const start = Math.round(position.xPos / tileWidth);
     const end = start + Math.round(width / tileWidth) - 1;
+    const nSequencesInView = Math.ceil(height / tileHeight);
+    const lastSequenceInView = position.currentViewSequence + nSequencesInView;
+    const inView = (index) =>
+      index >= position.currentViewSequence && index <= lastSequenceInView;
     return (
       <div style={containerStyle}>
         <div style={style} ref={this.el}>
-          {this.props.sequences.map((sequence, index) => (
+          {sequences.map((sequence, index) => (
             <Coordinate
               key={index}
               index={index}
               start={start + sequence.start}
               end={end + sequence.start}
               tileHeight={tileHeight}
+              height={height}
               coordinateComponent={coordinateComponent}
+              inView={inView(index)}
             />
           ))}
         </div>
