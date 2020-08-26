@@ -515,6 +515,12 @@ SequenceViewerComponent.propTypes = {
    * Y Position of the scroll bar ("left" or "right")
    */
   scrollBarPositionY: PropTypes.oneOf(["left", "right"]),
+
+  /**
+   * The conservation data can be used to define an overlay that
+   * defines the opacity of the background color of each residue.
+   */
+  overlayConservation: PropTypes.bool,
 };
 
 // hoist the list of accepted properties to the parent
@@ -541,7 +547,9 @@ const mapStateToProps = (state) => {
     tileHeight: state.props.tileHeight,
     colorScheme: state.props.colorScheme,
     overlayConservation: state.props.overlayConservation,
-    conservation: state.props.overlayConservation ? state.props.conservation : null,
+    conservation: state.props.overlayConservation
+      ? state.props.conservation
+      : null,
     nrXTiles: state.sequenceStats.nrXTiles,
     nrYTiles: state.sequenceStats.nrYTiles,
     fullWidth: state.sequenceStats.fullWidth,

@@ -7,7 +7,6 @@ import PureBaseLayout from "./PureBaseLayout";
 
 class NightingaleLayout extends PureBaseLayout {
   render() {
-    console.log(this.props.leftCoordinatesProps);
     const {
       leftCoordinatesProps,
       rightCoordinatesProps,

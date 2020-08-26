@@ -18,10 +18,10 @@ import {
   SequenceViewer,
 } from "../lib";
 
-const sequences = [
+let sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
+    sequence: "MEEPQSDPS----PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
     start: 1,
   },
   {
@@ -56,31 +56,19 @@ const sequences = [
   },
 ];
 
-const Coordinate = ({ tileHeight, style = {}, children }) => (
-  <div style={{ height: tileHeight, ...style }}>{children}</div>
-);
-
-const LeftCoordinate = ({ start, style = {}, ...otherProps }) => (
-  <Coordinate
-    style={{
-      width: "3rem",
-      textAlign: "right",
-      paddingRight: "0.25rem",
-      ...style,
-    }}
-    {...otherProps}
-  >
-    {start}
-  </Coordinate>
-);
-
-const RightCoordinate = ({ end, style = {}, ...otherProps }) => {
-  return (
-    <Coordinate style={{ paddingLeft: "0.25rem" }} {...otherProps}>
-      {end}
-    </Coordinate>
-  );
+const leftCoordinateStyle = {
+  textAlign: "right",
+  paddingRight: "0.25rem",
 };
+
+const rightCoordinateStyle = {
+  paddingLeft: "0.25rem",
+};
+const Coordinate = ({ tileHeight, style, sequence, children: coord }) => (
+  <div style={{ height: tileHeight, width: "3rem", ...style }}>
+    {sequence.start + coord}
+  </div>
+);
 
 storiesOf("Layouting", module)
   .add("Inverse", function () {
@@ -162,11 +150,28 @@ storiesOf("Layouting", module)
       </MSAViewer>
     );
   })
-  .add("Nightingale", () => (
+  .add("Nightingale with left/right coords", () => (
     <MSAViewer
       sequences={sequences}
       layout="nightingale"
-      leftCoordinateComponent={LeftCoordinate}
-      rightCoordinateComponent={RightCoordinate}
+      leftCoordinateComponent={({ start, tileHeight, sequence }) => (
+        <Coordinate
+          tileHeight={tileHeight}
+          sequence={sequence}
+          style={leftCoordinateStyle}
+        >
+          {start}
+        </Coordinate>
+      )}
+      rightCoordinateComponent={({ end, tileHeight, sequence }) => (
+        <Coordinate
+          tileHeight={tileHeight}
+          sequence={sequence}
+          style={rightCoordinateStyle}
+        >
+          {end}
+        </Coordinate>
+      )}
+      height={200}
     />
   ));

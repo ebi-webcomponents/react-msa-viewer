@@ -185,7 +185,6 @@ class DraggingComponent extends PureComponent {
   onDoubleClick(e) {}
 
   onMouseDown(e) {
-    //console.log("mousedown", e);
     this.startDragPhase(e);
   }
 
