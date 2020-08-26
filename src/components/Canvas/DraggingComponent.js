@@ -7,6 +7,7 @@
  */
 
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
 import { omit } from "lodash-es";
 
@@ -38,10 +39,10 @@ class DraggingComponent extends PureComponent {
    * If no movement is happening, inInDragPhase is undefined
    */
 
-  static defaultProps = {
-    engine: "canvas",
-    showModBar: true,
-  };
+  // static defaultProps = {
+  //   engine: "canvas",
+  //   showModBar: true,
+  // };
 
   state = {
     mouse: {
@@ -393,5 +394,32 @@ class DraggingComponent extends PureComponent {
     );
   }
 }
+
+DraggingComponent.defaultProps = {
+  overflow: "auto",
+  overflowX: "initial",
+  overflowY: "initial",
+  scrollBarPositionX: "bottom",
+  scrollBarPositionY: "right",
+  scrollBarWidth: 5,
+  showModBar: true,
+  engine: "canvas",
+  sequenceDisableDragging: false,
+};
+
+DraggingComponent.propTypes = {
+  overflow: PropTypes.oneOf(["hidden", "auto", "scroll"]),
+  overflowX: PropTypes.oneOf(["hidden", "auto", "scroll", "initial"]),
+  overflowY: PropTypes.oneOf(["hidden", "auto", "scroll", "initial"]),
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  fullHeight: PropTypes.number.isRequired,
+  fullWidth: PropTypes.number.isRequired,
+  scrollBarPositionX: PropTypes.oneOf(["top", "bottom"]),
+  scrollBarPositionY: PropTypes.oneOf(["left", "right"]),
+  showModBar: PropTypes.bool,
+  engine: PropTypes.string,
+  sequenceDisableDragging: PropTypes.bool,
+};
 
 export default DraggingComponent;

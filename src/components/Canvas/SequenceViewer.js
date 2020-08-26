@@ -408,6 +408,7 @@ SequenceViewerComponent.defaultProps = {
   scrollBarPositionY: "right",
   overlayConservation: false,
   conservation: null,
+  sequenceDisableDragging: false,
 };
 
 SequenceViewerComponent.propTypes = {
@@ -521,6 +522,8 @@ SequenceViewerComponent.propTypes = {
    * defines the opacity of the background color of each residue.
    */
   overlayConservation: PropTypes.bool,
+  onPositionUpdate: PropTypes.func,
+  sequenceDisableDragging: PropTypes.bool,
 };
 
 // hoist the list of accepted properties to the parent

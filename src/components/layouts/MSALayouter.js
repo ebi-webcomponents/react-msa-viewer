@@ -66,6 +66,7 @@ class MSALayouter extends PureComponent {
       sequenceScrollBarPositionY: "scrollBarPositionY",
       sequenceDisableDragging: same,
       overlayConservation: same,
+      onPositionUpdate: same,
     },
     // List of props forwarded to the left Coordinates component
     leftCoordinatesProps: {
