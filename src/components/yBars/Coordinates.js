@@ -5,14 +5,20 @@ import msaConnect from "../../store/connect";
 import withPositionStore from "../../store/withPositionStore";
 
 const Coordinate = memo(
-  ({ coordinateComponent, ...otherProps }) => {
+  ({
+    coordinateComponent,
+    coordinateAttributes = {},
+    coordinateStyle = {},
+    ...otherProps
+  }) => {
     if (coordinateComponent) {
       const CoordinateComponent = coordinateComponent;
       return <CoordinateComponent {...otherProps} />;
     } else {
       const { start, end, tileHeight } = otherProps;
+      const attributes = { ...otherProps, ...coordinateAttributes };
       return (
-        <div style={{ height: tileHeight }}>
+        <div style={{ height: tileHeight, ...coordinateStyle }} {...attributes}>
           {start}-{end}
         </div>
       );
@@ -44,8 +50,9 @@ export class Coordinates extends PureComponent {
       tileWidth,
       position,
       coordinateComponent,
-      sequences,
+      coordinateAttributes,
       coordinateStyle,
+      sequences,
     } = this.props;
     const style = {
       height,
@@ -82,7 +89,8 @@ export class Coordinates extends PureComponent {
               end={end}
               tileHeight={tileHeight}
               coordinateComponent={coordinateComponent}
-              style={coordinateStyle}
+              coordinateStyle={coordinateStyle}
+              coordinateAttributes={coordinateAttributes}
               inView={inView(index)}
               sequence={sequence}
             />
