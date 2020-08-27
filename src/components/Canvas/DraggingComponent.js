@@ -334,6 +334,7 @@ class DraggingComponent extends PureComponent {
       ...this.props.style,
       cursor: this.state.mouse.cursorState,
       position: "relative",
+      flexShrink: 0,
     };
     const modBar = {
       position: "absolute",
