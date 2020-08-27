@@ -28,14 +28,14 @@ const sequences = [
 
 const features = [
   {
-    residues: { from: 1, to: 20 },
-    sequences: { from: 0, to: 0 },
+    residues: { from: 2, to: 15 },
+    sequences: { from: 0, to: 1 },
     id: "id-1",
     borderColor: "blue",
     fillColor: "black",
   },
   {
-    residues: { from: 3, to: 10 },
+    residues: { from: 25, to: 50 },
     sequences: { from: 2, to: 2 },
     id: "id-2",
     borderColor: "blue",

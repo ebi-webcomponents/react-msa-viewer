@@ -11,7 +11,6 @@ import { storiesOf } from "@storybook/react";
 import { MSAViewer } from "../lib";
 
 import {
-  createMSAStore,
   Labels,
   OverviewBar,
   PositionBar,
@@ -19,36 +18,57 @@ import {
   SequenceViewer,
 } from "../lib";
 
-const sequences = [
+let sequences = [
   {
     name: "seq.1",
-    sequence: "MEEPQSDPSIEP-PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
+    sequence: "MEEPQSDPS----PLSQETFSDLWKLLPENNVLSPLPS-QA-VDDLMLSPDDLAQWLTED",
+    start: 1,
   },
   {
     name: "seq.2",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 40,
   },
   {
     name: "seq.3",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 23,
   },
   {
     name: "seq.4",
     sequence: "MEEPQSDLSIEL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 102,
   },
   {
     name: "seq.5",
     sequence: "MEEPQSD--IEL-PLSEETFSDLWWPLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 998,
   },
   {
     name: "seq.6",
     sequence: "MEEPQEDLSSSL-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE-LFLSENVAGWLEDP",
+    start: 61,
   },
   {
     name: "seq.7",
     sequence: "MEEPQ---SISE-PLSQETFSDLWKLLPPNNVLSTLPS-SDSIEE---LSENVAGWLEDP",
+    start: 10,
   },
 ];
+
+const leftCoordinateStyle = {
+  textAlign: "right",
+  paddingRight: "0.25rem",
+};
+
+const rightCoordinateStyle = {
+  paddingLeft: "0.25rem",
+};
+const Coordinate = ({ tileHeight, style, sequence, children: coord }) => (
+  <div style={{ height: tileHeight, width: "3rem", ...style }}>
+    {sequence.start + coord}
+  </div>
+);
 
 storiesOf("Layouting", module)
   .add("Inverse", function () {
@@ -129,4 +149,32 @@ storiesOf("Layouting", module)
         <SequenceOverview />
       </MSAViewer>
     );
-  });
+  })
+  .add("Nightingale", () => (
+    <MSAViewer sequences={sequences} layout="nightingale" height={200} />
+  ))
+  .add("Nightingale with L/R coordinates", () => (
+    <MSAViewer
+      sequences={sequences}
+      layout="nightingale"
+      leftCoordinateComponent={({ start, tileHeight, sequence }) => (
+        <Coordinate
+          tileHeight={tileHeight}
+          sequence={sequence}
+          style={leftCoordinateStyle}
+        >
+          {start}
+        </Coordinate>
+      )}
+      rightCoordinateComponent={({ end, tileHeight, sequence }) => (
+        <Coordinate
+          tileHeight={tileHeight}
+          sequence={sequence}
+          style={rightCoordinateStyle}
+        >
+          {end}
+        </Coordinate>
+      )}
+      height={200}
+    />
+  ));
