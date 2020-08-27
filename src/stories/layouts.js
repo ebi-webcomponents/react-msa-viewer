@@ -150,7 +150,10 @@ storiesOf("Layouting", module)
       </MSAViewer>
     );
   })
-  .add("Nightingale with left/right coords", () => (
+  .add("Nightingale", () => (
+    <MSAViewer sequences={sequences} layout="nightingale" height={200} />
+  ))
+  .add("Nightingale with L/R coordinates", () => (
     <MSAViewer
       sequences={sequences}
       layout="nightingale"
