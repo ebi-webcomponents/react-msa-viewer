@@ -4,28 +4,25 @@ import PropTypes from "prop-types";
 import msaConnect from "../../store/connect";
 import withPositionStore from "../../store/withPositionStore";
 
-const Coordinate = memo(
-  ({
-    coordinateComponent,
-    coordinateAttributes = {},
-    coordinateStyle = {},
-    ...otherProps
-  }) => {
-    if (coordinateComponent) {
-      const CoordinateComponent = coordinateComponent;
-      return <CoordinateComponent {...otherProps} />;
-    } else {
-      const { start, end, tileHeight } = otherProps;
-      const attributes = { ...otherProps, ...coordinateAttributes };
-      return (
-        <div style={{ height: tileHeight, ...coordinateStyle }} {...attributes}>
-          {start}-{end}
-        </div>
-      );
-    }
-  },
-  (_, { inView }) => !inView
-);
+const Coordinate = ({
+  coordinateComponent,
+  coordinateAttributes = {},
+  coordinateStyle = {},
+  ...otherProps
+}) => {
+  if (coordinateComponent) {
+    const CoordinateComponent = coordinateComponent;
+    return <CoordinateComponent {...otherProps} />;
+  } else {
+    const { start, end, tileHeight } = otherProps;
+    const attributes = { ...otherProps, ...coordinateAttributes };
+    return (
+      <div style={{ height: tileHeight, ...coordinateStyle }} {...attributes}>
+        {start}-{end}
+      </div>
+    );
+  }
+};
 
 /**
  * Displays the coordinates of the current scrolled position.
@@ -73,28 +70,38 @@ export class Coordinates extends PureComponent {
     const start = Math.round(position.xPos / tileWidth) + 1;
     const end = start + Math.round(width / tileWidth) - 2;
 
-    // Use this to memo so off-view coordinates aren't re-rendered
+    // Don't view off-view coordinates by creating a div with the
+    // required height to ensure correct alignment
+    const firstSequenceInView = position.currentViewSequence;
     const nSequencesInView = Math.ceil(height / tileHeight);
-    const lastSequenceInView = position.currentViewSequence + nSequencesInView;
-    const inView = (index) =>
-      index >= position.currentViewSequence && index <= lastSequenceInView;
-
+    const lastSequenceInView =
+      position.currentViewSequence + nSequencesInView + 1;
+    const spacer = (
+      <div
+        style={{
+          height: firstSequenceInView * tileHeight,
+          width: tileWidth,
+        }}
+      />
+    );
     return (
       <div>
         <div style={style} ref={this.el}>
-          {sequences.map((sequence, index) => (
-            <Coordinate
-              key={index}
-              start={start}
-              end={end}
-              tileHeight={tileHeight}
-              coordinateComponent={coordinateComponent}
-              coordinateStyle={coordinateStyle}
-              coordinateAttributes={coordinateAttributes}
-              inView={inView(index)}
-              sequence={sequence}
-            />
-          ))}
+          {spacer}
+          {sequences
+            .slice(position.currentViewSequence, lastSequenceInView)
+            .map((sequence, index) => (
+              <Coordinate
+                key={index}
+                start={start}
+                end={end}
+                tileHeight={tileHeight}
+                coordinateComponent={coordinateComponent}
+                coordinateStyle={coordinateStyle}
+                coordinateAttributes={coordinateAttributes}
+                sequence={sequence}
+              />
+            ))}
         </div>
       </div>
     );
