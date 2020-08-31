@@ -74,8 +74,7 @@ export class Coordinates extends PureComponent {
     // required height to ensure correct alignment
     const firstSequenceInView = position.currentViewSequence;
     const nSequencesInView = Math.ceil(height / tileHeight);
-    const lastSequenceInView =
-      position.currentViewSequence + nSequencesInView + 1;
+    const lastSequenceInView = firstSequenceInView + nSequencesInView + 1;
     const spacer = (
       <div
         style={{
