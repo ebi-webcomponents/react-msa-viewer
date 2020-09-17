@@ -178,7 +178,13 @@ class SequenceViewerComponent extends DraggingComponent {
 
   drawHighlightedRegions() {
     if (this.props.highlight) {
-      this.drawHighligtedRegion(this.props.highlight);
+      if (Array.isArray(this.props.highlight)) {
+        for (const h of this.props.highlight) {
+          this.drawHighligtedRegion(h);
+        }
+      } else {
+        this.drawHighligtedRegion(this.props.highlight);
+      }
     }
     if (this.props.features) {
       this.props.features.forEach((feature) => {
