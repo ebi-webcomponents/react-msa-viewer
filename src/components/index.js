@@ -7,8 +7,16 @@
  */
 
 import Labels from "./yBars/Labels";
+import Coordinates from "./yBars/Coordinates";
 import PositionBar from "./xBars/PositionBar";
 import OverviewBar from "./xBars/OverviewBar";
 import SequenceViewer from "./Canvas/SequenceViewer";
 import SequenceOverview from "./Canvas/SequenceOverview";
-export { Labels, OverviewBar, PositionBar, SequenceOverview, SequenceViewer };
+export {
+  Labels,
+  Coordinates,
+  OverviewBar,
+  PositionBar,
+  SequenceOverview,
+  SequenceViewer,
+};
