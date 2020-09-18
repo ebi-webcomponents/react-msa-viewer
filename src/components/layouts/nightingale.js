@@ -3,22 +3,24 @@ import React from "react";
 import {
   // PositionBar,
   Labels,
-  SequenceViewer,
+  SequenceViewer
 } from "../index";
 
 import PureBaseLayout from "./PureBaseLayout";
 
 class NightingaleLayout extends PureBaseLayout {
   render() {
+    const { labelsProps } = this.props;
     return (
       <div
         style={{
-          display: "flex",
+          display: "flex"
         }}
       >
-        {this.props.labelsProps && this.props.labelsProps.labelStyle && (
-          <Labels {...this.props.labelsProps} />
-        )}
+        {labelsProps &&
+          (labelsProps.labelStyle || labelsProps.labelComponent) && (
+            <Labels {...labelsProps} />
+          )}
         <SequenceViewer {...this.props.sequenceViewerProps} />
       </div>
     );
@@ -26,7 +28,7 @@ class NightingaleLayout extends PureBaseLayout {
 }
 
 NightingaleLayout.propTypes = {
-  ...PureBaseLayout.propTypes,
+  ...PureBaseLayout.propTypes
 };
 
 export default NightingaleLayout;
