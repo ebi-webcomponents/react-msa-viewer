@@ -68,7 +68,7 @@ export class Coordinates extends PureComponent {
     // half a tileWidth (which Math.round gives us)
     // Use 1-based indexing as this how much sequences are indexed
     const start = Math.round(position.xPos / tileWidth) + 1;
-    const end = start + Math.round(width / tileWidth) - 2;
+    const end = start + Math.round(width / tileWidth) - 1;
 
     // Don't view off-view coordinates by creating a div with the
     // required height to ensure correct alignment
@@ -79,7 +79,6 @@ export class Coordinates extends PureComponent {
       <div
         style={{
           height: firstSequenceInView * tileHeight,
-          width: tileWidth,
         }}
       />
     );
