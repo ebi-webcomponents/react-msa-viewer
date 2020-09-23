@@ -1,7 +1,12 @@
 import React from "react";
 import { isEmpty } from "lodash-es";
 
-import { Labels, SequenceViewer, Coordinates } from "../index";
+import {
+  // PositionBar,
+  Labels,
+  SequenceViewer, 
+  Coordinates,
+} from "../index";
 
 import PureBaseLayout from "./PureBaseLayout";
 
@@ -16,7 +21,7 @@ class NightingaleLayout extends PureBaseLayout {
     return (
       <div
         style={{
-          display: "flex",
+          display: "flex"
         }}
       >
         {!isEmpty(labelsProps) && <Labels {...labelsProps} />}
@@ -33,7 +38,7 @@ class NightingaleLayout extends PureBaseLayout {
 }
 
 NightingaleLayout.propTypes = {
-  ...PureBaseLayout.propTypes,
+  ...PureBaseLayout.propTypes
 };
 
 export default NightingaleLayout;

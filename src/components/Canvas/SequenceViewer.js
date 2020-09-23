@@ -178,7 +178,13 @@ class SequenceViewerComponent extends DraggingComponent {
 
   drawHighlightedRegions() {
     if (this.props.highlight) {
-      this.drawHighligtedRegion(this.props.highlight);
+      if (Array.isArray(this.props.highlight)) {
+        for (const h of this.props.highlight) {
+          this.drawHighligtedRegion(h);
+        }
+      } else {
+        this.drawHighligtedRegion(this.props.highlight);
+      }
     }
     if (this.props.features) {
       this.props.features.forEach((feature) => {
@@ -211,11 +217,11 @@ class SequenceViewerComponent extends DraggingComponent {
     const ctx = canvas.getContext("2d");
     const mouseOver = this.mouseOverFeatureIds?.some((id) => id === region.id);
     ctx.globalAlpha = 0.3;
-    ctx.fillStyle = mouseOver ? "green" : region.fillColor || "yellow";
+    ctx.fillStyle = mouseOver ? "green" : region.fillColor || "#9999FF";
     ctx.fillRect(0, 0, regionWidth, regionHeight);
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = mouseOver ? "black " : region.borderColor || "red";
-    ctx.lineWidth = "2";
+    ctx.strokeStyle = mouseOver ? "black " : region.borderColor || "777700";
+    ctx.lineWidth = "4";
     ctx.rect(0, 0, regionWidth, regionHeight);
 
     ctx.stroke();

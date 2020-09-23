@@ -242,17 +242,29 @@ storiesOf("Events", module)
           () => this.goToSpecificResidue(region.start)
         );
       };
-      highlightRegion = () => {
-        this.el.highlightRegion({
+      highlightRegion = n => {
+        const region = {
           sequences: {
-            from: 1,
-            to: 2,
+            from: 0,
+            to: 2
           },
           residues: {
             from: 2,
-            to: 13,
-          },
-        });
+            to: 13
+          }
+        };
+        if (n === 1) this.el.highlightRegion(region);
+        else
+          this.el.highlightRegion([
+            region,
+            {
+              ...region,
+              residues: {
+                from: 20,
+                to: 25
+              }
+            }
+          ]);
       };
       removeHighlightRegion = () => {
         const action = actions.removeHighlightRegion();
@@ -288,8 +300,11 @@ storiesOf("Events", module)
               GoTo Residue Region [10-20]{" "}
             </button>
             <div>
-              <button onClick={this.highlightRegion}>
+              <button onClick={()=>this.highlightRegion(1)}>
                 Highlight Region [2-13]{" "}
+              </button>
+              <button onClick={()=>this.highlightRegion(2)}>
+                Highlight Region [2-13] [20-25]{" "}
               </button>
               <button onClick={this.removeHighlightRegion}>
                 Remove Highlight
