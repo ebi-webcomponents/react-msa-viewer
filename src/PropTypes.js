@@ -17,7 +17,7 @@ import { ColorScheme, isColorScheme } from "./utils/ColorScheme";
  */
 export const SequencePropType = PropTypes.shape({
   name: PropTypes.string,
-  sequence: PropTypes.string,
+  sequence: PropTypes.string
 });
 
 export const AllowedColorschemes = [
@@ -42,7 +42,7 @@ export const AllowedColorschemes = [
   "taylor",
   "turn_propensity",
   "zappo",
-  "conservation",
+  "conservation"
 ];
 
 export const ColorSchemePropType = PropTypes.oneOfType([
@@ -61,12 +61,12 @@ export const ColorSchemePropType = PropTypes.oneOfType([
           "`. Validation failed."
       );
     }
-  },
+  }
 ]);
 
 export const PositionPropType = PropTypes.shape({
   xPos: PropTypes.number,
-  yPos: PropTypes.number,
+  yPos: PropTypes.number
 });
 
 /**
@@ -93,6 +93,19 @@ export const MSAPropTypes = {
    * Height of the main tiles (in pixels), e.g. `20`
    */
   tileHeight: PropTypes.number,
+  /**
+   * Current x and y position of the viewpoint
+   * in the main sequence viewer (in pixels).
+   * This specifies the position of the top-left corner
+   * of the viewpoint within the entire alignment,
+   * e.g. `{xPos: 20, yPos: 5}`.
+   */
+  position: PositionPropType,
+
+  /**
+   * Displays a highlight
+   */
+  highlight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 
   /**
    * Colorscheme to use. Currently the follow colorschemes are supported:
@@ -112,19 +125,16 @@ export const MSAPropTypes = {
   calculateConservation: PropTypes.bool,
 
   /**
-   * The conservation data can be used to define an overlay that 
+   * The conservation data can be used to define an overlay that
    * defines the opacity of the background color of each residue.
    */
   overlayConservation: PropTypes.bool,
-
 
   /**
    * Number of sequences to use when calculating the conservation. Which is useful to get results for alignments of many sequences.
    * If not included, or not a vlid numeric value, the whole alignemnt will be use for the calculation.
    */
-  sampleSizeConservation: PropTypes.number,
-
-
+  sampleSizeConservation: PropTypes.number
 };
 
 // TODO: separate individual properties into their components
@@ -136,5 +146,5 @@ export const msaDefaultProps = {
   colorScheme: "clustal",
   calculateConservation: false,
   overlayConservation: false,
-  sampleSizeConservation: undefined,
+  sampleSizeConservation: undefined
 };

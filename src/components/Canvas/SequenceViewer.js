@@ -72,7 +72,7 @@ class SequenceViewerComponent extends DraggingComponent {
     if (this.ctx) {
       this.ctx.canvas.dispatchEvent(
         new CustomEvent("drawCompleted", {
-          bubbles: true,
+          bubbles: true
         })
       );
     }
@@ -135,10 +135,10 @@ class SequenceViewerComponent extends DraggingComponent {
             "borderWidth",
             "borderColor",
             "overlayConservation",
-            "conservation",
-          ]),
+            "conservation"
+          ])
         });
-      },
+      }
     });
   };
 
@@ -187,7 +187,7 @@ class SequenceViewerComponent extends DraggingComponent {
       }
     }
     if (this.props.features) {
-      this.props.features.forEach((feature) => {
+      this.props.features.forEach(feature => {
         this.drawHighligtedRegion(feature);
       });
     }
@@ -215,7 +215,7 @@ class SequenceViewerComponent extends DraggingComponent {
     canvas.height = regionHeight;
 
     const ctx = canvas.getContext("2d");
-    const mouseOver = this.mouseOverFeatureIds?.some((id) => id === region.id);
+    const mouseOver = this.mouseOverFeatureIds?.some(id => id === region.id);
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = mouseOver ? "green" : region.fillColor || "#9999FF";
     ctx.fillRect(0, 0, regionWidth, regionHeight);
@@ -241,7 +241,7 @@ class SequenceViewerComponent extends DraggingComponent {
   onPositionUpdate = (oldPos, newPos) => {
     const relativeMovement = {
       xMovement: oldPos[0] - newPos[0],
-      yMovement: oldPos[1] - newPos[1],
+      yMovement: oldPos[1] - newPos[1]
     };
     this.sendEvent("onPositionUpdate", newPos);
     this.props.positionDispatch(movePosition(relativeMovement));
@@ -265,7 +265,7 @@ class SequenceViewerComponent extends DraggingComponent {
       i: seqNr,
       sequence,
       position,
-      residue: sequence.sequence[position],
+      residue: sequence.sequence[position]
     };
   }
 
@@ -275,14 +275,14 @@ class SequenceViewerComponent extends DraggingComponent {
     }
     return this.props.features
       .filter(
-        (feature) =>
+        feature =>
           feature.id &&
           sequencePosition.position >= feature.residues.from - 1 &&
           sequencePosition.position <= feature.residues.to - 1 &&
           sequencePosition.i >= feature.sequences.from &&
           sequencePosition.i <= feature.sequences.to
       )
-      .map((feature) => feature.id);
+      .map(feature => feature.id);
   }
 
   updateScrollPosition = () => {
@@ -296,7 +296,7 @@ class SequenceViewerComponent extends DraggingComponent {
     const [x, y] = Mouse.rel(e);
     return this.positionToSequence({
       xPos: x,
-      yPos: y,
+      yPos: y
     });
   }
 
@@ -309,7 +309,7 @@ class SequenceViewerComponent extends DraggingComponent {
     }
   }
 
-  onMouseMove = (e) => {
+  onMouseMove = e => {
     if (typeof this.isInDragPhase === "undefined") {
       if (this.hasOnMouseMoveProps()) {
         const eventData = this.currentPointerPosition(e);
@@ -337,7 +337,7 @@ class SequenceViewerComponent extends DraggingComponent {
     super.onMouseMove(e);
   };
 
-  onMouseLeave = (e) => {
+  onMouseLeave = e => {
     this.sendEvent("onResidueMouseLeave", this.currentMouseSequencePosition);
     this.currentMouseSequencePosition = undefined;
     if (this.mouseOverFeatureIds) {
@@ -347,12 +347,12 @@ class SequenceViewerComponent extends DraggingComponent {
     super.onMouseLeave(e);
   };
 
-  onClick = (e) => {
+  onClick = e => {
     if (!this.mouseHasMoved) {
       const eventData = this.currentPointerPosition(e);
       this.sendEvent("onResidueClick", eventData);
       if (this.props.features) {
-        this.sequencePositionToFeatureIds(eventData).forEach((id) => {
+        this.sequencePositionToFeatureIds(eventData).forEach(id => {
           this.sendEvent("onFeatureClick", id);
         });
       }
@@ -360,7 +360,7 @@ class SequenceViewerComponent extends DraggingComponent {
     super.onClick(e);
   };
 
-  onDoubleClick = (e) => {
+  onDoubleClick = e => {
     const eventData = this.currentPointerPosition(e);
     this.sendEvent("onResidueDoubleClick", eventData);
     super.onDoubleClick(e);
@@ -379,14 +379,14 @@ class SequenceViewerComponent extends DraggingComponent {
       "textFont",
       "borderColor",
       "overlayConservation",
-      "conservation",
+      "conservation"
     ];
     this.tileCache.updateTileSpecs(
       pick(this.props, [
         ...tileAttributes,
         "xGridSize",
         "yGridSize",
-        "sequences",
+        "sequences"
       ])
     );
     this.residueTileCache.updateTileSpecs(pick(this.props, tileAttributes));
@@ -415,6 +415,7 @@ SequenceViewerComponent.defaultProps = {
   overlayConservation: false,
   conservation: null,
   sequenceDisableDragging: false,
+  highlight: null
 };
 
 SequenceViewerComponent.propTypes = {
@@ -446,7 +447,7 @@ SequenceViewerComponent.propTypes = {
   /**
    * Displays a highlight
    */
-  highlight: PropTypes.object,
+  highlight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 
   /**
    * An array of features which can be clicked
@@ -529,7 +530,7 @@ SequenceViewerComponent.propTypes = {
    */
   overlayConservation: PropTypes.bool,
   onPositionUpdate: PropTypes.func,
-  sequenceDisableDragging: PropTypes.bool,
+  sequenceDisableDragging: PropTypes.bool
 };
 
 // hoist the list of accepted properties to the parent
@@ -538,7 +539,7 @@ SequenceViewerComponent.propKeys = Object.keys(
   SequenceViewerComponent.propTypes
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   // Fallback to a smaller size if the given area is too large
   const width = Math.min(
     state.props.width,
@@ -552,6 +553,7 @@ const mapStateToProps = (state) => {
     sequences: state.sequences,
     width,
     height,
+    highlight: state.props.highlight,
     tileWidth: state.props.tileWidth,
     tileHeight: state.props.tileHeight,
     colorScheme: state.props.colorScheme,
@@ -562,18 +564,18 @@ const mapStateToProps = (state) => {
     nrXTiles: state.sequenceStats.nrXTiles,
     nrYTiles: state.sequenceStats.nrYTiles,
     fullWidth: state.sequenceStats.fullWidth,
-    fullHeight: state.sequenceStats.fullHeight,
+    fullHeight: state.sequenceStats.fullHeight
   };
 };
 
 const SV = withPositionStore(SequenceViewerComponent, {
   withX: true,
-  withY: true,
+  withY: true
 });
 
 export default msaConnect(mapStateToProps)(SV);
 
 export {
   SequenceViewerComponent as SequenceViewer,
-  SV as SequenceViewerWithPosition,
+  SV as SequenceViewerWithPosition
 };

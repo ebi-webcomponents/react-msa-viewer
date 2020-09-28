@@ -17,7 +17,7 @@ import {
   SequencePropType,
   ColorSchemePropType,
   PositionPropType,
-  MSAPropTypes,
+  MSAPropTypes
 } from "../PropTypes";
 
 // import MSAProvider from '../store/provider';
@@ -27,7 +27,7 @@ import propsToRedux from "../store/propsToRedux";
 import {
   actions,
   positionReducer,
-  createPositionStore,
+  createPositionStore
 } from "../store/positionReducers";
 
 import MSALayouter from "./layouts/MSALayouter";
@@ -37,7 +37,7 @@ import shallowSelect from "../utils/shallowSelect";
 // list of events with a default implementation
 // mapping: eventName -> DOM event name
 const defaultEvents = {
-  onResidueClick: "residueClick",
+  onResidueClick: "residueClick"
 };
 
 /**
@@ -54,7 +54,7 @@ class MSAViewerComponent extends Component {
     this._setupStores();
     this.createDomHandler = memoize(this.createDomHandler.bind(this));
     this.forwardProps = shallowSelect(
-      (p) => omit(p, ["msaStore"]),
+      p => omit(p, ["msaStore"]),
       this.forwardProps.bind(this)
     );
   }
@@ -79,7 +79,7 @@ class MSAViewerComponent extends Component {
   // TODO: we could inject this in the main redux store for better compatibility
   getChildContext() {
     return {
-      positionMSAStore: this.positionStore,
+      positionMSAStore: this.positionStore
     };
   }
 
@@ -87,10 +87,10 @@ class MSAViewerComponent extends Component {
    * Creates a listener which triggers `domEventName`
    */
   createDomHandler(domEventName) {
-    return (e) => {
+    return e => {
       const event = new CustomEvent(domEventName, {
         detail: e,
-        bubbles: true,
+        bubbles: true
       });
       this.el.current.dispatchEvent(event);
     };
@@ -133,7 +133,7 @@ class MSAViewerComponent extends Component {
 }
 
 MSAViewerComponent.childContextTypes = {
-  positionMSAStore: PropTypes.object,
+  positionMSAStore: PropTypes.object
 };
 
 MSAViewerComponent.propTypes = {
@@ -229,7 +229,7 @@ MSAViewerComponent.propTypes = {
   /**
    * Displays a highlight
    */
-  highlight: PropTypes.object,
+  highlight: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 
   /**
    * An array of features which can be clicked
@@ -247,7 +247,7 @@ MSAViewerComponent.propTypes = {
     "full",
     "compact",
     "funky",
-    "nightingale",
+    "nightingale"
   ]),
 
   /**
@@ -367,7 +367,7 @@ MSAViewerComponent.propTypes = {
    * A custom msaStore (created with `createMSAStore`).
    * Useful for custom interaction with other components
    */
-  msaStore: PropTypes.object,
+  msaStore: PropTypes.object
 };
 
 const MSAViewer = propsToRedux(MSAViewerComponent);
@@ -387,7 +387,7 @@ MSAViewer.propTypes = { ...MSAViewerComponent.propTypes };
 MSAViewerComponent.propTypes = omit(MSAViewerComponent.propTypes, [
   ...Object.keys(MSAPropTypes),
   "sequences",
-  "position",
+  "position"
 ]);
 
 export default MSAViewer;
