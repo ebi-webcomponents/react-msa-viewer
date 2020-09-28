@@ -244,7 +244,6 @@ storiesOf("Events", module)
         });
       };
       highlightRegion = n => {
-        console.log("jnldc");
         const highlight = {
           sequences: {
             from: 0,
