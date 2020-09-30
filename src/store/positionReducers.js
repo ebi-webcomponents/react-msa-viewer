@@ -85,8 +85,8 @@ const relativePositionReducer = (
         "must contain at least xPos or yPos"
       );
       const updatePayload = {
-        xPos: action.payload.xPos || pos.xPos,
-        yPos: action.payload.yPos || pos.yPos,
+        xPos: isNaN(action.payload.xPos) ? pos.xPos : action.payload.xPos,
+        yPos: isNaN(action.payload.yPos) ? pos.yPos : action.payload.yPos
       };
       return commonPositionReducer(prevState, updatePayload);
     case updatePositionByResidue.key:

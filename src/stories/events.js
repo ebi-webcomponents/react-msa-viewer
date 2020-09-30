@@ -276,6 +276,7 @@ storiesOf("Events", module)
       toBeImplemented = () => console.log("Missing method");
 
       render() {
+        const xPos = this.state.tileWidth * (this.state.aaPos - 1);
         return (
           <div>
             <MSAViewer
@@ -284,13 +285,24 @@ storiesOf("Events", module)
               tileWidth={this.state.tileWidth}
               width={this.state.width}
               layout="compact"
-              position={{ xPos: this.state.tileWidth * (this.state.aaPos - 1) }}
-              onPositionUpdate={console.log}
+              position={{ xPos }}
               highlight={this.state.highlight}
             />
-            <button onClick={() => this.goToSpecificResidue(10.5)}>
-              GoTo Residue 10.5
-            </button>
+            <div>
+              <button onClick={() => this.goToSpecificResidue(10.5)}>
+                GoTo Residue 10.5
+              </button>
+              <input
+                type="range"
+                min="1"
+                max="40"
+                value={this.state.aaPos}
+                onChange={evt => this.setState({ aaPos: evt.target.value })}
+              />
+              <code>
+                {this.state.aaPos} = {xPos}px
+              </code>
+            </div>
             <div>
               <b>Tile width</b>
               <button onClick={this.modifyTileWidth(+5)}>+</button>
