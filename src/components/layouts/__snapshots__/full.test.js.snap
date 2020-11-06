@@ -6,6 +6,7 @@ exports[`renders without crashing 1`] = `
   colorScheme="clustal"
   height={600}
   layout="full"
+  overlayConservation={false}
   sequences={
     Array [
       Object {
@@ -75,14 +76,18 @@ exports[`renders without crashing 1`] = `
               forwardedPropsKeys={
                 Array [
                   "sequenceViewerProps",
+                  "leftCoordinatesProps",
+                  "rightCoordinatesProps",
                   "labelsProps",
                   "positionBarProps",
                   "overviewBarProps",
                 ]
               }
               labelsProps={Object {}}
+              leftCoordinatesProps={Object {}}
               overviewBarProps={Object {}}
               positionBarProps={Object {}}
+              rightCoordinatesProps={Object {}}
               sequenceViewerProps={
                 Object {
                   "onResidueClick": [Function],
@@ -398,12 +403,14 @@ exports[`renders without crashing 1`] = `
                           },
                         }
                       }
+                      conservation={null}
                       dispatch={[Function]}
                       fullHeight={140}
                       fullWidth={1200}
                       height={140}
                       nrXTiles={41}
                       nrYTiles={31}
+                      overlayConservation={false}
                       sequences={
                         Object {
                           "length": 7,
@@ -487,6 +494,7 @@ exports[`renders without crashing 1`] = `
                             },
                           }
                         }
+                        conservation={null}
                         dispatch={[Function]}
                         fullHeight={140}
                         fullWidth={1200}
@@ -497,6 +505,7 @@ exports[`renders without crashing 1`] = `
                         overflow="hidden"
                         overflowX="auto"
                         overflowY="auto"
+                        overlayConservation={false}
                         position={
                           Object {
                             "currentViewSequence": 0,
@@ -510,6 +519,7 @@ exports[`renders without crashing 1`] = `
                         positionDispatch={[Function]}
                         scrollBarPositionX="bottom"
                         scrollBarPositionY="right"
+                        sequenceDisableDragging={false}
                         sequences={
                           Object {
                             "length": 7,
@@ -556,10 +566,12 @@ exports[`renders without crashing 1`] = `
                         yGridSize={10}
                       >
                         <div
+                          conservation={null}
                           height={140}
                           style={
                             Object {
                               "cursor": "grab",
+                              "flexShrink": 0,
                               "height": 140,
                               "position": "relative",
                               "width": 800,
