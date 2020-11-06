@@ -5,6 +5,7 @@ exports[`it should rerender when new props are given 1`] = `
   calculateConservation={false}
   colorScheme="clustal"
   height={300}
+  overlayConservation={false}
   sequences={
     Array [
       Object {
@@ -73,14 +74,18 @@ exports[`it should rerender when new props are given 1`] = `
               forwardedPropsKeys={
                 Array [
                   "sequenceViewerProps",
+                  "leftCoordinatesProps",
+                  "rightCoordinatesProps",
                   "labelsProps",
                   "positionBarProps",
                   "overviewBarProps",
                 ]
               }
               labelsProps={Object {}}
+              leftCoordinatesProps={Object {}}
               overviewBarProps={Object {}}
               positionBarProps={Object {}}
+              rightCoordinatesProps={Object {}}
               sequenceViewerProps={
                 Object {
                   "onResidueClick": [Function],
@@ -92,14 +97,18 @@ exports[`it should rerender when new props are given 1`] = `
                 forwardedPropsKeys={
                   Array [
                     "sequenceViewerProps",
+                    "leftCoordinatesProps",
+                    "rightCoordinatesProps",
                     "labelsProps",
                     "positionBarProps",
                     "overviewBarProps",
                   ]
                 }
                 labelsProps={Object {}}
+                leftCoordinatesProps={Object {}}
                 overviewBarProps={Object {}}
                 positionBarProps={Object {}}
+                rightCoordinatesProps={Object {}}
                 sequenceViewerProps={
                   Object {
                     "onResidueClick": [Function],
@@ -2799,6 +2808,7 @@ exports[`it should rerender when new props are given 1`] = `
                             },
                           }
                         }
+                        conservation={null}
                         dispatch={[Function]}
                         fullHeight={140}
                         fullWidth={1200}
@@ -2806,6 +2816,7 @@ exports[`it should rerender when new props are given 1`] = `
                         nrXTiles={41}
                         nrYTiles={31}
                         onResidueClick={[Function]}
+                        overlayConservation={false}
                         sequences={
                           Object {
                             "length": 7,
@@ -2889,6 +2900,7 @@ exports[`it should rerender when new props are given 1`] = `
                               },
                             }
                           }
+                          conservation={null}
                           dispatch={[Function]}
                           fullHeight={140}
                           fullWidth={1200}
@@ -2900,6 +2912,7 @@ exports[`it should rerender when new props are given 1`] = `
                           overflow="hidden"
                           overflowX="auto"
                           overflowY="auto"
+                          overlayConservation={false}
                           position={
                             Object {
                               "currentViewSequence": 0,
@@ -2913,6 +2926,7 @@ exports[`it should rerender when new props are given 1`] = `
                           positionDispatch={[Function]}
                           scrollBarPositionX="bottom"
                           scrollBarPositionY="right"
+                          sequenceDisableDragging={false}
                           sequences={
                             Object {
                               "length": 7,
@@ -2959,10 +2973,12 @@ exports[`it should rerender when new props are given 1`] = `
                           yGridSize={10}
                         >
                           <div
+                            conservation={null}
                             height={140}
                             style={
                               Object {
                                 "cursor": "grab",
+                                "flexShrink": 0,
                                 "height": 140,
                                 "position": "relative",
                                 "width": 800,
@@ -3076,6 +3092,7 @@ exports[`renders without crashing in enzyme 1`] = `
   calculateConservation={false}
   colorScheme="clustal"
   height={600}
+  overlayConservation={false}
   sequences={
     Array [
       Object {
@@ -3144,14 +3161,18 @@ exports[`renders without crashing in enzyme 1`] = `
               forwardedPropsKeys={
                 Array [
                   "sequenceViewerProps",
+                  "leftCoordinatesProps",
+                  "rightCoordinatesProps",
                   "labelsProps",
                   "positionBarProps",
                   "overviewBarProps",
                 ]
               }
               labelsProps={Object {}}
+              leftCoordinatesProps={Object {}}
               overviewBarProps={Object {}}
               positionBarProps={Object {}}
+              rightCoordinatesProps={Object {}}
               sequenceViewerProps={
                 Object {
                   "onResidueClick": [Function],
@@ -3163,14 +3184,18 @@ exports[`renders without crashing in enzyme 1`] = `
                 forwardedPropsKeys={
                   Array [
                     "sequenceViewerProps",
+                    "leftCoordinatesProps",
+                    "rightCoordinatesProps",
                     "labelsProps",
                     "positionBarProps",
                     "overviewBarProps",
                   ]
                 }
                 labelsProps={Object {}}
+                leftCoordinatesProps={Object {}}
                 overviewBarProps={Object {}}
                 positionBarProps={Object {}}
+                rightCoordinatesProps={Object {}}
                 sequenceViewerProps={
                   Object {
                     "onResidueClick": [Function],
@@ -5870,6 +5895,7 @@ exports[`renders without crashing in enzyme 1`] = `
                             },
                           }
                         }
+                        conservation={null}
                         dispatch={[Function]}
                         fullHeight={140}
                         fullWidth={1200}
@@ -5877,6 +5903,7 @@ exports[`renders without crashing in enzyme 1`] = `
                         nrXTiles={41}
                         nrYTiles={31}
                         onResidueClick={[Function]}
+                        overlayConservation={false}
                         sequences={
                           Object {
                             "length": 7,
@@ -5960,6 +5987,7 @@ exports[`renders without crashing in enzyme 1`] = `
                               },
                             }
                           }
+                          conservation={null}
                           dispatch={[Function]}
                           fullHeight={140}
                           fullWidth={1200}
@@ -5971,6 +5999,7 @@ exports[`renders without crashing in enzyme 1`] = `
                           overflow="hidden"
                           overflowX="auto"
                           overflowY="auto"
+                          overlayConservation={false}
                           position={
                             Object {
                               "currentViewSequence": 0,
@@ -5984,6 +6013,7 @@ exports[`renders without crashing in enzyme 1`] = `
                           positionDispatch={[Function]}
                           scrollBarPositionX="bottom"
                           scrollBarPositionY="right"
+                          sequenceDisableDragging={false}
                           sequences={
                             Object {
                               "length": 7,
@@ -6030,10 +6060,12 @@ exports[`renders without crashing in enzyme 1`] = `
                           yGridSize={10}
                         >
                           <div
+                            conservation={null}
                             height={140}
                             style={
                               Object {
                                 "cursor": "grab",
+                                "flexShrink": 0,
                                 "height": 140,
                                 "position": "relative",
                                 "width": 800,

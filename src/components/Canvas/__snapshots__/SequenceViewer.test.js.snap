@@ -93,14 +93,17 @@ exports[`renders differently after changed properties 2`] = `
     borderColor="black"
     borderWidth={1}
     cacheElements={20}
+    conservation={null}
     fullHeight={2000}
     fullWidth={1000}
     height={200}
+    highlight={null}
     nrXTiles={100}
     nrYTiles={100}
     overflow="hidden"
     overflowX="auto"
     overflowY="auto"
+    overlayConservation={false}
     position={
       Object {
         "currentViewSequence": 0,
@@ -114,6 +117,7 @@ exports[`renders differently after changed properties 2`] = `
     positionDispatch={[Function]}
     scrollBarPositionX="bottom"
     scrollBarPositionY="right"
+    sequenceDisableDragging={false}
     sequences={
       Array [
         Object {
@@ -156,10 +160,12 @@ exports[`renders differently after changed properties 2`] = `
     yGridSize={10}
   >
     <div
+      conservation={null}
       height={200}
       style={
         Object {
           "cursor": "grab",
+          "flexShrink": 0,
           "height": 200,
           "position": "relative",
           "width": 100,
@@ -284,14 +290,17 @@ exports[`renders differently after changed properties 3`] = `
     borderColor="green"
     borderWidth={1}
     cacheElements={20}
+    conservation={null}
     fullHeight={2000}
     fullWidth={1000}
     height={200}
+    highlight={null}
     nrXTiles={100}
     nrYTiles={100}
     overflow="hidden"
     overflowX="auto"
     overflowY="auto"
+    overlayConservation={false}
     position={
       Object {
         "currentViewSequence": 0,
@@ -305,6 +314,7 @@ exports[`renders differently after changed properties 3`] = `
     positionDispatch={[Function]}
     scrollBarPositionX="bottom"
     scrollBarPositionY="right"
+    sequenceDisableDragging={false}
     sequences={
       Array [
         Object {
@@ -347,10 +357,12 @@ exports[`renders differently after changed properties 3`] = `
     yGridSize={10}
   >
     <div
+      conservation={null}
       height={200}
       style={
         Object {
           "cursor": "grab",
+          "flexShrink": 0,
           "height": 200,
           "position": "relative",
           "width": 100,
@@ -459,14 +471,17 @@ exports[`renders differently after changed properties 4`] = `
     borderColor="green"
     borderWidth={1}
     cacheElements={20}
+    conservation={null}
     fullHeight={2000}
     fullWidth={1000}
     height={200}
+    highlight={null}
     nrXTiles={100}
     nrYTiles={100}
     overflow="hidden"
     overflowX="auto"
     overflowY="auto"
+    overlayConservation={false}
     position={
       Object {
         "currentViewSequence": 0,
@@ -480,6 +495,7 @@ exports[`renders differently after changed properties 4`] = `
     positionDispatch={[Function]}
     scrollBarPositionX="bottom"
     scrollBarPositionY="right"
+    sequenceDisableDragging={false}
     sequences={
       Array [
         Object {
@@ -506,10 +522,12 @@ exports[`renders differently after changed properties 4`] = `
     yGridSize={10}
   >
     <div
+      conservation={null}
       height={200}
       style={
         Object {
           "cursor": "grab",
+          "flexShrink": 0,
           "height": 200,
           "position": "relative",
           "width": 100,
@@ -679,14 +697,17 @@ exports[`renders invalidates the tile cache changed properties should invalidate
     borderColor="green"
     borderWidth={1}
     cacheElements={20}
+    conservation={null}
     fullHeight={2000}
     fullWidth={1000}
     height={200}
+    highlight={null}
     nrXTiles={100}
     nrYTiles={100}
     overflow="hidden"
     overflowX="auto"
     overflowY="auto"
+    overlayConservation={false}
     position={
       Object {
         "currentViewSequence": 0,
@@ -700,6 +721,7 @@ exports[`renders invalidates the tile cache changed properties should invalidate
     positionDispatch={[Function]}
     scrollBarPositionX="bottom"
     scrollBarPositionY="right"
+    sequenceDisableDragging={false}
     sequences={
       Array [
         Object {
@@ -742,10 +764,12 @@ exports[`renders invalidates the tile cache changed properties should invalidate
     yGridSize={10}
   >
     <div
+      conservation={null}
       height={200}
       style={
         Object {
           "cursor": "grab",
+          "flexShrink": 0,
           "height": 200,
           "position": "relative",
           "width": 100,
@@ -988,14 +1012,17 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
     borderColor="black"
     borderWidth={1}
     cacheElements={20}
+    conservation={null}
     fullHeight={2000}
     fullWidth={1000}
     height={200}
+    highlight={null}
     nrXTiles={100}
     nrYTiles={100}
     overflow="hidden"
     overflowX="auto"
     overflowY="auto"
+    overlayConservation={false}
     position={
       Object {
         "currentViewSequence": 0,
@@ -1009,6 +1036,7 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
     positionDispatch={[Function]}
     scrollBarPositionX="bottom"
     scrollBarPositionY="right"
+    sequenceDisableDragging={false}
     sequences={
       Array [
         Object {
@@ -1035,10 +1063,12 @@ exports[`renders invalidates the tile cache changed properties shouldn't invalid
     yGridSize={10}
   >
     <div
+      conservation={null}
       height={200}
       style={
         Object {
           "cursor": "grab",
+          "flexShrink": 0,
           "height": 200,
           "position": "relative",
           "width": 100,
@@ -1119,6 +1149,7 @@ exports[`renders without crashing 1`] = `
   calculateConservation={false}
   colorScheme="clustal"
   height={600}
+  overlayConservation={false}
   sequences={
     Array [
       Object {
@@ -1218,12 +1249,14 @@ exports[`renders without crashing 1`] = `
                 },
               }
             }
+            conservation={null}
             dispatch={[Function]}
             fullHeight={140}
             fullWidth={1200}
             height={140}
             nrXTiles={41}
             nrYTiles={31}
+            overlayConservation={false}
             sequences={
               Object {
                 "length": 7,
@@ -1307,6 +1340,7 @@ exports[`renders without crashing 1`] = `
                   },
                 }
               }
+              conservation={null}
               dispatch={[Function]}
               fullHeight={140}
               fullWidth={1200}
@@ -1317,6 +1351,7 @@ exports[`renders without crashing 1`] = `
               overflow="hidden"
               overflowX="auto"
               overflowY="auto"
+              overlayConservation={false}
               position={
                 Object {
                   "currentViewSequence": 0,
@@ -1330,6 +1365,7 @@ exports[`renders without crashing 1`] = `
               positionDispatch={[Function]}
               scrollBarPositionX="bottom"
               scrollBarPositionY="right"
+              sequenceDisableDragging={false}
               sequences={
                 Object {
                   "length": 7,
@@ -1376,10 +1412,12 @@ exports[`renders without crashing 1`] = `
               yGridSize={10}
             >
               <div
+                conservation={null}
                 height={140}
                 style={
                   Object {
                     "cursor": "grab",
+                    "flexShrink": 0,
                     "height": 140,
                     "position": "relative",
                     "width": 800,
@@ -1561,12 +1599,14 @@ exports[`sends movement actions on mousemove events should change the cursor sta
               },
             }
           }
+          conservation={null}
           dispatch={[Function]}
           fullHeight={140}
           fullWidth={1200}
           height={140}
           nrXTiles={21}
           nrYTiles={11}
+          overlayConservation={false}
           sequences={
             Object {
               "length": 7,
@@ -1650,15 +1690,18 @@ exports[`sends movement actions on mousemove events should change the cursor sta
                 },
               }
             }
+            conservation={null}
             dispatch={[Function]}
             fullHeight={140}
             fullWidth={1200}
             height={140}
+            highlight={null}
             nrXTiles={21}
             nrYTiles={11}
             overflow="hidden"
             overflowX="auto"
             overflowY="auto"
+            overlayConservation={false}
             position={
               Object {
                 "currentViewSequence": 0,
@@ -1672,6 +1715,7 @@ exports[`sends movement actions on mousemove events should change the cursor sta
             positionDispatch={[Function]}
             scrollBarPositionX="bottom"
             scrollBarPositionY="right"
+            sequenceDisableDragging={false}
             sequences={
               Object {
                 "length": 7,
@@ -1718,10 +1762,12 @@ exports[`sends movement actions on mousemove events should change the cursor sta
             yGridSize={10}
           >
             <div
+              conservation={null}
               height={140}
               style={
                 Object {
                   "cursor": "grab",
+                  "flexShrink": 0,
                   "height": 140,
                   "position": "relative",
                   "width": 400,
@@ -1806,6 +1852,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
   calculateConservation={false}
   colorScheme="clustal"
   height={200}
+  overlayConservation={false}
   sequences={
     Array [
       Object {
@@ -1923,6 +1970,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
                 },
               }
             }
+            conservation={null}
             dispatch={[Function]}
             features={
               Array [
@@ -1946,6 +1994,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
             nrYTiles={11}
             onFeatureClick={[MockFunction]}
             onResidueClick={[MockFunction]}
+            overlayConservation={false}
             sequences={
               Object {
                 "length": 7,
@@ -2029,6 +2078,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
                   },
                 }
               }
+              conservation={null}
               dispatch={[Function]}
               features={
                 Array [
@@ -2056,6 +2106,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
               overflow="hidden"
               overflowX="auto"
               overflowY="auto"
+              overlayConservation={false}
               position={
                 Object {
                   "currentViewSequence": 0,
@@ -2069,6 +2120,7 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
               positionDispatch={[Function]}
               scrollBarPositionX="bottom"
               scrollBarPositionY="right"
+              sequenceDisableDragging={false}
               sequences={
                 Object {
                   "length": 7,
@@ -2115,10 +2167,12 @@ exports[`should fire onResidueClick and onFeatureClick event on mouseclick 1`] =
               yGridSize={10}
             >
               <div
+                conservation={null}
                 height={140}
                 style={
                   Object {
                     "cursor": "grab",
+                    "flexShrink": 0,
                     "height": 140,
                     "position": "relative",
                     "width": 400,

@@ -172,7 +172,13 @@ it("should fire onResidueClick and onFeatureClick event on mouseclick", () => {
     },
   });
   expect(mockOnFeatureClick.mock.calls.length).toBe(1);
-  expect(mockOnFeatureClick.mock.calls[0][0]).toEqual("id");
+  expect(mockOnFeatureClick.mock.calls[0][0]).toEqual({
+    event: {
+      offsetX: 50,
+      offsetY: 20,
+    },
+    id: 'id',
+  });
 });
 
 it("renders differently after changed properties", () => {

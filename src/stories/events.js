@@ -38,8 +38,10 @@ const features = [
     residues: { from: 25, to: 50 },
     sequences: { from: 2, to: 2 },
     id: "id-2",
-    borderColor: "blue",
-    fillColor: "black",
+    borderColor: "black",
+    mouseOverBorderColor: "green",
+    fillColor: "transparent",
+    mouseOverFillColor: "transparent",
   },
 ];
 
