@@ -15,17 +15,12 @@ export const calculateConservation = (
     ? sequences.slice(0, finalSampleSize)
     : sequences;
   const conservation = Array.from({ length }, () => ({}));
-  let n = 0;
   for (let seq of sequencesToLoopThrough) {
     for (let i = 0; i < seq.sequence.length; i++) {
       if (!(seq.sequence[i] in conservation[i])) {
         conservation[i][seq.sequence[i]] = 0;
       }
       conservation[i][seq.sequence[i]]++;
-    }
-    // Skipping this in order to avoid redux state updates
-    if (isWorker) {
-      self.postMessage({ progress: n++ / sequences.length, conservation });
     }
   }
 
