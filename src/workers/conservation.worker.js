@@ -1,3 +1,6 @@
+const aLetterOffset = "A".charCodeAt(0);
+const lettersInAlphabet = 26;
+
 export const calculateConservation = (
   sequences,
   sampleSize = null,
@@ -14,23 +17,26 @@ export const calculateConservation = (
   const sequencesToLoopThrough = sampleSize
     ? sequences.slice(0, finalSampleSize)
     : sequences;
-  const conservation = Array.from({ length }, () => ({}));
-  for (let seq of sequencesToLoopThrough) {
-    for (let i = 0; i < seq.sequence.length; i++) {
-      if (!(seq.sequence[i] in conservation[i])) {
-        conservation[i][seq.sequence[i]] = 0;
+  const conservation = new Float32Array(length * lettersInAlphabet);
+  for (let i = 0; i < sequencesToLoopThrough.length; i++) {
+    const { sequence } = sequencesToLoopThrough[i];
+    for (let j = 0; j < sequence.length; j++) {
+      const aa = sequence[j];
+      const loopOffset = j * lettersInAlphabet;
+      const letterIndex = aa.charCodeAt(0) - aLetterOffset;
+      if (letterIndex < 0 || letterIndex >= lettersInAlphabet) {
+        // outside of bounds of "A" to "Z", ignore
+        continue;
       }
-      conservation[i][seq.sequence[i]]++;
+      conservation[loopOffset + letterIndex]++;
     }
   }
 
-  conservation.forEach((cons) => {
-    Object.keys(cons).forEach((ch) => {
-      cons[ch] /= finalSampleSize;
-    });
-  });
+  for (let i = 0; i < conservation.length; i++) {
+    conservation[i] /= finalSampleSize;
+  }
   if (isWorker) {
-    self.postMessage({ progress: 1, conservation });
+    self.postMessage({ progress: 1, conservation }, [conservation.buffer]);
   }
 
   console.timeEnd("worker process");

@@ -1,19 +1,27 @@
+const aLetterOffset = "A".charCodeAt(0);
+const lettersInAlphabet = 26;
+
 const pid = {};
 
 // calculating the conservation is expensive
 // we only want to do it once
 pid.init = function () {};
-const gaps = ['', ' ', '-', '_', '.'];
+const gaps = new Set(["", " ", "-", "_", "."]);
 pid.run = function (letter, pos, conservation) {
   if (
     !conservation ||
     conservation.progress !== 1 ||
-    pos > conservation.map.length ||
-    gaps.includes(letter)
+    gaps.has(letter) ||
+    pos > conservation.map.length / lettersInAlphabet
   )
     return "#ffffff";
 
-  var cons = conservation.map[pos][letter] || 0;
+  const letterIndex = letter.charCodeAt(0) - aLetterOffset;
+  if (letterIndex < 0 || letterIndex >= lettersInAlphabet) {
+    // outside of bounds of "A" to "Z", ignore
+    return "#ffffff";
+  }
+  var cons = conservation.map[pos * lettersInAlphabet + letterIndex] || 0;
   if (cons > 0.8) {
     return "#6464ff";
   } else if (cons > 0.6) {
