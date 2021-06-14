@@ -12,7 +12,6 @@
  */
 
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import { forOwn, isEqual, pick, reduce, omit } from "lodash-es";
 
@@ -23,12 +22,16 @@ import { actions as positionStoreActions } from "./positionReducers";
 import requestAnimation from "../utils/requestAnimation";
 
 import ConservationWorker from "../workers/conservation.worker.js";
+
 let worker = null;
-const setUpWorker = (store, sequences,sampleSize=null, element) => {
+
+const setUpWorker = (store, sequences, sampleSize = null, element) => {
   // sending seqs to worker
   worker = new ConservationWorker();
-  worker.postMessage({sequences, sampleSize});
+  console.time("full analysis");
+  worker.postMessage({ sequences, sampleSize });
   worker.onmessage = (e) => {
+    // Cheaper action, but multiple times => does it cause re-renders?
     store.dispatch(mainStoreActions.updateConservation(e.data));
     if (
       element &&
@@ -44,8 +47,11 @@ const setUpWorker = (store, sequences,sampleSize=null, element) => {
       );
     }
     if (e.data.progress === 1) {
-      console.log("completed conservation analisys");
+      console.time("update sequences");
+      // Most expensive action, but once
       store.dispatch(mainStoreActions.updateSequences(sequences));
+      console.timeEnd("update sequences");
+      console.timeEnd("full analysis");
     }
   };
 };
@@ -67,7 +73,7 @@ const attributesToStore = Object.keys(reduxActions);
 const mapToActionKeys = (obj) =>
   reduce(
     obj,
-    (acc, v, k) => {
+    (acc, v) => {
       acc[v.key] = v;
       return acc;
     },
@@ -86,7 +92,12 @@ export const PropsToRedux = (WrappedComponent) => {
       if (storeProps.sequences !== undefined) {
         this.msaStore = createMSAStore(storeProps);
         if (storeProps.calculateConservation && this.msaStore) {
-          setUpWorker(this.msaStore, storeProps.sequences, storeProps.sampleSizeConservation, this.el);
+          setUpWorker(
+            this.msaStore,
+            storeProps.sequences,
+            storeProps.sampleSizeConservation,
+            this.el
+          );
         }
       } else {
         console.warn("Check your MSA properties", storeProps);
@@ -111,14 +122,24 @@ export const PropsToRedux = (WrappedComponent) => {
             let action;
             if (prop === "calculateConservation") {
               if (newProps[prop]) {
-                setUpWorker(this.msaStore, this.props.sequences, this.props.sampleSizeConservation, this.el);
+                setUpWorker(
+                  this.msaStore,
+                  this.props.sequences,
+                  this.props.sampleSizeConservation,
+                  this.el
+                );
               } else {
                 worker.terminate();
               }
             }
             if (prop === "sampleSizeConservation") {
               if (worker) worker.terminate();
-              setUpWorker(this.msaStore, this.props.sequences, this.props.sampleSizeConservation, this.el);
+              setUpWorker(
+                this.msaStore,
+                this.props.sequences,
+                this.props.sampleSizeConservation,
+                this.el
+              );
             }
             switch (reduxActions[prop]) {
               case "updateProp":

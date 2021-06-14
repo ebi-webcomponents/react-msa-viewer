@@ -1,39 +1,49 @@
-self.conservation = null;
-
 export const calculateConservation = (
   sequences,
   sampleSize = null,
   isWorker = false
 ) => {
+  console.time("worker process");
+
   const length =
     (sequences && sequences.length && sequences[0].sequence.length) || 0;
   const finalSampleSize = sampleSize
     ? Math.min(sampleSize, sequences.length)
     : sequences.length;
 
-  self.conservation = Array.from(Array(length).keys()).map(() => ({}));
-  let n = 0;
-  for (let seq of sampleSize
+  const sequencesToLoopThrough = sampleSize
     ? sequences.slice(0, finalSampleSize)
-    : sequences) {
+    : sequences;
+  const conservation = Array.from({ length }, () => ({}));
+  let n = 0;
+  for (let seq of sequencesToLoopThrough) {
     for (let i = 0; i < seq.sequence.length; i++) {
       if (!(seq.sequence[i] in conservation[i])) {
-        self.conservation[i][seq.sequence[i]] = 0;
+        conservation[i][seq.sequence[i]] = 0;
       }
-      self.conservation[i][seq.sequence[i]]++;
+      conservation[i][seq.sequence[i]]++;
     }
-    if (isWorker)
+    // Skipping this in order to avoid redux state updates
+    if (isWorker) {
       self.postMessage({ progress: n++ / sequences.length, conservation });
+    }
   }
-  self.conservation.forEach(cons => {
-    Object.keys(cons).forEach(ch => {
+
+  conservation.forEach((cons) => {
+    Object.keys(cons).forEach((ch) => {
       cons[ch] /= finalSampleSize;
     });
   });
-  if (isWorker) self.postMessage({ progress: 1, conservation });
-  return self.conservation;
+  if (isWorker) {
+    self.postMessage({ progress: 1, conservation });
+  }
+
+  console.timeEnd("worker process");
+
+  return conservation;
 };
-const onmessage = function(e) {
+
+const onmessage = function (e) {
   if (self.previous !== e.data) {
     calculateConservation(e.data.sequences, e.data.sampleSize, true);
   }
