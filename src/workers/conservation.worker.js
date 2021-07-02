@@ -6,8 +6,6 @@ export const calculateConservation = (
   sampleSize = null,
   isWorker = false
 ) => {
-  console.time("worker process");
-
   const length =
     (sequences && sequences.length && sequences[0].sequence.length) || 0;
   const finalSampleSize = sampleSize
@@ -38,8 +36,6 @@ export const calculateConservation = (
   if (isWorker) {
     self.postMessage({ progress: 1, conservation }, [conservation.buffer]);
   }
-
-  console.timeEnd("worker process");
 
   return conservation;
 };

@@ -28,7 +28,6 @@ let worker = null;
 const setUpWorker = (store, sequences, sampleSize = null, element) => {
   // sending seqs to worker
   worker = new ConservationWorker();
-  console.time("full analysis");
   worker.postMessage({ sequences, sampleSize });
   worker.onmessage = (e) => {
     // Cheaper action, but multiple times => does it cause re-renders?
@@ -47,11 +46,8 @@ const setUpWorker = (store, sequences, sampleSize = null, element) => {
       );
     }
     if (e.data.progress === 1) {
-      console.time("update sequences");
       // Most expensive action, but once
       store.dispatch(mainStoreActions.updateSequences(sequences));
-      console.timeEnd("update sequences");
-      console.timeEnd("full analysis");
     }
   };
 };
