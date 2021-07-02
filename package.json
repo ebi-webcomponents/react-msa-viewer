@@ -16,7 +16,7 @@
   "bugs": "https://github.com/ebi-webcomponents/react-msa-viewer/issues",
   "author": "Plotly, Inc",
   "license": "MIT",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "private": false,
   "main": "dist/index.umd.min.js",
   "module": "src/lib.js",
