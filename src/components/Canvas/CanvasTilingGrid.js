@@ -8,6 +8,9 @@
 
 import CanvasComponent from "../Canvas/CanvasComponent";
 
+const aLetterOffset = "A".charCodeAt(0);
+const lettersInAlphabet = 26;
+
 /**
  * Allows rendering in tiles of grids.
  *
@@ -43,7 +46,14 @@ class CanvasTilingGridComponent extends CanvasComponent {
         tileWidth,
         tileHeight,
         create: ({ canvas }) => {
-          return this.drawResidue({ text, canvas, row, column, colorScheme, overlayFactor });
+          return this.drawResidue({
+            text,
+            canvas,
+            row,
+            column,
+            colorScheme,
+            overlayFactor,
+          });
         },
       });
       this.props.ctx.drawImage(
@@ -60,14 +70,23 @@ class CanvasTilingGridComponent extends CanvasComponent {
     }
   }
 
-  getOverlayFactor(text, column){
-    if(!this.props.overlayConservation || !this.props.conservation) return 1;
-    const raw = this.props.conservation.map[column][text] || 0;
-    return Math.floor(raw*5)/5.0;    
+  getOverlayFactor(text, column) {
+    if (!this.props.overlayConservation || !this.props.conservation) return 1;
+
+    const letterIndex = text.charCodeAt(0) - aLetterOffset;
+    if (letterIndex < 0 || letterIndex >= lettersInAlphabet) {
+      // outside of bounds of "A" to "Z", ignore
+      return 0;
+    }
+    const raw =
+      this.props.conservation.map[column * lettersInAlphabet + letterIndex] ||
+      0;
+
+    return Math.floor(raw * 5) / 5.0;
   }
 
-  drawResidue({ row, column, canvas, colorScheme, text, overlayFactor=1 }) {
-    canvas.globalAlpha = 0.7* overlayFactor;
+  drawResidue({ row, column, canvas, colorScheme, text, overlayFactor = 1 }) {
+    canvas.globalAlpha = 0.7 * overlayFactor;
     canvas.fillStyle = colorScheme;
     canvas.fillRect(0, 0, this.props.tileWidth, this.props.tileHeight);
     const minW = 4;

@@ -1,4 +1,5 @@
-self.conservation = null;
+const aLetterOffset = "A".charCodeAt(0);
+const lettersInAlphabet = 26;
 
 export const calculateConservation = (
   sequences,
@@ -11,29 +12,35 @@ export const calculateConservation = (
     ? Math.min(sampleSize, sequences.length)
     : sequences.length;
 
-  self.conservation = Array.from(Array(length).keys()).map(() => ({}));
-  let n = 0;
-  for (let seq of sampleSize
+  const sequencesToLoopThrough = sampleSize
     ? sequences.slice(0, finalSampleSize)
-    : sequences) {
-    for (let i = 0; i < seq.sequence.length; i++) {
-      if (!(seq.sequence[i] in conservation[i])) {
-        self.conservation[i][seq.sequence[i]] = 0;
+    : sequences;
+  const conservation = new Float32Array(length * lettersInAlphabet);
+  for (let i = 0; i < sequencesToLoopThrough.length; i++) {
+    const { sequence } = sequencesToLoopThrough[i];
+    for (let j = 0; j < sequence.length; j++) {
+      const aa = sequence[j];
+      const loopOffset = j * lettersInAlphabet;
+      const letterIndex = aa.charCodeAt(0) - aLetterOffset;
+      if (letterIndex < 0 || letterIndex >= lettersInAlphabet) {
+        // outside of bounds of "A" to "Z", ignore
+        continue;
       }
-      self.conservation[i][seq.sequence[i]]++;
+      conservation[loopOffset + letterIndex]++;
     }
-    if (isWorker)
-      self.postMessage({ progress: n++ / sequences.length, conservation });
   }
-  self.conservation.forEach(cons => {
-    Object.keys(cons).forEach(ch => {
-      cons[ch] /= finalSampleSize;
-    });
-  });
-  if (isWorker) self.postMessage({ progress: 1, conservation });
-  return self.conservation;
+
+  for (let i = 0; i < conservation.length; i++) {
+    conservation[i] /= finalSampleSize;
+  }
+  if (isWorker) {
+    self.postMessage({ progress: 1, conservation }, [conservation.buffer]);
+  }
+
+  return conservation;
 };
-const onmessage = function(e) {
+
+const onmessage = function (e) {
   if (self.previous !== e.data) {
     calculateConservation(e.data.sequences, e.data.sampleSize, true);
   }

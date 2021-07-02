@@ -26,7 +26,8 @@ for (let seqLength of seqLengths) {
           width: number("width", 500),
           tileHeight: number("tileHeight", 20),
           tileWidth: number("tileWidth", 20),
-          colorScheme: "clustal",
+          colorScheme: "conservation",
+          calculateConservation: true,
         };
         let time = Date.now();
         const sequence = generateSequence(seqLength);
